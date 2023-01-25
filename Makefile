@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/01/24 12:52:22 by foctavia         ###   ########.fr        #
+#    Updated: 2023/01/25 17:28:51 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,26 @@ RESET		= "\033[m"
 NAME		= ft_containers
 
 CXX			= c++
-CXXFLAGS	= -std=c++98 -Wall -Wextra -Werror -g
+CXXFLAGS	= -Wall -Wextra -Werror -g
+REAL 		= 0
 
-INCDIR		= inc/
+CONTDIR		= inc/containers/ 
+UTILSDIR	= inc/utils/
 SRCDIR		= src/
 OBJDIR		= obj/
 
-SRC			= main.cpp
+SRC			= test.cpp
 				
 OBJ			= $(addprefix ${OBJDIR}, ${SRC:%.cpp=%.o})
-INC			= -I./$(INCDIR)
+INC			= -I./$(CONTDIR) -I./$(UTILSDIR)
+
+ifeq ($(REAL),1)
+CXXFLAGS 	+= -DREAL=1
+endif
+
+ifeq ($(REAL),0)
+CXXFLAGS 	+= -std=c++98
+endif
 
 # Rules
 all			: $(NAME)
