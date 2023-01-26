@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/25 15:39:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:51:13 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
     namespace ft = std;
 #else
     #include <type_traits.hpp>
+	#include <iterators.hpp>
 	#include <vector.hpp>
 #endif
 
@@ -59,12 +60,18 @@ void	enable_ifTest( void )
 	std::cout << add(1, 5);
 	std::cout << add("hihi", "hoho");
 }
+ 
+void reverse_iteratorTest()
+{
+}
 
 int main()
 {
 	is_integralTest();
 	std::cout << std::endl;
 	enable_ifTest();
+	std::cout << std::endl;
+	reverse_iteratorTest();
     return 0;
 }
 
