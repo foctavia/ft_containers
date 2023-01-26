@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:26:34 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/26 15:51:43 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:17:21 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,21 @@ namespace ft
 	// reverse_iterator
 
 	template< typename Iter >
-	class reverse_iterator : public std::iterator<typename ft::iterator_traits< Iter >::iterator_category,
-		     					typename ft::iterator_traits< Iter >::value_type,
-		    					typename ft::iterator_traits< Iter >::difference_type,
-		    					typename ft::iterator_traits< Iter >::pointer,
-                    			typename ft::iterator_traits< Iter >::reference>
+	class reverse_iterator
 	{
+		protected:
+			
+			Iter											current;
+			typedef ft::iterator_traits< Iter >				traits_type;
+		
 		public:
 			
-			typedef Iter													iterator_type;
-			typedef typename ft::iterator_traits<Iter>::iterator_category	iterator_category;
-			typedef typename ft::iterator_traits<Iter>::value_type			value_type;
-			typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
-			typedef typename ft::iterator_traits<Iter>::pointer				pointer;
-			typedef typename ft::iterator_traits<Iter>::reference			reference;
+			typedef Iter									iterator_type;
+			typedef typename traits_type::iterator_category	iterator_category;
+			typedef typename traits_type::value_type		value_type;
+			typedef typename traits_type::difference_type	difference_type;
+			typedef typename traits_type::pointer			pointer;
+			typedef typename traits_type::reference			reference;
 		
 	// CONSTRUCTOR
 		
@@ -149,10 +150,7 @@ namespace ft
 				current += n;
 				return *this;
 			}
-			
-		protected:
-		
-			Iter	current;
+
 	};
 
 	// NON-MEMBER FUNCTIONS
