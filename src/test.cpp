@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/26 15:51:13 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:34:09 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
     namespace ft = std;
 #else
     #include <type_traits.hpp>
-	#include <iterators.hpp>
 	#include <vector.hpp>
 #endif
 
@@ -61,17 +60,40 @@ void	enable_ifTest( void )
 	std::cout << add("hihi", "hoho");
 }
  
-void reverse_iteratorTest()
+void vectorTest()
 {
+	ft::vector<int>	vec;
+
+	if (vec.empty())
+		std::cout << "is empty" << std::endl;
+
+	vec.insert(vec.begin(), 3, 2);
+
+	ft::vector<int>::iterator	it;
+
+	if (vec.empty())
+		std::cout << "is empty" << std::endl;
+
+	for(it = vec.begin(); it != vec.end(); ++it)
+		std::cout << *it << " ";
+		
+	std::cout << std::endl;
+
+	vec.insert(vec.begin(), 3, 6);
+
+		
+	for(it = vec.begin(); it != vec.end(); ++it)
+		std::cout << *it << " ";
+
 }
 
 int main()
 {
-	is_integralTest();
-	std::cout << std::endl;
-	enable_ifTest();
-	std::cout << std::endl;
-	reverse_iteratorTest();
+	// is_integralTest();
+	// std::cout << std::endl;
+	// enable_ifTest();
+	// std::cout << std::endl;
+	vectorTest();
     return 0;
 }
 
