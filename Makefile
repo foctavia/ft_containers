@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/01/25 17:28:51 by foctavia         ###   ########.fr        #
+#    Updated: 2023/01/27 18:48:52 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,10 @@ endif
 
 ifeq ($(REAL),0)
 CXXFLAGS 	+= -std=c++98
+endif
+
+ifeq ($(DMEM),1)
+CXXFLAGS 	+= -fsanitize=address
 endif
 
 # Rules
