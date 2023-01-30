@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/27 10:51:38 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:38:19 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,24 @@ namespace ft
 				return *this;
 			}
 
-			reverse_iterator	&operator++( int )
+			reverse_iterator	operator++( int )
 			{
 				reverse_iterator	tmp = *this;
 				--current;
 				return tmp;
 			}
 
-			reverse_iterator	&operator--( int )
+			reverse_iterator	operator--( int )
 			{
 				reverse_iterator	tmp = *this;
 				++current;
 				return tmp;
 			}
 
-			reverse_iterator	&operator+( difference_type n ) const
+			reverse_iterator	operator+( difference_type n ) const
 			{ return reverse_iterator(current - n); }
 
-			reverse_iterator	&operator-( difference_type n ) const
+			reverse_iterator	operator-( difference_type n ) const
 			{ return reverse_iterator(current + n); }
 
 			reverse_iterator	&operator+=( difference_type n )

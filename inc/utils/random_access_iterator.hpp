@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:44:31 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/27 18:23:43 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:37:39 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ namespace ft
 			return *this;
 		}
 
-		random_access_iterator	&operator++( int )
+		random_access_iterator	operator++( int )
 		{
 			random_access_iterator	tmp = *this;
 			++current;
 			return tmp;
 		}
 
-		random_access_iterator	&operator--( int )
+		random_access_iterator	operator--( int )
 		{
 			random_access_iterator	tmp = *this;
 			--current;
