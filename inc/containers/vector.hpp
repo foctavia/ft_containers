@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 17:04:36 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:19:54 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,17 @@ namespace ft
 				insert(begin(), count, value);
 			}
 			
-			// // Check whether it's an integral type.  If so, it's not an iterator
-			// template< class InputIt >
-			// vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
-			// 	: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
-			// {
-			// 	insert(begin(), first, last);
-			// }
+			// Check whether it's an integral type.  If so, it's not an iterator
+			template< class InputIt >
+			vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
+			{
+				size_type	distance = std::distance(first, last);
+				
+				reserve(distance);
+				for (size_type i = 0; i < distance; i++)
+					insert(begin(), 1, *(last - i - 1));
+			}
 
 			vector( vector const &src )
 			{ *this = src; }

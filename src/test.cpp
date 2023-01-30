@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 17:03:14 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:20:11 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,12 @@ void vectorTest()
 		
 	std::cout << std::endl;
 
-	// ft::vector<int>	vec1;
-	
-	// vec1.insert(vec1.begin(), vec.begin(), vec.end());
+	ft::vector<int>	vec1(vec.begin(), vec.end());
 
-	// ft::vector<int>::iterator	it1;
+	ft::vector<int>::iterator	it1;
 		
-	// for(it = vec1.begin(); it1 != vec1.end(); ++it1)
-	// 		std::cout << *it1 << " ";
+	for(it1 = vec1.begin(); it1 != vec1.end(); ++it1)
+			std::cout << *it1 << " ";
 
 }
 
