@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 17:20:11 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:17:28 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,21 @@ void vectorTest()
 		
 	for(it1 = vec1.begin(); it1 != vec1.end(); ++it1)
 			std::cout << *it1 << " ";
+
+	std::cout << std::endl;
+
+	ft::vector<int>	vec2;
+
+	vec2 = vec;
+
+	ft::vector<int>::iterator	it2;
+		
+	for(it2 = vec2.begin(); it2 != vec2.end(); ++it2)
+			std::cout << *it2 << " ";
+	
+	std::cout << std::endl;
+
+	std::cout << vec2[1] << std::endl;	
 
 }
 

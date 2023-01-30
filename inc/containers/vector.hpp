@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 17:19:54 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:22:02 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 namespace ft
 {
-	// vector
+	/* VECTOR ************************************************************************** */
 	
 	template< class T, class Allocator = std::allocator<T> >
 	class vector
@@ -51,16 +51,19 @@ namespace ft
 	
 
 	// CONSTRUCTORS
-
-			// vector( void );
 		
 			explicit vector( const allocator_type &alloc = allocator_type() )
-				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) { }
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc )
+			{
+				return ;
+			}
 			
 			explicit vector( size_type count, const value_type &value = value_type(), const allocator_type &alloc = allocator_type() )
 				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			{
 				insert(begin(), count, value);
+				
+				return ;
 			}
 			
 			// Check whether it's an integral type.  If so, it's not an iterator
@@ -73,66 +76,105 @@ namespace ft
 				reserve(distance);
 				for (size_type i = 0; i < distance; i++)
 					insert(begin(), 1, *(last - i - 1));
+				
+				return ;
 			}
 
 			vector( vector const &src )
-			{ *this = src; }
+			{
+				*this = src;
+				
+				return ;
+			}
 
 	// DESTRUCTOR
 			
 			~vector( void )
 			{
-				for (size_type i = 0; i < _size; i++)
-					_alloc.destroy(_first_elem + i);
+				clear();
 				_alloc.deallocate(_first_elem, _capacity);
+
+				return ;
 			}
 
-	// // ASSIGNMENT OPERATOR
+	// ASSIGNMENT OPERATOR
 
-	// 		vector					&operator=( vector const &rhs );
+			vector					&operator=( vector const &rhs )
+			{
+				if (this != &rhs)
+				{
+					if (_first_elem != NULL)
+					{
+						clear();
+						_alloc.deallocate(_first_elem, _capacity);
+					}
+					_alloc = rhs._alloc;
+					reserve(rhs._capacity / 2);
+					for (size_type i = 0; i < rhs._size; i++)
+						insert(begin(), 1, *(rhs.end() - i - 1));
+				}
+
+				return *this;
+			}
+	
 
 	// // MEMBER FUNCTIONS
 	// 	// Member functions for Element access
 
-	// 		reference				at( size_type pos );
-	// 		const_reference			at( size_type pos ) const;
+			reference				at( size_type pos )			{ return *(this)[pos]; }
+			const_reference			at( size_type pos ) const	{ return *(this)[pos]; }
 
-	// 		reference				operator[]( size_type pos );
-	// 		const_reference			operator[]( size_type pos ) const;
+			reference				operator[]( size_type pos )
+			{
+				if (pos >= size())
+					exit (1); // to change with exception out_of_range;
+				return *(_first_elem + pos);
+			}
+			
+			const_reference			operator[]( size_type pos ) const
+			{
+				if (pos >= size())
+					exit (1); // to change with exception out_of_range;
+				return *(_first_elem + pos);
+			}
 
-	// 		reference				front( void );
-	// 		const_reference			front( void ) const;
+			reference				front( void )				{ return *begin(); }
+			const_reference			front( void ) const			{ return *begin(); }
 
-	// 		reference				back( void );
-	// 		reference				back( void ) const;
+			reference				back( void )				{ return *(end() - 1); }
+			reference				back( void ) const			{ return *(end() - 1); }
 
 	// 		value_type				*data( void );
 	// 		const value_type		*data( void ) const;		
 
 		// Member functions for Iterator
 
-			iterator				begin( void ) { return iterator(this->_first_elem); }
-			const_iterator			begin( void ) const { return const_iterator(this->_first_elem); }
-			iterator				end( void ) { return iterator(this->_first_elem + _size); }
-			const_iterator			end( void ) const { return const_iterator(this->_first_elem + _size); }
+			iterator				begin( void )				{ return iterator(_first_elem); }
+			const_iterator			begin( void ) const			{ return const_iterator(_first_elem); }
+			
+			iterator				end( void )					{ return iterator(_first_elem + _size); }
+			const_iterator			end( void ) const			{ return const_iterator(_first_elem + _size); }
 
-	// 		reverse_iterator		rbegin( void );
-	// 		const_reverse_iterator	rbegin( void ) const;
-	// 		reverse_iterator		rend( void );
-	// 		const_reverse_iterator	rend( void ) const;
+			reverse_iterator		rbegin( void )				{ return reverse_iterator(_first_elem); }
+			const_reverse_iterator	rbegin( void ) const		{ return const_reverse_iterator(_first_elem); }
+			
+			reverse_iterator		rend( void )				{ return reverse_iterator(_first_elem + _size); }
+			const_reverse_iterator	rend( void ) const			{ return const_reverse_iterator(_first_elem + _size); }
 
 		// Member functions for Capacity
 
-			bool					empty( void ) const { return begin() == end(); }
+			bool					empty( void ) const			{ return begin() == end(); }
 			
-			size_type				size( void ) const { return this->_size; }
+			size_type				size( void ) const			{ return this->_size; }
 
-			size_type				max_size( void ) const { return this->_alloc.max_size(); }
+			size_type				max_size( void ) const		{ return this->_alloc.max_size(); }
+			
+			size_type				capacity( void ) const		{ return this->_capacity; }
 			
 			void					reserve( size_type new_cap )
 			{
 				if (new_cap > max_size())
-					exit(1);
+					exit (1); // to change with exception length_error
 				if (new_cap > _capacity)
 				{	
 					pointer	copy = _copyVector(begin(), end(), new_cap * 2);
@@ -142,11 +184,7 @@ namespace ft
 				}
 			}
 			
-			size_type				capacity( void ) const { return this->_capacity; }
-
 		// Member functions for Modifiers
-
-	// 		void					clear( void);
 
 	
 			iterator				insert( iterator pos, const value_type &value )
@@ -225,12 +263,28 @@ namespace ft
 			// 	return (pos);
 			// }
 			
+			void					clear( void)
+			{
+				if (_first_elem != NULL)
+				{
+					pointer	tmp = _first_elem;
+					
+					while (_size--)
+						_alloc.destroy(tmp++);
+					
+				}
+			}
+			
 	// 		iterator				erase( iterator pos );
 	// 		Iterator				erase( iterator first, iterator last );
+	
 	// 		void					push_back( const value_type &value );
+	
 	// 		void					pop_back( void );
+	
 	// 		void					resize( size_type count );
 	// 		void					resize( size_type count, value_type value = value_type() );
+	
 	// 		void					swap( vector &other );
 
 	// 	// Other member functions
