@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/27 18:34:09 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:03:14 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,28 +62,33 @@ void	enable_ifTest( void )
  
 void vectorTest()
 {
-	ft::vector<int>	vec;
-
+	ft::vector<int>	vec(3, 2);
+	
 	if (vec.empty())
 		std::cout << "is empty" << std::endl;
-
-	vec.insert(vec.begin(), 3, 2);
-
+		
 	ft::vector<int>::iterator	it;
 
-	if (vec.empty())
-		std::cout << "is empty" << std::endl;
-
 	for(it = vec.begin(); it != vec.end(); ++it)
-		std::cout << *it << " ";
+			std::cout << *it << " ";
 		
 	std::cout << std::endl;
 
 	vec.insert(vec.begin(), 3, 6);
 
-		
 	for(it = vec.begin(); it != vec.end(); ++it)
-		std::cout << *it << " ";
+			std::cout << *it << " ";
+		
+	std::cout << std::endl;
+
+	// ft::vector<int>	vec1;
+	
+	// vec1.insert(vec1.begin(), vec.begin(), vec.end());
+
+	// ft::vector<int>::iterator	it1;
+		
+	// for(it = vec1.begin(); it1 != vec1.end(); ++it1)
+	// 		std::cout << *it1 << " ";
 
 }
 

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/27 18:38:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:04:36 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <reverse_iterator.hpp>
 # include <random_access_iterator.hpp>
 # include <iterator>
+# include <iostream>
 
 namespace ft
 {
@@ -54,26 +55,20 @@ namespace ft
 			// vector( void );
 		
 			explicit vector( const allocator_type &alloc = allocator_type() )
-				: _first_elem( 0 ), _last_elem( 0 ), _end_of_strorage( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) { }
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) { }
 			
-			// explicit vector( size_type count, const value_type &value = value_type(), const allocator_type &alloc = allocator_type() )
-			// 	: _size( count ), _capacity( count ), _alloc( alloc ) 
-			// {
-				
-			// }
+			explicit vector( size_type count, const value_type &value = value_type(), const allocator_type &alloc = allocator_type() )
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
+			{
+				insert(begin(), count, value);
+			}
 			
 			// // Check whether it's an integral type.  If so, it's not an iterator
 			// template< class InputIt >
 			// vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
-			// 	: _alloc( alloc )
+			// 	: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			// {
-			// 	this->_size = std::distance(first, last);
-			// 	this->_capacity = this->_size;
-			// 	this->_first_elem = this->_alloc.allocate(this->_capacity);
-			// 	this->_last_elem = _first_elem + _size;
-			// 	this->_end_of_strorage = _first_elem + _capacity;
-			// 	// for(pointer tmp = _first_elem; tmp != _last_elem; tmp++)
-			// 	// 	this->_alloc.construct(_first_elem, value);
+			// 	insert(begin(), first, last);
 			// }
 
 			vector( vector const &src )
@@ -83,9 +78,9 @@ namespace ft
 			
 			~vector( void )
 			{
-				if (this->_first_elem)
-					this->_alloc.deallocate(this->_first_elem, this->_capacity);
-				this->_alloc.destroy(this->_first_elem);
+				for (size_type i = 0; i < _size; i++)
+					_alloc.destroy(_first_elem + i);
+				_alloc.deallocate(_first_elem, _capacity);
 			}
 
 	// // ASSIGNMENT OPERATOR
@@ -124,7 +119,7 @@ namespace ft
 
 		// Member functions for Capacity
 
-			bool					empty( void ) const { return _size == 0; }
+			bool					empty( void ) const { return begin() == end(); }
 			
 			size_type				size( void ) const { return this->_size; }
 
@@ -132,19 +127,14 @@ namespace ft
 			
 			void					reserve( size_type new_cap )
 			{
-				if (new_cap > this->max_size())
+				if (new_cap > max_size())
 					exit(1);
-				if (this->capacity < new_cap)
+				if (new_cap > _capacity)
 				{	
-					this->_alloc.deallocate(this->_first_elem, this->_capacity);
-					this->_alloc.destroy(this->_first_elem);
-					
-					pointer			tmp = this->_alloc.allocate(new_cap * 2);
-					
+					pointer	copy = _copyVector(begin(), end(), new_cap * 2);
+					_clearVector(begin(), end(), _capacity);
 					this->_capacity = new_cap * 2;
-					this->_first_elem = tmp;
-					this->_last_elem = tmp + _size;
-					this->_end_of_strorage = _first_elem + _capacity;
+					this->_first_elem = copy;
 				}
 			}
 			
@@ -153,48 +143,84 @@ namespace ft
 		// Member functions for Modifiers
 
 	// 		void					clear( void);
-	
-			// iterator				insert( const_iterator pos, const value_type &value )
 
-			size_type				countSize( iterator pos )
+	
+			iterator				insert( iterator pos, const value_type &value )
 			{
-				size_type	i = 0;
+				// working implementation for 1 insert
 				
-				for(iterator first = begin(); first != pos; ++first)
-					i++;
-				return i;
+				// size_type	distance = std::distance(begin(), pos);
+				// if (empty() && !_capacity)
+				// 	reserve(1);
+				// else if (_size == _capacity)
+				// 	reserve(_capacity + 1);
+
+				// pointer		end = _first_elem + _size;
+				// pointer		last = end - 1;
+				
+				// for (; end != _first_elem + distance; --end)
+				// {
+				// 	_alloc.construct(end, *last );
+				// 	_alloc.destroy(last);
+				// 	last--;
+				// }
+				// _alloc.construct(_first_elem + distance, value);
+				// _size++;
+
+				insert(pos, 1, value);
+				
+				return (pos);
 			}
 			
 			iterator				insert( iterator pos, size_type count, const value_type &value )
 			{
-				size_type	i = countSize(pos);
-				if (this->empty())
-				{
-					this->_first_elem = _alloc.allocate(count);
+				size_type	distance = std::distance(begin(), pos);
+				
+				if (empty() && !_capacity)
+					reserve(count);
+				else if (_size + count > _capacity)
+					reserve(_capacity + count);
+				
+				pointer		last = _first_elem + _size - 1;
+				pointer 	pos_p = _first_elem + distance;
 
-				}
-				else
+				if (_size)
 				{
-					this->_last_elem = _first_elem + _size - 1;
-					for (pointer new_tab_end = _last_elem + count; new_tab_end != _first_elem + i + count - 1; --new_tab_end)
+					for (pointer new_last = last + count; new_last != pos_p + count - 1; --new_last)
 					{
-						_alloc.construct(new_tab_end, *_last_elem);
-						_alloc.destroy(_last_elem);
-						_last_elem--;
+						_alloc.construct(new_last, *last);
+						_alloc.destroy(last);
+						last--;
 					}
 				}
-				pointer tmp = _first_elem + i;
-				while (count--)
+				for (size_type i = 0; i < count; i++)
 				{
-					_alloc.construct(tmp, value);
-					tmp++;
+					_alloc.construct(pos_p + i, value);
 					_size++;
 				}
-				return (iterator(this->_first_elem));
+	
+				return (pos);
 			}
 			
-	// 		template< class InputIt >
-	// 		iterator				insert( const_iterator pos, InputIt first, InputIt last );
+			// template< class InputIt >
+			// iterator				insert( iterator pos, InputIt first, InputIt last , typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0)
+			// {
+			// 	size_type	distance = std::distance(first, last);
+	
+			// 	for (size_type i = 0; i < distance; i++)
+			// 	{
+					
+			// 		insert(pos, 1, *(last - i - 1));
+
+			// 		for(iterator it = begin(); it != end(); ++it)
+			// 			std::cout << *it << " ";
+		
+			// 		std::cout << std::endl;
+			// 	}
+
+			// 	return (pos);
+			// }
+			
 	// 		iterator				erase( iterator pos );
 	// 		Iterator				erase( iterator first, iterator last );
 	// 		void					push_back( const value_type &value );
@@ -213,29 +239,66 @@ namespace ft
 
 	// 		allocator_type			get_allocator( void ) const;
 	
-	// // NON-MEMBER FUNCTIONS
-		
-	// 		template< class T, class Allocator >
-	// 		bool					operator==( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-	// 		template< class T, class Allocator >
-	// 		bool					operator!=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-	// 		template< class T, class Allocator >
-	// 		bool					operator<( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-	// 		template< class T, class Allocator >
-	// 		bool					operator<=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-	// 		template< class T, class Allocator >
-	// 		bool					operator>( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-	// 		template< class T, class Allocator >
-	// 		bool					operator>=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
-			
 		private:
 
 			value_type		*_first_elem;
-			value_type		*_last_elem;
-			value_type		*_end_of_strorage;
 			size_type		_size;
 			size_type		_capacity;
 			allocator_type	_alloc;
+
+	// PRIVATE FUNCTIONS
+
+			pointer	_castIteratorToPointer(iterator it)
+			{
+				size_t	distance = std::distance(begin(), it);
+				pointer	p = _first_elem + distance;
+				
+				return (p);
+			}
+			
+			pointer	_copyVector(iterator first, iterator last, size_t size)
+				{
+					pointer copy = _alloc.allocate(size);
+					for (; first != last; ++first)
+						_alloc.construct(copy, *first);
+					
+					return (copy);
+				}
+			
+			void	_clearVector(iterator first, iterator last, size_t size)
+			{
+				iterator	tmp_it = first;
+				pointer		tmp_p = _castIteratorToPointer(first);
+				
+				for (; tmp_it != last; ++tmp_it)
+					_alloc.destroy(++tmp_p);
+				_alloc.deallocate(_castIteratorToPointer(first), size);
+			}
+			
+			size_t	_getDistance(iterator first, iterator last)
+			{
+				size_t	i = 0;
+
+				while (++first != last)
+					i++;
+
+				return i;
+			}
+			
+	// NON-MEMBER FUNCTIONS
+		
+		// template< class T, class Allocator >
+		// bool					operator==( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
+		// template< class T, class Allocator >
+		// bool					operator!=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
+		// template< class T, class Allocator >
+		// bool					operator<( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
+		// template< class T, class Allocator >
+		// bool					operator<=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
+		// template< class T, class Allocator >
+		// bool					operator>( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
+		// template< class T, class Allocator >
+		// bool					operator>=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs );
 			
 	};
 }
