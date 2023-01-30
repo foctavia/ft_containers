@@ -6,13 +6,14 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/24 21:18:20 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:10:46 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
+// to be changed with ft::vector (not allowed to use any std::container library)
 # include <deque>
 
 namespace ft
