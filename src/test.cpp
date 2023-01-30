@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 18:17:28 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:45:21 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void vectorTest()
 	std::cout << std::endl;
 
 	ft::vector<int>	vec2;
+
+	// vec2.insert(vec2.begin(), 3, 6); // check on this
 
 	vec2 = vec;
 
