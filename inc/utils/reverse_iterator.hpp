@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 16:38:19 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:28:29 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	// reverse_iterator
+	/* REVERSE_ITERATOR ******************************************************************* */
 
 	template< typename Iter >
 	class reverse_iterator
@@ -63,17 +63,17 @@ namespace ft
 			
 	// MEMBER FUNCTION
 
-			iterator_type	base( void ) const { return current; }
+			iterator_type		base( void ) const { return current; }
 			
-			reference		operator*( void ) const
+			reference			operator*( void ) const
 			{
 				Iter	tmp = current;
 				return	*--tmp;
 			}
 
-			pointer			operator->( void ) const { return &(operator*()); }
+			pointer				operator->( void ) const { return &(operator*()); }
 
-			reference		operator[]( difference_type n ) const { return *(*this + n); }
+			reference			operator[]( difference_type n ) const { return *(*this + n); }
 
 			reverse_iterator	&operator++( void )
 			{

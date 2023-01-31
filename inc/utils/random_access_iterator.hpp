@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:44:31 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/30 16:37:39 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:28:17 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	// random_access_iterator
+	/* RANDOM_ACCESS_ITERATOR ************************************************************* */
 	
 	template< typename Iter >
 	class random_access_iterator : public std::iterator< std::random_access_iterator_tag, Iter , std::ptrdiff_t, Iter *, Iter & >
@@ -46,16 +46,22 @@ namespace ft
 		~random_access_iterator( void ) { }
 
 	// MEMBER FUNCTION
+		
+		// Member functions for element access
 			
-		reference		operator*( void ) const
-		{
-			return	*current;
-		}
+		const Iter	&base() const									{ return current; }
+		
+		reference	operator*( void ) const							{ return *current; }
 
-		pointer			operator->( void ) const { return current; }
+		pointer		operator->( void ) const 						{ return current; }
 
-		reference	operator[]( const difference_type &n ) const
-		{ return current[ n ]; }
+		reference	operator[]( const difference_type &n ) const	{ return current[ n ]; }
+
+		// Member functions for overload operator
+
+		random_access_iterator	operator++( int )					{ return random_access_iterator(current++); }
+
+		random_access_iterator	operator--( int )					{ return random_access_iterator(current--); }
 
 		random_access_iterator	&operator++( void )
 		{
@@ -69,41 +75,28 @@ namespace ft
 			return *this;
 		}
 
-		random_access_iterator	operator++( int )
-		{
-			random_access_iterator	tmp = *this;
-			++current;
-			return tmp;
-		}
-
-		random_access_iterator	operator--( int )
-		{
-			random_access_iterator	tmp = *this;
-			--current;
-			return tmp;
-		}
-
-		random_access_iterator		&operator+=( const difference_type &n )
+		random_access_iterator	&operator+=( const difference_type &n )
 		{
 			current += n;
 			return *this;
 		}
 
-		random_access_iterator		operator+( const difference_type &n ) const
-		{ return random_access_iterator( current + n ); }
-
-		random_access_iterator		&operator-=( const difference_type &n )
+		random_access_iterator	&operator-=( const difference_type &n )
 		{
 			current -= n;
 			return *this;
 		}
 
-		random_access_iterator		operator-( const difference_type &n ) const
-		{ return random_access_iterator( current - n ); }
-
-		const Iter			&base() const
-		{ return current; }
+		random_access_iterator	operator+( const difference_type &n ) const
+		{
+			return random_access_iterator( current + n );
+		}
 		
+		random_access_iterator	operator-( const difference_type &n ) const
+		{
+			return random_access_iterator( current - n );
+		}
+
 	};
 
 	// NON-MEMBER FUNCTION

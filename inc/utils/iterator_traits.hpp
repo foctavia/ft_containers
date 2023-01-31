@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:26:34 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/27 10:51:08 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:28:01 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	// iterator_traits
+	/* ITERATOR_TRAITS ******************************************************************** */
 	
 	template< typename Iter >
 	struct iterator_traits
