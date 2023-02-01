@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 11:20:29 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:05:36 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,28 @@ namespace ft
 
 		// Getter
 
-			allocator_type			get_allocator( void ) const	{ return this->_alloc; }
+			allocator_type			get_allocator( void ) const			{ return this->_alloc; }
 
 		// Member functions for Element access
 
-			reference				operator[]( size_type pos )
+			reference				operator[]( size_type pos )			{ return *(_first_elem + pos); }
+			const_reference			operator[]( size_type pos ) const	{ return *(_first_elem + pos); }
+
+			reference				at( size_type pos )
 			{
 				if (pos >= size())
-					exit(1); // to change with exception out_of_range;
-				return *(_first_elem + pos);
+					throw std::out_of_range("ERROR : vector::at(index) : index is out of range");
+					
+				return (*this)[pos];
 			}
 			
-			const_reference			operator[]( size_type pos ) const
+			const_reference			at( size_type pos ) const
 			{
 				if (pos >= size())
-					exit(1); // to change with exception out_of_range;
-				return *(_first_elem + pos);
+					throw std::out_of_range("ERROR : vector::at(index) : index is out of range");
+					
+				return (*this)[pos];
 			}
-
-			reference				at( size_type pos )			{ return (*this)[pos]; }
-			const_reference			at( size_type pos ) const	{ return (*this)[pos]; }
 
 			reference				front( void )				{ return *this->begin(); }
 			const_reference			front( void ) const			{ return *this->begin(); }
@@ -157,7 +159,7 @@ namespace ft
 			void					reserve( size_type new_cap )
 			{
 				if (new_cap > max_size())
-					exit(1); // to change with exception length_error
+					throw std::length_error("ERROR : vector::reserve(new_cap) : new_cap is bigger than maximum size limitation");
 				if (new_cap > _capacity)
 				{	
 					pointer	copy = _upsizeVector(new_cap);
@@ -303,7 +305,7 @@ namespace ft
 			void					resize( size_type new_size, value_type value = value_type() )
 			{
 				if (new_size > max_size())
-					exit(1); // to be changed with length error exception
+					throw std::length_error("ERROR : vector::resize(new_size, value) : new_size is bigger than maximum size limitation");
 				if (new_size > _size)
 					insert(end(), new_size - _size, value);
 				else if (new_size < _size)
