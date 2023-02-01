@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 15:32:50 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:58:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,12 +259,11 @@ void vectorTest()
 	std::cout << std::endl;
 	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
 
-	// std::cout << "with reverse_iterator " << std::endl << "vec5 : ";
-	// for(ft::vector<int>::reverse_iterator it5 = vec5.rbegin(); it5 != vec5.rend(); ++it5)
-	// 		std::cout << *it5 << " ";
-	// std::cout << std::endl;
-	// std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
-	
+	std::cout << "with reverse_iterator " << std::endl << "vec5 : ";
+	for(ft::vector<int>::reverse_iterator it5 = vec5.rbegin(); it5 != vec5.rend(); ++it5)
+			std::cout << *it5 << " ";
+	std::cout << std::endl;
+	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
 	
 }
 

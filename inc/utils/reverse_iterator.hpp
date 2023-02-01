@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 15:31:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:08:42 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ namespace ft
 	/* REVERSE_ITERATOR ******************************************************************* */
 
 	template< typename Iter >
-	class reverse_iterator
+	class reverse_iterator : public iterator< typename iterator_traits< Iter >::iterator_category,
+												typename iterator_traits< Iter >::value_type,
+												typename iterator_traits< Iter >::difference_type,
+												typename iterator_traits< Iter >::pointer,
+												typename iterator_traits< Iter >::reference >
 	{
 		protected:
 			
