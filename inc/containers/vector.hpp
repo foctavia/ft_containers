@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 13:05:36 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:32:12 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ namespace ft
 			typedef ft::random_access_iterator< pointer >		iterator;
 			typedef ft::random_access_iterator< const_pointer >	const_iterator;
 			
-			typedef ft::reverse_iterator< iterator >			reverse_iterator;
-			typedef ft::reverse_iterator< const_iterator >		const_reverse_iterator;
+			typedef ft::reverse_iterator< pointer >			reverse_iterator;
+			typedef ft::reverse_iterator< const_pointer >		const_reverse_iterator;
 	
 
 	// CONSTRUCTORS
@@ -148,7 +148,7 @@ namespace ft
 
 		// Member functions for Capacity
 
-			bool					empty( void ) const			{ return this->begin() == this->end(); }
+			bool					empty( void ) const			{ return (this->begin() == this->end() && this->_size == 0); }
 			
 			size_type				size( void ) const			{ return this->_size; }
 
@@ -172,23 +172,7 @@ namespace ft
 		// Member functions for Modifiers
 
 			iterator				insert( iterator pos, const value_type &value )
-			{
-				// size_type	distance = std::distance(begin(), pos);
-				
-				// reserve(_getNewCapacity(_size + 1));
-
-				// pointer		end = _first_elem + _size;
-				// pointer		last = end - 1;
-				
-				// for (; end != _first_elem + distance; --end)
-				// {
-				// 	_alloc.construct(end, *last );
-				// 	_alloc.destroy(last);
-				// 	last--;
-				// }
-				// _alloc.construct(_first_elem + distance, value);
-				// _size++;
-				
+			{	
 				return insert(pos, 1, value);
 			}
 			
@@ -250,16 +234,6 @@ namespace ft
 				
 				if (distance >= _size)
 					exit(1);
-					
-				// pointer 	pos_p = _first_elem + distance;
-				// _alloc.destroy(pos_p);
-				// _size--;
-				
-				// for (; pos_p != _first_elem + _size; ++pos_p)
-				// {
-				// 	_alloc.construct(pos_p, *(pos_p + 1));
-				// 	_alloc.destroy(pos_p + 1);
-				// }
 
 				return erase(pos, pos + 1);
 			}
