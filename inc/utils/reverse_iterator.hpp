@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/31 18:28:29 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:31:06 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
 		
 	// CONSTRUCTOR
 		
-			reverse_iterator( void ) : current() { }
+			reverse_iterator( void ) : current( iterator_type() ) { }
 			explicit reverse_iterator( iterator_type x ) : current( x ) { }
 
 		// Copy constructor
