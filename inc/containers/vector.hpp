@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 15:32:12 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:57:59 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ namespace ft
 			typedef T											value_type;
 			typedef Allocator									allocator_type;
 			
-			typedef std::size_t									size_type;
-			typedef std::ptrdiff_t								difference_type;
+			typedef typename Allocator::size_type				size_type;
+			typedef typename Allocator::difference_type			difference_type;
 			
 			typedef typename Allocator::reference				reference;
 			typedef typename Allocator::const_reference			const_reference;
@@ -47,8 +47,8 @@ namespace ft
 			typedef ft::random_access_iterator< pointer >		iterator;
 			typedef ft::random_access_iterator< const_pointer >	const_iterator;
 			
-			typedef ft::reverse_iterator< pointer >			reverse_iterator;
-			typedef ft::reverse_iterator< const_pointer >		const_reverse_iterator;
+			typedef ft::reverse_iterator< iterator >			reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >		const_reverse_iterator;
 	
 
 	// CONSTRUCTORS
@@ -126,8 +126,8 @@ namespace ft
 			reference				front( void )				{ return *this->begin(); }
 			const_reference			front( void ) const			{ return *this->begin(); }
 
-			reference				back( void )				{ return *(this->end() - 1); }
-			reference				back( void ) const			{ return *(this->end() - 1); }
+			reference				back( void )				{ return *(this->_first_elem + _size - 1); }
+			reference				back( void ) const			{ return *(this->_first_elem  + _size - 1); }
 
 			value_type				*data( void )				{ return _first_elem; }
 			const value_type		*data( void ) const			{ return _first_elem; }		
@@ -139,16 +139,16 @@ namespace ft
 			
 			iterator				end( void )					{ return iterator(_first_elem + _size); }
 			const_iterator			end( void ) const			{ return const_iterator(_first_elem + _size); }
-
-			reverse_iterator		rbegin( void )				{ return reverse_iterator(_first_elem); }
-			const_reverse_iterator	rbegin( void ) const		{ return const_reverse_iterator(_first_elem); }
 			
-			reverse_iterator		rend( void )				{ return reverse_iterator(_first_elem + _size); }
-			const_reverse_iterator	rend( void ) const			{ return const_reverse_iterator(_first_elem + _size); }
+			reverse_iterator		rbegin( void )				{ return reverse_iterator(iterator(_first_elem + _size)); }
+			const_reverse_iterator	rbegin( void ) const		{ return const_reverse_iterator(const_iterator(_first_elem + _size)); }
+
+			reverse_iterator		rend( void )				{ return reverse_iterator(iterator(_first_elem)); }
+			const_reverse_iterator	rend( void ) const			{ return const_reverse_iterator(const_iterator(_first_elem)); }
 
 		// Member functions for Capacity
 
-			bool					empty( void ) const			{ return (this->begin() == this->end() && this->_size == 0); }
+			bool					empty( void ) const			{ return _size == 0; }
 			
 			size_type				size( void ) const			{ return this->_size; }
 
@@ -219,7 +219,7 @@ namespace ft
 			
 			void					clear( void)
 			{
-				if (_first_elem != NULL)
+				if (_first_elem != NULL && _size)
 				{
 					pointer	tmp = _first_elem;
 					
@@ -237,6 +237,7 @@ namespace ft
 
 				return erase(pos, pos + 1);
 			}
+			
 			
 			iterator				erase( iterator first, iterator last )
 			{
