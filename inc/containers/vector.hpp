@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/31 23:43:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 11:20:29 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
 # include <random_access_iterator.hpp>
+# include <algorithm.hpp>
 # include <iterator>
 # include <iostream>
 
@@ -159,9 +160,9 @@ namespace ft
 					exit(1); // to change with exception length_error
 				if (new_cap > _capacity)
 				{	
-					pointer	copy = _upsizeVector(new_cap * 2);
+					pointer	copy = _upsizeVector(new_cap);
 					_clearVector(begin(), end(), _capacity);
-					this->_capacity = new_cap * 2;
+					this->_capacity = new_cap;
 					this->_first_elem = copy;
 				}
 			}
@@ -172,7 +173,7 @@ namespace ft
 			{
 				// size_type	distance = std::distance(begin(), pos);
 				
-				// reserve(_getNewCapacity(1));
+				// reserve(_getNewCapacity(_size + 1));
 
 				// pointer		end = _first_elem + _size;
 				// pointer		last = end - 1;
@@ -193,7 +194,7 @@ namespace ft
 			{
 				size_type	distance = std::distance(begin(), pos);
 				
-				reserve(_getNewCapacity(count));
+				reserve(_getNewCapacity(_size + count));
 
 				pointer		last = _first_elem + _size - 1;
 				pointer 	pos_p = _first_elem + distance;
@@ -222,7 +223,7 @@ namespace ft
 				size_type	distance = std::distance(begin(), pos);
 				size_type	count = std::distance(first, last);
 
-				reserve(_getNewCapacity(count));
+				reserve(_getNewCapacity(_size + count));
 
 				for(; first != last; last--)
 					insert(iterator(_first_elem + distance), 1, *(last - 1));
@@ -289,7 +290,7 @@ namespace ft
 	
 			void					push_back( const value_type &value )
 			{
-				reserve(_getNewCapacity(1));
+				reserve(_getNewCapacity(_size + 1));
 				_alloc.construct(_first_elem + _size, value);
 				_size++;
 			}
@@ -369,10 +370,17 @@ namespace ft
 
 	// PRIVATE FUNCTIONS
 
-			size_type	_getNewCapacity(size_type count)
+			size_type	_getNewCapacity(size_type new_size)
 			{
-				if ((empty() && !_capacity) || _size + count > _capacity)
-					return (_capacity + count);
+				if ((empty() && !_capacity) || new_size > _capacity)
+				{
+					size_type	new_cap = 1;
+					
+					while (new_cap < new_size)
+						new_cap *= 2;
+					
+					return (new_cap);
+				}
 					
 				return (_capacity);
 			}
@@ -380,8 +388,10 @@ namespace ft
 			pointer		_upsizeVector(size_t new_cap)
 				{
 					pointer copy = _alloc.allocate(new_cap);
+					
 					for (size_type i = 0; i < _size; i++)
-						_alloc.construct(copy + i, _first_elem[i]);			
+						_alloc.construct(copy + i, _first_elem[i]);
+		
 					return (copy);
 				}
 
@@ -420,7 +430,7 @@ namespace ft
 		template< class T, class Allocator >
 		inline bool		operator==( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
 		{
-			return (lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin())); // to be changed with ft::equal
+			return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 		}
 		
 		template< class T, class Allocator >
@@ -432,7 +442,7 @@ namespace ft
 		template< class T, class Allocator >
 		inline bool		operator<( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
 		{
-			return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); // to be changed with ft::lexicographical
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 		
 		template< class T, class Allocator >

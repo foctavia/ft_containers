@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/31 23:36:45 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/01 11:34:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,24 @@ void vectorTest()
 	std::cout << "vec : ";
 	for(it = vec.begin(); it != vec.end(); ++it)
 			std::cout << *it << " ";	
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
 	
 // vec1 -> test constructor with range iterator
 
 	ft::vector<int>	vec1(vec.begin(), vec.end());
+	
+	if (vec == vec1)
+		std::cout << "vec and vec1 is equal" << std:: endl;
+	else
+		std::cout << "vec and vec1 is not equal" << std::endl;
 
 	std::cout << "vec1 : ";
 	for(ft::vector<int>::iterator it1 = vec1.begin(); it1 != vec1.end(); ++it1)
 			std::cout << *it1 << " ";
 	std::cout << std::endl;
-	std::cout << "vec1 capacity " << vec1.capacity() << "  vec1 size " << vec1.size() << std::endl;
-
+	std::cout << "vec1 capacity " << vec1.capacity() 
+		<< "  vec1 size " << vec1.size() 
+		<< std::endl << std::endl;
 
 // vec2 -> test assignment operator and operator[] and at
 
@@ -103,9 +109,15 @@ void vectorTest()
 	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
 			std::cout << *it2 << " ";
 	std::cout << std::endl;
-	std::cout << "vec2 capacity " << vec2.capacity() << "  vec2 size " << vec2.size() << std::endl;
+	std::cout << "vec2 capacity " << vec2.capacity() 
+		<< "  vec2 size " << vec2.size() << std::endl;
 
 	vec2 = vec;
+
+	if (vec != vec2)
+		std::cout << "vec and vec2 is not equal" << std:: endl;
+	else
+		std::cout << "vec and vec2 is equal" << std::endl;
 
 	std::cout << "vec2 : ";
 	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
@@ -117,7 +129,7 @@ void vectorTest()
 	std::cout << vec2.front() << " " 
 		<< vec2[2] << " " 
 		<< vec2.at(3) << " " 
-		<< vec2.back() << std::endl;
+		<< vec2.back() << std::endl << std::endl;
 
 // vec3 -> test pushback, popback, swap, erase
 
@@ -159,6 +171,11 @@ void vectorTest()
 	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
 			std::cout << *it3 << " ";
 	std::cout << std::endl;
+
+	if (vec2 < vec3)
+		std::cout << "vec2 is less than vec3" << std:: endl << std::endl;
+	else
+		std::cout << "vec2 is not less than vec3" << std::endl << std::endl;
 	
 	vec3.swap(vec2);
 	
@@ -168,11 +185,18 @@ void vectorTest()
 	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
 			std::cout << *it2 << " ";
 	std::cout << std::endl;
+	std::cout << "vec2 capacity " << vec2.capacity() << "  vec2 size " << vec2.size() << std::endl;
 
 	std::cout << "vec3 : ";
 	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
 			std::cout << *it3 << " ";
 	std::cout << std::endl;
+	std::cout << "vec3 capacity " << vec3.capacity() << "  vec3 size " << vec3.size() << std::endl;
+
+	if (vec2 < vec3)
+		std::cout << "vec2 is less than vec3" << std:: endl << std::endl;
+	else
+		std::cout << "vec2 is not less than vec3" << std::endl << std::endl;
 
 // vec4 -> test resize and assign
 
@@ -214,7 +238,12 @@ void vectorTest()
 	for(ft::vector<int>::iterator it4 = vec4.begin(); it4 != vec4.end(); ++it4)
 			std::cout << *it4 << " ";
 	std::cout << std::endl;
-	std::cout << "vec4 capacity " << vec4.capacity() << "  vec4 size " << vec4.size() << std::endl;
+	std::cout << "vec4 capacity " << vec4.capacity() << "  vec4 size " << vec4.size() << std::endl << std::endl;
+
+	if (vec4 > vec5)
+		std::cout << "vec4 is more than vec5" << std:: endl;
+	else
+		std::cout << "vec4 is not more than vec5" << std::endl;
 
 	std::cout << "vec5 : ";
 	for(ft::vector<int>::iterator it5 = vec5.begin(); it5 != vec5.end(); ++it5)
@@ -228,7 +257,7 @@ void vectorTest()
 	for(ft::vector<int>::iterator it5 = vec5.begin(); it5 != vec5.end(); ++it5)
 			std::cout << *it5 << " ";
 	std::cout << std::endl;
-	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl;
+	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
 	
 }
 
