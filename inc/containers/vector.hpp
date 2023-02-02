@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 17:57:59 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:22:05 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 # include <algorithm>
 # include <memory>
 # include <stdexcept>
+# include <iostream>
+
 # include <type_traits.hpp>
-# include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
 # include <random_access_iterator.hpp>
 # include <algorithm.hpp>
-# include <iterator>
-# include <iostream>
 
 namespace ft
 {
@@ -195,7 +194,7 @@ namespace ft
 					}
 				}
 				for (size_type i = 0; i < count; i++)
-				{
+				{	
 					_alloc.construct(pos_p + i, value);
 					_size++;
 				}
@@ -219,12 +218,13 @@ namespace ft
 			
 			void					clear( void)
 			{
-				if (_first_elem != NULL && _size)
+				if (_size > 0)
 				{
 					pointer	tmp = _first_elem;
 					
-					while (--_size)
+					for (size_type i = 0; i < _size; i++)
 						_alloc.destroy(tmp++);
+					_size = 0;
 				}
 			}
 			
@@ -385,8 +385,8 @@ namespace ft
 				iterator	tmp_it = first;
 				pointer		tmp_p = _castIteratorToPointer(first);
 				
-				for (; tmp_it != last; ++tmp_it)
-					_alloc.destroy(++tmp_p);
+				for (; tmp_it != last; tmp_it++)
+					_alloc.destroy(tmp_p++);
 				_alloc.deallocate(_castIteratorToPointer(first), size);
 			}
 			
