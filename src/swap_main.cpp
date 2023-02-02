@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:07:06 by hbaudet           #+#    #+#             */
-/*   Updated: 2023/02/02 19:07:33 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:03:52 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,18 @@ int main ()
 		}
 		tmp--;
 
-		while(tmp2 != foo.end())
-		{
-			std::cout << *tmp2 << '\n';
-			tmp2++;
-		}
-		tmp2--;
+		// while(tmp2 != foo.end())
+		// {
+		// 	std::cout << *tmp2 << '\n';
+		// 	tmp2++;
+		// }
+		// tmp2--;
 
-		swap(other, foo); //tmp2 iterates through other
-						//tmp3 iterates throught foo
-		print(other);
-		print(foo);
-		print(bar);
+		// swap(other, foo); //tmp2 iterates through other
+		// 				//tmp3 iterates throught foo
+		// print(other);
+		// print(foo);
+		// print(bar);
 }
 // 		while(tmp != bar.begin())
 // 		{

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:44:31 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/02 17:31:01 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:02:02 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft
 
 		random_access_iterator( void ) : current( NULL ) { }
 		
-		explicit random_access_iterator( Iter i ) : current( i ) { }
+		explicit random_access_iterator( pointer p ) : current( p ) { }
 
 		template< typename _Iter >
 		random_access_iterator(const random_access_iterator< _Iter > &src) : current(NULL)
