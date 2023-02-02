@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:26:34 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 16:09:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:21:31 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,6 @@
 
 namespace ft
 {
-	/* ITERATOR *************************************************************************** */
-
-	template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
-	struct iterator
-	{
-		typedef	Category							iterator_category;
-		typedef T									value_type;
-		typedef Distance							difference_type;
-		typedef Pointer								pointer;
-		typedef Reference							reference;
-	};
-
-	
 	/* ITERATOR_TRAITS ******************************************************************** */
 	
 	template< typename Iter >
