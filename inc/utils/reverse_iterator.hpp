@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/02 19:21:16 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:33:58 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ namespace ft
 	// CONSTRUCTOR
 		
 			reverse_iterator( void ) : current( iterator_type() ) { }
+			
 			explicit reverse_iterator( iterator_type x ) : current( x ) { }
 
 		// Copy constructor
 		
 			reverse_iterator( const reverse_iterator &x ) : current( x.current ) { }
+			
 			template< typename _Iter >
 			reverse_iterator( const reverse_iterator< _Iter > &x ) : current( x.base() ) { }
 
@@ -63,7 +65,7 @@ namespace ft
 			
 	// MEMBER FUNCTION
 
-			iterator_type		base( void ) const { return current; }
+			iterator_type		base( void ) const 						{ return current; }
 			
 			reference			operator*( void ) const
 			{
@@ -71,9 +73,9 @@ namespace ft
 				return	*--tmp;
 			}
 
-			pointer				operator->( void ) const { return &(operator*()); }
+			pointer				operator->( void ) const				{ return &(operator*()); }
 
-			reference			operator[]( difference_type n ) const { return *(*this + n); }
+			reference			operator[]( difference_type n ) const	{ return *(*this + n); }
 
 			reverse_iterator	&operator++( void )
 			{
@@ -101,11 +103,9 @@ namespace ft
 				return tmp;
 			}
 
-			reverse_iterator	operator+( difference_type n ) const
-			{ return reverse_iterator(current - n); }
+			reverse_iterator	operator+( difference_type n ) const	{ return reverse_iterator(current - n); }
 
-			reverse_iterator	operator-( difference_type n ) const
-			{ return reverse_iterator(current + n); }
+			reverse_iterator	operator-( difference_type n ) const	{ return reverse_iterator(current + n); }
 
 			reverse_iterator	&operator+=( difference_type n )
 			{
