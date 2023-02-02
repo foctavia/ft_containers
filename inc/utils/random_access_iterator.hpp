@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:44:31 by foctavia          #+#    #+#             */
-/*   Updated: 2023/01/31 18:28:17 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:31:01 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define RANDOM_ACCESS_ITERATOR_HPP
 
 # include <iterator_traits.hpp>
+# include <type_traits.hpp>
 
 namespace ft
 {
 	/* RANDOM_ACCESS_ITERATOR ************************************************************* */
 	
 	template< typename Iter >
-	class random_access_iterator : public std::iterator< std::random_access_iterator_tag, Iter , std::ptrdiff_t, Iter *, Iter & >
+	class random_access_iterator : public std::iterator< std::random_access_iterator_tag, Iter, std::ptrdiff_t, Iter *, Iter & >
 	{
 		protected:
 			
@@ -38,24 +39,43 @@ namespace ft
 
 	// CONTRUCTOR
 
-		random_access_iterator( void ) : current( Iter() ) { }
-		explicit random_access_iterator( const Iter &i ) : current( i ) { }
+		random_access_iterator( void ) : current( NULL ) { }
+		
+		explicit random_access_iterator( Iter i ) : current( i ) { }
+
+		template< typename _Iter >
+		random_access_iterator(const random_access_iterator< _Iter > &src) : current(NULL)
+		// random_access_iterator(const random_access_iterator< typename remove_cv<value_type *>::type > &src) : current(NULL)
+		{
+			*this = src;
+		}
 
 	// DESTRUCTOR
 
 		~random_access_iterator( void ) { }
 
+	// ASSIGNMENT OPERATOR
+
+		template< typename _Iter >
+		random_access_iterator	&operator=(const random_access_iterator< _Iter > &rhs)
+		{
+			this->current = rhs.operator->();
+
+			return *this;
+		}
+	
+
 	// MEMBER FUNCTION
 		
 		// Member functions for element access
 			
-		const Iter	&base() const									{ return current; }
+		Iter const	&base() const									{ return current; }
 		
 		reference	operator*( void ) const							{ return *current; }
 
 		pointer		operator->( void ) const 						{ return current; }
 
-		reference	operator[]( const difference_type &n ) const	{ return current[ n ]; }
+		reference	operator[]( const difference_type &n ) const	{ return *(current + n); }
 
 		// Member functions for overload operator
 
