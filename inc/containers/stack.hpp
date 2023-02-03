@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 15:33:16 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:33:51 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,41 +82,41 @@ namespace ft
 	
 	// NON-MEMBER FUNCTIONS
 		
-		template< class T, class Container >
-		inline bool	operator==( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return (lhs.c == rhs.c);
-		}
-		
-		template< class T, class Container >
-		inline bool	operator<( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return (lhs.c < rhs.c);
-		}
-		
-		template< class T, class Container >
-		inline bool	operator!=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return !(lhs == rhs);
-		}
-		
-		template< class T, class Container >
-		inline bool	operator>( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return (rhs < lhs);
-		}
-		
-		template< class T, class Container >
-		inline bool	operator<=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return !(rhs < lhs);
-		}
-		
-		template< class T, class Container >
-		inline bool	operator>=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
-		{
-			return !(lhs < rhs);
-		}
+	template< class T, class Container >
+	inline bool	operator==( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return (lhs.c == rhs.c);
+	}
+	
+	template< class T, class Container >
+	inline bool	operator<( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return (lhs.c < rhs.c);
+	}
+	
+	template< class T, class Container >
+	inline bool	operator!=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return !(lhs == rhs);
+	}
+	
+	template< class T, class Container >
+	inline bool	operator>( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return (rhs < lhs);
+	}
+	
+	template< class T, class Container >
+	inline bool	operator<=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return !(rhs < lhs);
+	}
+	
+	template< class T, class Container >
+	inline bool	operator>=( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
+	{
+		return !(lhs < rhs);
+	}
 			
 }
 
