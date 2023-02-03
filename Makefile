@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/03 14:31:00 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/03 19:07:39 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ UTILSDIR	= inc/utils/
 SRCDIR		= src/
 OBJDIR		= obj/
 
-SRC			= main.cpp
+SRC			= test.cpp
 				
 OBJ			= $(addprefix ${OBJDIR}, ${SRC:%.cpp=%.o})
 INC			= -I./$(CONTDIR) -I./$(UTILSDIR)
