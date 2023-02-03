@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 14:28:35 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:44:32 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ namespace ft
 			~vector( void )
 			{
 				this->clear();
-				this->_alloc.deallocate(_first_elem, _capacity);
+				this->_alloc.deallocate(this->_first_elem, this->_capacity);
 			}
 
 	// ASSIGNMENT OPERATOR
@@ -103,8 +103,8 @@ namespace ft
 
 		// Member functions for Element access
 
-			reference				operator[]( size_type pos )			{ return *(_first_elem + pos); }
-			const_reference			operator[]( size_type pos ) const	{ return *(_first_elem + pos); }
+			reference				operator[]( size_type pos )			{ return *(this->_first_elem + pos); }
+			const_reference			operator[]( size_type pos ) const	{ return *(this->_first_elem + pos); }
 
 			reference				at( size_type pos )
 			{
@@ -125,29 +125,29 @@ namespace ft
 			reference				front( void )				{ return *this->begin(); }
 			const_reference			front( void ) const			{ return *this->begin(); }
 
-			reference				back( void )				{ return *(this->_first_elem + _size - 1); }
-			reference				back( void ) const			{ return *(this->_first_elem  + _size - 1); }
+			reference				back( void )				{ return *(this->_first_elem + this->_size - 1); }
+			reference				back( void ) const			{ return *(this->_first_elem  + this->_size - 1); }
 
-			value_type				*data( void )				{ return _first_elem; }
-			const value_type		*data( void ) const			{ return _first_elem; }		
+			value_type				*data( void )				{ return this->_first_elem; }
+			const value_type		*data( void ) const			{ return this->_first_elem; }		
 
 		// Member functions for Iterator
 
-			iterator				begin( void )				{ return iterator(_first_elem); }
-			const_iterator			begin( void ) const			{ return const_iterator(_first_elem); }
+			iterator				begin( void )				{ return iterator(this->_first_elem); }
+			const_iterator			begin( void ) const			{ return const_iterator(this->_first_elem); }
 			
-			iterator				end( void )					{ return iterator(_first_elem + _size); }
-			const_iterator			end( void ) const			{ return const_iterator(_first_elem + _size); }
+			iterator				end( void )					{ return iterator(this->_first_elem + this->_size); }
+			const_iterator			end( void ) const			{ return const_iterator(this->_first_elem + this->_size); }
 			
-			reverse_iterator		rbegin( void )				{ return reverse_iterator(iterator(_first_elem + _size)); }
-			const_reverse_iterator	rbegin( void ) const		{ return const_reverse_iterator(const_iterator(_first_elem + _size)); }
+			reverse_iterator		rbegin( void )				{ return reverse_iterator(iterator(this->_first_elem + this->_size)); }
+			const_reverse_iterator	rbegin( void ) const		{ return const_reverse_iterator(const_iterator(this->_first_elem + this->_size)); }
 
-			reverse_iterator		rend( void )				{ return reverse_iterator(iterator(_first_elem)); }
-			const_reverse_iterator	rend( void ) const			{ return const_reverse_iterator(const_iterator(_first_elem)); }
+			reverse_iterator		rend( void )				{ return reverse_iterator(iterator(this->_first_elem)); }
+			const_reverse_iterator	rend( void ) const			{ return const_reverse_iterator(const_iterator(this->_first_elem)); }
 
 		// Member functions for Capacity
 
-			bool					empty( void ) const			{ return _size == 0; }
+			bool					empty( void ) const			{ return this->_size == 0 && this->begin() == this->end(); }
 			
 			size_type				size( void ) const			{ return this->_size; }
 
@@ -163,8 +163,8 @@ namespace ft
 				{	
 					pointer	copy = _upsizeVector(new_cap);
 					_clearVector(begin(), end(), _capacity);
-					this->_capacity = new_cap;
-					this->_first_elem = copy;
+					_capacity = new_cap;
+					_first_elem = copy;
 				}
 			}
 			
@@ -261,7 +261,7 @@ namespace ft
 						_alloc.destroy(last_p);
 						last_p++;
 					}
-					this->_size -= count;
+					_size -= count;
 				}
 				return first;
 			}
@@ -367,7 +367,7 @@ namespace ft
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(copy + i, _first_elem[i]);
 		
-					return (copy);
+					return copy;
 				}
 
 			pointer		_castIteratorToPointer(iterator it)
