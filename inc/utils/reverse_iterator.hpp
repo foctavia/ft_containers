@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/02 19:33:58 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 17:32:58 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ namespace ft
 			template< typename _Iter >
 			reverse_iterator	&operator=( const reverse_iterator< _Iter > &x )
 			{
-				if (this != &x)
-					this->current = x.current;
+				this->current = x.base();
+				
 				return *this;
 			}
 			
@@ -103,9 +103,13 @@ namespace ft
 				return tmp;
 			}
 
-			reverse_iterator	operator+( difference_type n ) const	{ return reverse_iterator(current - n); }
+			reverse_iterator	operator+( difference_type n ) const			{ return reverse_iterator(current - n); }
 
-			reverse_iterator	operator-( difference_type n ) const	{ return reverse_iterator(current + n); }
+			reverse_iterator	operator-( difference_type n ) const			{ return reverse_iterator(current + n); }
+
+			difference_type		operator+( const reverse_iterator &rit ) const	{ return current + rit.current; }
+
+			difference_type		operator-( const reverse_iterator &rit ) const	{ return rit.current - current; }
 
 			reverse_iterator	&operator+=( difference_type n )
 			{
@@ -148,14 +152,14 @@ namespace ft
 	{ return !(x < y); }
 
 	template< typename Iter >
-	inline typename reverse_iterator< Iter >::difference_type
-	operator-( const reverse_iterator< Iter > &x, const reverse_iterator< Iter > &y )
+	inline typename ft::reverse_iterator< Iter >::difference_type
+	operator-( const ft::reverse_iterator< Iter > &x, const ft::reverse_iterator< Iter > &y )
 	{ return y.base() - x.base(); }
 
 	template< typename Iter >
-	inline reverse_iterator< Iter >
-	operator+(typename reverse_iterator< Iter >::difference_type n, const reverse_iterator< Iter > &x)
-	{ return reverse_iterator< Iter >(x.base() - n); }
+	inline ft::reverse_iterator< Iter >
+	operator+(typename ft::reverse_iterator< Iter >::difference_type n, const ft::reverse_iterator< Iter > &x)
+	{ return ft::reverse_iterator< Iter >(x.base() - n); }
 	
 }
 

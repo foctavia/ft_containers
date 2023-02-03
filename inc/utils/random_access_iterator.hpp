@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:44:31 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/02 21:02:02 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 17:55:49 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ namespace ft
 
 		template< typename _Iter >
 		random_access_iterator(const random_access_iterator< _Iter > &src) : current(NULL)
-		// random_access_iterator(const random_access_iterator< typename remove_cv<value_type *>::type > &src) : current(NULL)
 		{
 			*this = src;
 		}
@@ -59,7 +58,7 @@ namespace ft
 		template< typename _Iter >
 		random_access_iterator	&operator=(const random_access_iterator< _Iter > &rhs)
 		{
-			this->current = rhs.operator->();
+			this->current = rhs.base();
 
 			return *this;
 		}
@@ -115,6 +114,16 @@ namespace ft
 		random_access_iterator	operator-( const difference_type &n ) const
 		{
 			return random_access_iterator( current - n );
+		}
+
+		difference_type			operator+( const random_access_iterator &it ) const
+		{
+			return current + it.current;
+		}
+
+		difference_type			operator-( const random_access_iterator &it ) const
+		{
+			return current - it.current;
 		}
 
 	};
