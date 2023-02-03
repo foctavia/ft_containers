@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/02 19:22:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 14:28:35 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ namespace ft
 			reference				at( size_type pos )
 			{
 				if (pos >= size())
-					throw std::out_of_range("ERROR : vector::at(index) : index is out of range");
+					throw std::out_of_range("vector::at");
 					
 				return (*this)[pos];
 			}
@@ -117,7 +117,7 @@ namespace ft
 			const_reference			at( size_type pos ) const
 			{
 				if (pos >= size())
-					throw std::out_of_range("ERROR : vector::at(index) : index is out of range");
+					throw std::out_of_range("vector::at");
 					
 				return (*this)[pos];
 			}
@@ -158,7 +158,7 @@ namespace ft
 			void					reserve( size_type new_cap )
 			{
 				if (new_cap > max_size())
-					throw std::length_error("ERROR : vector::reserve(new_cap) : new_cap is bigger than maximum size limitation");
+					throw std::length_error("vector::reserve");
 				if (new_cap > _capacity)
 				{	
 					pointer	copy = _upsizeVector(new_cap);
@@ -177,6 +177,9 @@ namespace ft
 			
 			iterator				insert( iterator pos, size_type count, const value_type &value )
 			{
+				if (!count)
+					return pos;
+					
 				size_type	distance = std::distance(begin(), pos);
 				
 				reserve(_getNewCapacity(_size + count));
@@ -219,11 +222,9 @@ namespace ft
 			void					clear( void)
 			{
 				if (_size > 0)
-				{
-					pointer	tmp = _first_elem;
-					
+				{	
 					for (size_type i = 0; i < _size; i++)
-						_alloc.destroy(tmp++);
+						_alloc.destroy(_first_elem + i);
 					_size = 0;
 				}
 			}
@@ -280,7 +281,7 @@ namespace ft
 			void					resize( size_type new_size, value_type value = value_type() )
 			{
 				if (new_size > max_size())
-					throw std::length_error("ERROR : vector::resize(new_size, value) : new_size is bigger than maximum size limitation");
+					throw std::length_error("vector::resize");
 				if (new_size > _size)
 					insert(end(), new_size - _size, value);
 				else if (new_size < _size)
@@ -289,19 +290,19 @@ namespace ft
 	
 			void					swap( vector &other )
 			{
-				pointer			tmp_first_elem	= _first_elem;
 				size_type		tmp_size		= _size;
 				size_type		tmp_capacity	= _capacity;
+				pointer			tmp_first_elem	= _first_elem;
 				allocator_type	tmp_alloc		= _alloc;
 
-				this->_first_elem 				= other._first_elem;
-				this->_size						= other._size;
-				this->_capacity					= other._capacity;
-				this->_alloc					= other._alloc;
+				this->_size						= other.size();
+				this->_capacity					= other.capacity();
+				this->_first_elem 				= other.data();
+				this->_alloc					= other.get_allocator();
 
-				other._first_elem				= tmp_first_elem;
 				other._size						= tmp_size;
 				other._capacity					= tmp_capacity;
+				other._first_elem				= tmp_first_elem;
 				other._alloc					= tmp_alloc;
 			}
 
@@ -349,17 +350,14 @@ namespace ft
 
 			size_type	_getNewCapacity(size_type new_size)
 			{
-				if ((empty() && !_capacity) || new_size > _capacity)
-				{
-					size_type	new_cap = 1;
+				if (empty())
+					return (new_size - _size);
+				if (new_size <= _capacity)
+					return _capacity;
+				if (new_size <= _size * 2)
+					return _size * 2;
 					
-					while (new_cap < new_size)
-						new_cap *= 2;
-					
-					return (new_cap);
-				}
-					
-				return (_capacity);
+				return new_size;
 			}
 			
 			pointer		_upsizeVector(size_t new_cap)
@@ -377,7 +375,7 @@ namespace ft
 				size_t	distance = std::distance(begin(), it);
 				pointer	p = _first_elem + distance;
 				
-				return (p);
+				return p;
 			}
 			
 			void		_clearVector(iterator first, iterator last, size_t size)
@@ -388,16 +386,6 @@ namespace ft
 				for (; tmp_it != last; tmp_it++)
 					_alloc.destroy(tmp_p++);
 				_alloc.deallocate(_castIteratorToPointer(first), size);
-			}
-			
-			size_t	_getDistance(iterator first, iterator last)
-			{
-				size_t	i = 0;
-
-				while (++first != last)
-					i++;
-
-				return i;
 			}
 			
 	};
@@ -438,6 +426,12 @@ namespace ft
 		inline bool		operator>=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
 		{
 			return !(lhs < rhs);
+		}
+
+		template< class T, class Allocator >
+		void			swap(ft::vector< T, Allocator > &lhs, ft::vector< T, Allocator > &rhs)
+		{
+			lhs.swap(rhs);
 		}
 		
 }
