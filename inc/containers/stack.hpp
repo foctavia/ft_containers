@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 15:29:47 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:32:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ namespace ft
 	template< class T, class Container = ft::vector< T, std::allocator< T > > >
 	class stack
 	{
-		
 		public:
 		
 			typedef Container									container_type;
