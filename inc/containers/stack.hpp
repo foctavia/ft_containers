@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 15:18:08 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:29:47 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ namespace ft
 
 	// CONSTRUCTOR
 			explicit stack( const container_type &cont = container_type() )
-				: _c( cont )								{ }
+				: c( cont )								{ }
 	
 	// DESTRUCTOR
 
-			~stack( void )									{ this->_c.clear(); }
+			~stack( void )									{ this->c.clear(); }
 			
 	// ASSIGNMENT OPERATOR
 
 			stack	&operator=( const stack &other )
 			{
 				if (this != &other)
-					this->_c = other._c;
+					this->c = other.c;
 				return *this;
 			}
 
@@ -52,20 +52,20 @@ namespace ft
 	
 		// Member functions for Element access
 
-			reference		top( void )						{ return this->_c.back(); }
-			const_reference	top( void ) const				{ return this->_c.back(); }
+			reference		top( void )						{ return this->c.back(); }
+			const_reference	top( void ) const				{ return this->c.back(); }
 
 		// Member functions for Capacity
 		
-			bool			empty( void ) const				{ return this->_c.empty(); }
+			bool			empty( void ) const				{ return this->c.empty(); }
 			
-			size_type		size( void ) const				{ return this->_c.size(); }
+			size_type		size( void ) const				{ return this->c.size(); }
 
 		// Member functions for Modifiers
 
-			void			push( const value_type &value )	{ this->_c.push_back(value); }
+			void			push( const value_type &value )	{ this->c.push_back(value); }
 			
-			void			pop( void )						{ this->_c.pop_back(); }
+			void			pop( void )						{ this->c.pop_back(); }
 
 	// NON-MEMBER FUNCTION PROTOTYPE (using friend keyword)
 
@@ -77,7 +77,7 @@ namespace ft
 
 		protected:
 
-			container_type	_c;
+			container_type	c;
 			
 	};
 	
@@ -86,13 +86,13 @@ namespace ft
 		template< class T, class Container >
 		inline bool	operator==( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
 		{
-			return (lhs._c == rhs._c);
+			return (lhs.c == rhs.c);
 		}
 		
 		template< class T, class Container >
 		inline bool	operator<( const ft::stack< T, Container > &lhs, const ft::stack< T, Container > &rhs )
 		{
-			return (lhs._c < rhs._c);
+			return (lhs.c < rhs.c);
 		}
 		
 		template< class T, class Container >
