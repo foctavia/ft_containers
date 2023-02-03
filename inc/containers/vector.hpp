@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 15:44:32 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:05:42 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,16 @@ namespace ft
 			// Check whether it's an integral type.  If so, it's not an iterator
 			template< class InputIt >
 			vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
-				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
+				: _first_elem( NULL ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			{	
-				this->insert(begin(), first, last);
+				for(InputIt tmp = first; tmp != last; tmp++)
+					_size++;
+					
+				_first_elem = _alloc.allocate(_size);
+				_capacity = _size;
+				
+				for(size_type i = 0; i < _size; i++)
+					_alloc.construct(_first_elem + i, *(first++));
 			}
 
 			vector( vector const &src )
@@ -208,15 +215,10 @@ namespace ft
 			template< class InputIt >
 			iterator				insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0)
 			{
-				size_type	distance = std::distance(begin(), pos);
-				size_type	count = std::distance(first, last);
+				for(; first != last; ++first)
+					pos = insert(pos, 1, *first) + 1;
 
-				reserve(_getNewCapacity(_size + count));
-
-				for(; first != last; last--)
-					insert(iterator(_first_elem + distance), 1, *(last - 1));
-
-				return iterator(_first_elem + distance);
+				return pos;
 			}
 			
 			void					clear( void)

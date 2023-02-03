@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 15:33:51 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:49:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ namespace ft
 			typedef typename container_type::const_reference	const_reference;
 
 	// CONSTRUCTOR
+	
 			explicit stack( const container_type &cont = container_type() )
 				: c( cont )									{ }
 	
