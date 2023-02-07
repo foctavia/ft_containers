@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 19:05:42 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:24:38 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ namespace ft
 			vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
 				: _first_elem( NULL ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			{	
-				for(InputIt tmp = first; tmp != last; tmp++)
-					_size++;
+				_size = std::distance(first, last);
+				
+				if (_size > max_size())
+					throw std::length_error("vector");
 					
 				_first_elem = _alloc.allocate(_size);
 				_capacity = _size;
@@ -213,15 +215,20 @@ namespace ft
 			}
 			
 			template< class InputIt >
-			iterator				insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0)
+			iterator				insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 			{
-				for(; first != last; ++first)
-					pos = insert(pos, 1, *first) + 1;
+				size_type	distance = std::distance(first, last);
+				
+				if (distance && distance < max_size())
+				{
+					for(; first != last; ++first)
+						pos = insert(pos, 1, *first) + 1;
+				}
 
 				return pos;
 			}
 			
-			void					clear( void)
+			void					clear( void )
 			{
 				if (_size > 0)
 				{	
@@ -350,7 +357,7 @@ namespace ft
 
 	// PRIVATE FUNCTIONS
 
-			size_type	_getNewCapacity(size_type new_size)
+			size_type	_getNewCapacity( size_type new_size )
 			{
 				if (empty())
 					return (new_size - _size);
@@ -362,7 +369,7 @@ namespace ft
 				return new_size;
 			}
 			
-			pointer		_upsizeVector(size_t new_cap)
+			pointer		_upsizeVector( size_t new_cap )
 				{
 					pointer copy = _alloc.allocate(new_cap);
 					
@@ -372,7 +379,7 @@ namespace ft
 					return copy;
 				}
 
-			pointer		_castIteratorToPointer(iterator it)
+			pointer		_castIteratorToPointer( iterator it )
 			{
 				size_t	distance = std::distance(begin(), it);
 				pointer	p = _first_elem + distance;
@@ -380,7 +387,7 @@ namespace ft
 				return p;
 			}
 			
-			void		_clearVector(iterator first, iterator last, size_t size)
+			void		_clearVector( iterator first, iterator last, size_t size )
 			{
 				iterator	tmp_it = first;
 				pointer		tmp_p = _castIteratorToPointer(first);
@@ -394,48 +401,48 @@ namespace ft
 	
 	// NON-MEMBER FUNCTIONS
 		
-		template< class T, class Allocator >
-		inline bool		operator==( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-		}
-		
-		template< class T, class Allocator >
-		inline bool		operator!=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return !(lhs == rhs);
-		}
-		
-		template< class T, class Allocator >
-		inline bool		operator<( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-		}
-		
-		template< class T, class Allocator >
-		inline bool		operator<=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return !(rhs < lhs);
-		}
-		
-		template< class T, class Allocator >
-		inline bool		operator>( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return rhs < lhs;
-		}
-		
-		template< class T, class Allocator >
-		inline bool		operator>=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
-		{
-			return !(lhs < rhs);
-		}
+	template< class T, class Allocator >
+	inline bool		operator==( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+	
+	template< class T, class Allocator >
+	inline bool		operator!=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return !(lhs == rhs);
+	}
+	
+	template< class T, class Allocator >
+	inline bool		operator<( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+	
+	template< class T, class Allocator >
+	inline bool		operator<=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return !(rhs < lhs);
+	}
+	
+	template< class T, class Allocator >
+	inline bool		operator>( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return rhs < lhs;
+	}
+	
+	template< class T, class Allocator >
+	inline bool		operator>=( const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs )
+	{
+		return !(lhs < rhs);
+	}
 
-		template< class T, class Allocator >
-		void			swap(ft::vector< T, Allocator > &lhs, ft::vector< T, Allocator > &rhs)
-		{
-			lhs.swap(rhs);
-		}
-		
+	template< class T, class Allocator >
+	inline void		swap( ft::vector< T, Allocator > &lhs, ft::vector< T, Allocator > &rhs )
+	{
+		lhs.swap(rhs);
+	}
+	
 }
 
 #endif

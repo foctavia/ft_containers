@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 16:43:07 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/07 10:38:38 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,27 @@ void vectorTest()
 			std::cout << *it5 << " ";
 	std::cout << std::endl;
 	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
+
+	ft::vector<int>	vec6;
+	
+	ft::vector<int>::iterator it5 = vec5.begin();
+	ft::vector<int>	vec7;
+	
+	vec7.insert(vec7.begin(), it5, vec6.begin());
+
+	std::cout << "vec7 : ";
+	for(ft::vector<int>::iterator it7 = vec7.begin(); it7 != vec7.end(); ++it7)
+			std::cout << *it7 << " ";
+	std::cout << std::endl;
+	std::cout << "vec7 capacity " << vec7.capacity() << "  vec7 size " << vec7.size() << std::endl << std::endl;
+
+	ft::vector<int>	vec8(it5, vec6.begin());
+
+	std::cout << "vec8 : ";
+	for(ft::vector<int>::iterator it8 = vec8.begin(); it8 != vec8.end(); ++it8)
+			std::cout << *it8 << " ";
+	std::cout << std::endl;
+	std::cout << "vec8 capacity " << vec8.capacity() << "  vec8 size " << vec8.size() << std::endl << std::endl;
 	
 }
 
