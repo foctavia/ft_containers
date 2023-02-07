@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:46:36 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/03 16:44:37 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/07 10:14:19 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ namepace ft
 
 	// CONSTRUCTOR
 
-			pair() : first(), second()	{ }
+			pair( void ) : first(), second()	{ }
 
-			explicit pair(const T1 &x, const T2 &y) : first( x ), second( y ) { }
+			explicit pair( const T1 &x, const T2 &y ) : first( x ), second( y )	{ }
 			
 			template< class U1, class U2 >
-			explicit pair(const pair<U1, U2> &p) : first( p.first ), second( p.second ) { }
+			explicit pair( const pair<U1, U2> &p ) : first( p.first ), second( p.second ) { }
 	
 	// ASSIGNMENT OPERATOR
 
-			pair	&operator=(const pair &p)
+			pair	&operator=( const pair &p )
 			{
 				if (this != &p)
 				{
@@ -49,8 +49,58 @@ namepace ft
 
 				return *this;
 			}
-		
+
+			template< class U1, class U2 >
+			pair	&operator=( const pair< U1, U2 > &p )
+			{
+				first = p.first;
+				second = p.second;
+
+				return *this;
+			}
 	};
+	
+	template< class T1, class T2 >
+	ft::pair< T1, T2 >	make_pair( T1 t, T2 u )
+	{
+		return ft::pair< T1, T2 >(t, u);
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator==(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > &rhs )
+	{
+		return lhs.first == rhs.first && lhs.second == rhs.second;
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator!=(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > &rhs )
+	{
+		return !(lhs == rhs);
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator<(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > &rhs )
+	{
+		return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator<=(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > &rhs )
+	{
+		return !(rhs < lhs);
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator>(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > &rhs )
+	{
+		return rhs < lhs;
+	}
+
+	template< class T1, class T2 >
+	inline bool			operator>=(const ft::pair< T1, T2 > &lhs, const ft::pair< T1, T2 > & rhs )
+	{
+		return !(lhs < rhs);
+	}
 	
 }
 
