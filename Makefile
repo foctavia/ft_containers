@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/03 19:07:39 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/08 16:41:10 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,13 @@ endif
 # Rules
 all			: $(NAME)
 
+diff:
+	make re
+	make re NAME=std_containers REAL=1
+	./ft_containers 2>/dev/null 1>ft
+	./std_containers 2>/dev/null 1>std
+	diff ft std
+
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
 			@mkdir -p ${@D}
 			$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
@@ -58,7 +65,11 @@ clean		:
 			rm -rf $(OBJDIR)
 
 fclean		: clean
-			rm -f $(NAME)
+			@rm -f $(NAME)
+			@rm -f std_containers
+			@rm -f ft
+			@rm -f std
+			@echo "Delete binary files"
 
 re			: fclean
 			make all
