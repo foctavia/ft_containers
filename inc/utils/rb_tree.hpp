@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/07 20:49:34 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:24:30 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,36 @@
 
 namespace ft
 {
-	enum rb_tree_color { black = false, red = true };
+	enum rb_tree_color { red = false, black = true };
 
-	template< typename T >
+	template< typename Key, typename Value >
 	class rb_tree_node
 	{
 		public:
 
-			typedef T				value_type;
-			typedef rb_tree_node	*node_pointer;
+			typedef Key							key_type;
+			typedef Value						value_type;
+			typedef rb_tree_node< Key, Value >	node_value;
+			typedef rb_tree_node< Key, Value >	*node_pointer;
 
-			value_type				value;
-			node_pointer			parent;
-			node_pointer			left;
-			node_pointer			right;
-			rb_tree_color			color;
+			key_type							key;
+			value_type							value;
+			node_pointer						parent;
+			node_pointer						left;
+			node_pointer						right;
+			rb_tree_color						color;
+			bool								is_left;
 
 	// CONSTRUCTOR
 
-			rb_tree_node( void ) : value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( black ) { }
+			rb_tree_node( void ) 
+				: key( 0 ), value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
 			
-			rb_tree_node( const value_type &val ) : value( val ), parent( NULL ), left( NULL ), right( NULL ), color( red ) { }
+			rb_tree_node( const key_type &k, const value_type &v ) 
+				: key( k ), value( v ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
 			
-			rb_tree_node( const rb_tree_node &src) : value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( black )
+			rb_tree_node( const rb_tree_node &src)
+				: key( 0 ), value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false )
 			{
 				*this = src;
 			}
@@ -50,24 +57,26 @@ namespace ft
 
 			rb_tree_node	&operator=( const rb_tree_node &rhs )
 			{
+				key = rhs.key;
 				value = rhs.value;
 				parent = rhs.parent;
 				left = rhs.left;
 				right = rhs.right;
 				color = rhs.color;
+				is_left = rhs.is_left;
 
 				return *this;
 			}
 	};
 
-	template< typename Key, typename T, typename Compare = std::less< Key >, 
+	template< typename Key, typename Value, typename Compare = std::less< Key >, 
 				typename Allocator = std::allocator< rb_tree_node< T > > >
 	class rb_tree
 	{
 		public:
 
 			typedef Key									key_type;
-			typedef Val									value_type;
+			typedef Value								value_type;
 			typedef Compare								key_compare;
 			typedef Allocator							allocator_type;
 			
@@ -79,9 +88,11 @@ namespace ft
 			typedef typename Allocator::pointer			pointer;
 			typedef typename Allocator::const_pointer	const_pointer;
 			
-			typedef rb_tree_node<Val>					node;
-			typedef rb_tree_node						*node_ptr;
-			typedef const rb_tree_node					*const_node_ptr;
+			typedef rb_tree_node< Key, Value >			node_value;
+			typedef rb_tree_node< Key, Value >			*node_pointer;
+
+			node_pointer								root;
+			size_type									size;
 
 	// CONSTRUCTOR
 
@@ -98,6 +109,26 @@ namespace ft
 	// ASSIGNMENT OPERATOR
 
 			rb_tree		&operator=( const rb_tree &rhs );
+
+	// MEMBER FUNCTION
+
+			void		add( const key_type &k, const value_type &v )
+			{
+				node_pointer	node = new rb_tree_node(k, v);
+				if (!root)
+				{
+					root = node;
+					root->color = black;
+					size++;
+				}
+				else
+				{
+					_add(root, node);
+					size++;
+				}
+			}
+
+			void		_add()
 	};
 	
 }
