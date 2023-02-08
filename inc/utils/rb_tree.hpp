@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/08 11:24:30 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:17:53 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ namespace ft
 			typedef rb_tree_node< Key, Value >			node_value;
 			typedef rb_tree_node< Key, Value >			*node_pointer;
 
-			node_pointer								root;
+			node_value									root;
 			size_type									size;
 
 	// CONSTRUCTOR
@@ -112,9 +112,46 @@ namespace ft
 
 	// MEMBER FUNCTION
 
+			size_type	blackNodes(node_value node)
+			{
+				if (!node)
+					return 1;
+				size_type	rightBlackNode = blackNodes(node.right);
+				size_type	leftBlackNode = blackNodes(node.left);
+				if (rightBlackNode != leftBlackNode)
+				{
+					// throw error
+					// or fix the tree
+				}
+				else
+				{
+					if (node.color == black)
+						leftBlackNode++;
+					return leftBlackNode;
+				}
+			}
+
+			size_type	height( void )
+			{
+				if (!root)
+					return 0;
+				return height(root) - 1;
+			}
+
+			size_type	height(node_value node)
+			{
+				if (!node)
+					return 0;
+				size_type	leftheight = height(node.left) + 1;
+				size_type	rightheight = height(node.right) + 1;
+				if (leftheight > rightheight)
+					return leftheight;
+				return rightheight;
+			}
+
 			void		add( const key_type &k, const value_type &v )
 			{
-				node_pointer	node = new rb_tree_node(k, v);
+				node_value	node = new rb_tree_node(k, v);
 				if (!root)
 				{
 					root = node;
@@ -126,9 +163,147 @@ namespace ft
 					_add(root, node);
 					size++;
 				}
+				checkColor(node);
 			}
 
-			void		_add()
+			void		rotateLeftRight(node_value grandparent)
+			{
+				rotateLeft(grandparent.left);
+				rotateRight(grandparent);
+			}
+
+			void		rotateLeft(node_value grandparent)
+			{
+				node_value	tmp = grandparent.right;
+				grandparent.right = tmp.left;
+				if (grandparent.right)
+				{
+					grandparent.right.parent = grandparent;
+					grandparent.right.is_left = false
+				}
+				if (grandparent.parent == NULL) // grandparent is root
+				{
+					root = tmp;
+					tmp.parent = NULL;
+				}
+				else
+				{
+					tmp.parent = grandparent.parent;
+					if (grandparent.is_left)
+					{
+						tmp.is_left = true;
+						tmp.parent.left = tmp;
+					}
+					else
+					{
+						tmp.is_left = false;
+						tmp.parent.right = tmp;
+					}
+				}
+				tmp.left = grandparent;
+				grandparent.is_left = true;
+				grandparent.parent = tmp;
+			}
+
+			void		rotate(node_value node)
+			{
+				if (node.is_left)
+				{
+					if (node.parent.is_left)
+					{
+						rotateRight(node.parent.parent);
+						node.color = red;
+						node.parent.color = black;
+						if (node.parent.right)
+							node.parent.right.color = red;
+					}
+					else
+					{
+						rotateRightLeft(node.parent.parent);
+						node.color = black;
+						node.right.color = red;
+						node.left.color = red;
+					}
+				}
+				else
+				{
+					if (node.parent.is_left)
+					{
+						rotateLeft(node.parent.parent);
+						node.color = red;
+						node.parent.color = black;
+						if (node.parent.right)
+							node.parent.right.color = red;
+					}
+					else
+					{
+						rotateLeftRight(node.parent.parent);
+						node.color = black;
+						node.right.color = red;
+						node.left.color = red;
+					}
+				}
+			}
+
+			void		correctTree(node_value node)
+			{
+				if (node.parent.is_left) // aunt is grandparent right child
+				{
+					if (node.parent.parent.right == NULL || node.parent.parent.right.color == black)
+						return rotate(node);
+					if (node.parent.parent.right != NULL)
+						node.parent.parent.right.color = black;
+					node.parent.parent.color = red;
+					node.parent.color = black;
+					return ;
+				}
+				else // aunt is grandparent left child
+				{
+					if (node.parent.parent.left == NULL || node.parent.parent.left.color == black)
+						return rotate(node);
+					if (node.parent.parent.left != NULL)
+						node.parent.parent.left.color = black;
+					node.parent.parent.color = red;
+					node.parent.color = black;
+					return ;
+				}
+			}
+
+			void		checkColor(node_value node)
+			{
+				if (node == root)
+					return ;
+				if (node.color == red && node.parent.color == red)
+					correctTree(node);
+			}
+
+		private:
+
+	// PRIVATE MEMBER FUNCTION 
+
+			void		_add( node_value parent, node_value newNode )
+			{
+				
+				if(((Comparable<Key>)newNode.key)compareTo(parent.key) > 0)
+				{
+					if (!parent.right)
+					{
+						parent.right = newNode;
+						newNode.parent = parent;
+						newNode.is_left = false;
+						return ;
+					}
+					return _add(parent.right, newNode);
+				}
+				if (!parent.left)
+				{
+					parent.left = newNode;
+					newNode.parent = parent;
+					newNode.is_left = true;
+					return ;
+				}
+				return _add(parent.left, newNode);
+			}
 	};
 	
 }
