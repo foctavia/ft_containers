@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 14:33:35 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:02:21 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,125 +127,103 @@ namespace ft
 
 	// MEMBER FUNCTIONS
 			
-// 		// Member functions for element access
+		// Member functions for element access
 			
-// 		Iter const	&base() const									{ return current; }
+			node_pointer		base() const				{ return this->node; }
 		
-		reference	operator*( void ) const							{ return this->node->value; }
+			reference			operator*( void ) const		{ return this->node->value; }
 
-// 		pointer		operator->( void ) const 						{ return current; }
+			pointer				operator->( void ) const	{ return &this->node->value; }
 
-// 		// Member functions for overload operator
+		// Member functions for overload operator
 
-// 		random_access_iterator	operator++( int )					{ return random_access_iterator(current++); }
+			// rb_tree_iterator	&operator++( void )
+			// {
+			// 	node = rb_increment(node);
+			// 	return *this;
+			// }
 
-// 		random_access_iterator	operator--( int )					{ return random_access_iterator(current--); }
+			// rb_tree_iterator	operator++( int )
+			// {
+			// 	rb_tree_iterator	tmp = *this;
+			// 	node = rb_increment(node);
+			// 	return tmp;
+			// }
 
-// 		random_access_iterator	&operator++( void )
-// 		{
-// 			++current;
-// 			return *this;
-// 		}
+			// rb_tree_iterator	&operator--( void )
+			// {
+			// 	node = rb_decrement(node);
+			// 	return *this;
+			// }
 
-// 		random_access_iterator	&operator--( void )
-// 		{
-// 			--current;
-// 			return *this;
-// 		}
+			// rb_tree_iterator	operator--( int )
+			// {
+			// 	rb_tree_iterator	tmp = *this;
+			// 	node = rb_decrement(node);
+			// 	return tmp;
+			// }
 
-// 		random_access_iterator	&operator+=( const difference_type &n )
-// 		{
-// 			current += n;
-// 			return *this;
-// 		}
+			bool				operator==( const rb_tree_iterator &other ) const
+			{
+				return this->node == other.node;
+			}
 
-// 		random_access_iterator	&operator-=( const difference_type &n )
-// 		{
-// 			current -= n;
-// 			return *this;
-// 		}
-
-// 		random_access_iterator	operator+( const difference_type &n ) const
-// 		{
-// 			return random_access_iterator( current + n );
-// 		}
-		
-// 		random_access_iterator	operator-( const difference_type &n ) const
-// 		{
-// 			return random_access_iterator( current - n );
-// 		}
-
-// 		difference_type			operator+( const random_access_iterator &it ) const
-// 		{
-// 			return current + it.current;
-// 		}
-
-// 		difference_type			operator-( const random_access_iterator &it ) const
-// 		{
-// 			return current - it.current;
-// 		}
+			bool				operator!=( const rb_tree_iterator &other ) const
+			{
+				return this->node != other.node;
+			}
 
 	};
 
-// 	// NON-MEMBER FUNCTION
+	// NON-MEMBER FUNCTION
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator==( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() == rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator==( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() == rhs.base(); }
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator!=( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() != rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator!=( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() != rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator==( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() == rhs.base(); }
+	template< typename T >
+	inline bool	operator==( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs )
+	{ return lhs.base() == rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator!=( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() != rhs.base(); }
+	template< typename T >
+	inline bool	operator!=( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs )
+	{ return lhs.base() != rhs.base(); }
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator<( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() < rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator<( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() < rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator<( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() < rhs.base(); }
+	template< typename T >
+	inline bool	operator<( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs )
+	{ return lhs.base() < rhs.base(); }
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator>( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() > rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator>( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() > rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator>( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() > rhs.base(); }
+	template< typename T >
+	inline bool	operator>( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs )
+	{ return lhs.base() > rhs.base(); }
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator<=( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() <= rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator<=( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() <= rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator<=( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() <= rhs.base(); }
+	template< typename T >
+	inline bool	operator<=( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs)
+	{ return lhs.base() <= rhs.base(); }
 
-// 	template< typename Iter1, typename Iter2 >
-// 	inline bool	operator>=( const random_access_iterator< Iter1 > &lhs, const random_access_iterator< Iter2 > &rhs )
-// 	{ return lhs.base() >= rhs.base(); }
+	template< typename T1, typename T2 >
+	inline bool	operator>=( const rb_tree_iterator< T1 > &lhs, const rb_tree_iterator< T2 > &rhs )
+	{ return lhs.base() >= rhs.base(); }
 
-// 	template< typename Iter >
-// 	inline bool	operator>=( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs )
-// 	{ return lhs.base() >= rhs.base(); }
-
-// 	template< typename Iter >
-// 	inline typename random_access_iterator< Iter >::difference_type
-// 	operator-( const random_access_iterator< Iter > &lhs, const random_access_iterator< Iter > &rhs)
-// 	{ return lhs.base() - rhs.base(); }
-	
-// 	template< typename Iter >
-// 	inline random_access_iterator< Iter >
-// 	operator+( typename random_access_iterator< Iter >::difference_type n, const random_access_iterator< Iter > &i )
-// 	{ return random_access_iterator<Iter>(i.base() + n); }
+	template< typename T >
+	inline bool	operator>=( const rb_tree_iterator< T > &lhs, const rb_tree_iterator< T > &rhs )
+	{ return lhs.base() >= rhs.base(); }
 	
 }
 
