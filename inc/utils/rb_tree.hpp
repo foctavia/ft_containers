@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 15:32:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:54:23 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ namespace ft
 	// CONSTRUCTOR
 			
 			rb_tree( const Compare &comp, const allocator_type &alloc = allocator_type() )
-				: _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
+				: _root( NULL ), _leaf( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
 
 			rb_tree( const rb_tree &src )
-				: _root( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
+				: _root( NULL ), _leaf( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
 			{
 				*this = src;
 			}
@@ -88,20 +88,60 @@ namespace ft
 			}
 
 	// MEMBER FUNCTION
+	
+	// 	// Getter
 
-		// Member functions for Iterator
+	// 		allocator_type			get_allocator( void ) const;
+
+	// 	// Member functions for Iterator
 		
-			iterator				begin( void );
-			const_iterator			begin( void ) const;
+	// 		iterator				begin( void );
+	// 		const_iterator			begin( void ) const;
 
-			iterator				end( void );
-			const_iterator			end( void ) const;
+	// 		iterator				end( void );
+	// 		const_iterator			end( void ) const;
 
-			reverse_iterator		rbegin( void );
-			const_reverse_iterator	rbegin( void ) const;
+	// 		reverse_iterator		rbegin( void );
+	// 		const_reverse_iterator	rbegin( void ) const;
 
-			reverse_iterator		rend( void );
-			const_reverse_iterator	rend( void ) const;
+	// 		reverse_iterator		rend( void );
+	// 		const_reverse_iterator	rend( void ) const;
+
+	// 	// Member functions for Capacity
+		
+	// 		bool					empty( void ) const;
+
+	// 		size_type				size( void ) const;
+
+	// 		size_type				max_size( void ) const;
+
+	// 	// Member functions for Modifiers
+		
+	// 		void					clear( void );
+
+	// 		ft::pair<iterator, bool>	
+	// 			insert( const value_type &value );
+	// 		iterator				insert( iterator pos, const value_type &value );
+	// 		template< class InputIt >
+	// 		void					insert( InputIt first, InputIt last );
+
+	//		 iterator				erase( iterator pos )
+			// {
+			// 	iterator	result = pos;
+				
+			// 	++result;
+				
+			// 	node_pointer	tmp; //rebalance_tree_erase(_root, _leaf);
+				
+			// 	node_allocator.destroy(tmp);
+			// 	node_allocator.deallocate(tmp, 1);
+				
+			// 	return result;
+			// }
+			
+	// 		iterator				erase( iterator first, iterator last );
+
+	// 		void					swap( rb_tree &other );
 
 		// Member functions for Observers
 			
@@ -152,7 +192,7 @@ namespace ft
 				return rightheight;
 			}
 
-			ft::pair<node_pointer, bool>		insert( const value_type &v )
+			void		insert( const value_type &v )
 			{
 				node_pointer	node = new node_pointer(v);
 				
@@ -167,10 +207,12 @@ namespace ft
 					_insert(_root, node);
 					_size++;
 				}
+
 			}
 
 		private:
 
+			node_pointer	_leaf;
 			node_pointer	_root;
 			size_type		_size;
 			key_compare		_comp;
@@ -178,20 +220,34 @@ namespace ft
 
 	// PRIVATE MEMBER FUNCTION
 
+			node_pointer	_createNode( const value_type &val )
+			{
+				node_pointer	tmp = _node_alloc::allocate(1);
+				
+				_node_alloc.construct(tmp, val);
 
-			void		_rotateLeftRight(node_pointer grandparent)
+				return tmp;
+			}
+
+			void			_destroyNode( node_pointer node )
+			{
+				_node_alloc.destroy(node);
+				_node_alloc.dealocate(node, 1);
+			}
+
+			void			_rotateLeftRight(node_pointer grandparent)
 			{
 				_rotateLeft(grandparent->left);
 				_rotateRight(grandparent);
 			}
 
-			void		_rotateRightLeft(node_pointer grandparent)
+			void			_rotateRightLeft(node_pointer grandparent)
 			{
 				_rotateRight(grandparent->right);
 				_rotateLeft(grandparent);
 			}
 
-			void		_rotateRight(node_pointer grandparent)
+			void			_rotateRight(node_pointer grandparent)
 			{
 				node_pointer	tmp = grandparent->left;
 				grandparent->left = tmp->right;
@@ -224,7 +280,7 @@ namespace ft
 				grandparent->parent = tmp;
 			}
 
-			void		_rotateLeft(node_pointer grandparent)
+			void			_rotateLeft(node_pointer grandparent)
 			{
 				node_pointer	tmp = grandparent->right;
 				grandparent->right = tmp->left;
@@ -257,7 +313,7 @@ namespace ft
 				grandparent->parent = tmp;
 			}
 
-			void		_rotate(node_pointer node)
+			void			_rotate(node_pointer node)
 			{
 				if (node->is_left)
 				{
@@ -297,7 +353,7 @@ namespace ft
 				}
 			}
 
-			void		_correctTree(node_pointer node)
+			void			_correctTree(node_pointer node)
 			{
 				if (node->parent->is_left) // aunt is grandparent right child
 				{
@@ -319,7 +375,7 @@ namespace ft
 				}
 			}
 
-			void		_checkColor(node_pointer node)
+			void			_checkColor(node_pointer node)
 			{
 				if (node == _root)
 					return ;
@@ -327,7 +383,7 @@ namespace ft
 					_correctTree(node);
 			}
 
-			void		_insert( node_pointer parent, node_pointer newNode )
+			void			_insert( node_pointer parent, node_pointer newNode )
 			{
 				if(_comp(parent->value, newNode->value))
 				{
