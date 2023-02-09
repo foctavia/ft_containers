@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/07 20:01:10 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:36:11 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <stdexcept>
 # include <iostream>
 
-# include <biderectional_iterator_hpp>
+# include <rb_tree_utils.hpp>
+# include <rb_tree.hpp>
 # include <utility.hpp>
 # include <type_traits.hpp>
 # include <reverse_iterator.hpp>
@@ -46,11 +47,14 @@ namespace ft
 			typedef typename Allocator::pointer						pointer;
 			typedef typename Allocator::const_pointer				const_pointer;
 
-			typedef ft::bidirectional_iterator< value_type > 		iterator;
-			typedef ft::const_bidirectional_iterator< value_type >	const_iterator;
+			typedef ft::rb_tree_iterator< T >						iterator;
+			typedef ft::rb_tree_iterator< const T >					const_iterator;
 			
 			typedef ft::reverse_iterator< iterator >				reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >			const_reverse_iterator;
+
+			typedef ft::rb_tree< key_type, value_type, key_compare, allocator_type >
+																	tree_type;
 
 			/* VALUE_COMPARE ************************************************************** */
 
@@ -171,6 +175,13 @@ namespace ft
 	// 		key_compare				key_comp( void ) const;
 			
 	// 		ft::map::value_compare	value_comp( void ) const;
+
+		private:
+
+			tree_type		_tree;
+			size_type		_size;
+			key_compare		_comp;
+			allocator_type	_alloc;
 			
 	};
 	

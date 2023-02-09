@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 12:01:04 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/09 14:33:35 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace ft
 			rb_tree_node( void ) 
 				: value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
 			
-			rb_tree_node( const key_type &k, const value_type &v ) 
+			rb_tree_node( const value_type &v ) 
 				: value( v ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
 			
 			rb_tree_node( const rb_tree_node &src)
@@ -134,8 +134,6 @@ namespace ft
 		reference	operator*( void ) const							{ return this->node->value; }
 
 // 		pointer		operator->( void ) const 						{ return current; }
-
-// 		reference	operator[]( const difference_type &n ) const	{ return *(current + n); }
 
 // 		// Member functions for overload operator
 

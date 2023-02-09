@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/07 10:38:38 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:36:30 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
     #include <map>
     #include <stack>
     #include <vector>
+	#include <map>
 	#include <type_traits>
     namespace ft = std;
 #else
     #include <type_traits.hpp>
 	#include <vector.hpp>
+	#include <map.hpp>
 #endif
 
 #include <ios>
@@ -288,13 +290,19 @@ void vectorTest()
 	
 }
 
+void mapTest()
+{
+	
+}
+
 int main()
 {
 	// is_integralTest();
 	// std::cout << std::endl;
 	// enable_ifTest();
 	// std::cout << std::endl;
-	vectorTest();
+	// vectorTest();
+	mapTest();
     return 0;
 }
 
