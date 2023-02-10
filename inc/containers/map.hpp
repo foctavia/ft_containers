@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 17:49:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:07:54 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdexcept>
 # include <iostream>
+# include <functional>
 
 # include <rb_tree_utils.hpp>
 # include <rb_tree.hpp>
@@ -33,28 +34,34 @@ namespace ft
 	{
 		public:
 
-			typedef Key												key_type;
-			typedef T												mapped_type;
-			typedef ft::pair< const Key, T >						value_type;
-			typedef Compare											key_compare;
-			typedef Allocator										allocator_type;
+			class											value_compare;
+	
+			typedef Key										key_type;
+			typedef T										mapped_type;
+			typedef ft::pair< const Key, T >				value_type;
+			typedef Compare									key_compare;
+			typedef Allocator								allocator_type;
 			
-			typedef typename Allocator::size_type					size_type;
-			typedef typename Allocator::difference_type				difference_type;
+			typedef typename Allocator::size_type			size_type;
+			typedef typename Allocator::difference_type		difference_type;
 
-			typedef typename Allocator::reference					reference;
-			typedef typename Allocator::const_reference				const_reference;
-			typedef typename Allocator::pointer						pointer;
-			typedef typename Allocator::const_pointer				const_pointer;
+			typedef typename Allocator::reference			reference;
+			typedef typename Allocator::const_reference		const_reference;
+			typedef typename Allocator::pointer				pointer;
+			typedef typename Allocator::const_pointer		const_pointer;
 
-			typedef ft::rb_tree_iterator< T >						iterator;
-			typedef ft::rb_tree_iterator< const T >					const_iterator;
+		private:
+		
+			typedef ft::rb_tree< key_type, value_type, value_compare, allocator_type >
+															tree_type;
+
+		public:
+																	
+			typedef typename tree_type::iterator			iterator;
+			typedef typename tree_type::const_iterator		const_iterator;
 			
-			typedef ft::reverse_iterator< iterator >				reverse_iterator;
-			typedef ft::reverse_iterator< const_iterator >			const_reverse_iterator;
-
-			typedef ft::rb_tree< key_type, value_type, key_compare, allocator_type >
-																	tree_type;
+			typedef ft::reverse_iterator< iterator >		reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
 			/* VALUE_COMPARE ************************************************************** */
 
@@ -82,24 +89,33 @@ namespace ft
 					}
 			};
 
-	// // CONSTRUCTOR
+	// CONSTRUCTOR
 
-	// 		map( void );
+			explicit map( const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type() )
+				: _tree( comp, alloc ), _comp( comp ), _alloc( alloc ) { }
 
-	// 		explicit map( const Compare& comp, const Allocator &alloc = Allocator() );
-
-	// 		template< class InputIt >
-	// 		map( InputIt first, InputIt last, const Compare &comp = Compare(), const Allocator &alloc = Allocator() );
+			// template< class InputIt >
+			// map( InputIt first, InputIt last, const Compare &comp = Compare(), const Allocator &alloc = Allocator() );
 			
-	// 		map( const map &other );
+			// map( const map &src )
+			// 	: _tree( 0 ), _comp( src._comp ), _alloc( src._alloc )
+			// {
+			// 	*this = src;
+			// }
 
-	// // DESTRUCTOR
+	// DESTRUCTOR
 
-	// 		~map( void );
+			~map( void );
 
-	// // ASSIGNMENT OPERATOR
+	// ASSIGNMENT OPERATOR
 
-	// 		map						&operator=( const map &other );
+			// map						&operator=( const map &rhs )
+			// {
+			// 	if (this != &rhs)
+			// 		this->insert(rhs.begin(), rhs.last());
+
+			// 	return *this;
+			// }
 
 	// // MEMBER FUNCTION
 	
@@ -112,7 +128,7 @@ namespace ft
 	// 		mapped_type				&at( const key_type &key );
 	// 		const mapped_type		&at( const key_type &key ) const;
 
-	// 		mapped_type				&operator[]( const key_type &key );
+			// mapped_type				&operator[]( const key_type &key );
 
 	// 	// Member functions for Iterator
 		
@@ -140,9 +156,10 @@ namespace ft
 		
 	// 		void					clear( void );
 
-	// 		ft::pair<iterator, bool>	
-	// 			insert( const value_type &value );
-	// 		iterator				insert( iterator pos, const value_type &value );
+			ft::pair<iterator, bool>	
+				insert( const value_type &value )									{ return _tree.insert(value); }
+			
+			// iterator				insert( iterator pos, const value_type &value );
 	// 		template< class InputIt >
 	// 		void					insert( InputIt first, InputIt last );
 
@@ -179,7 +196,6 @@ namespace ft
 		private:
 
 			tree_type		_tree;
-			size_type		_size;
 			key_compare		_comp;
 			allocator_type	_alloc;
 			

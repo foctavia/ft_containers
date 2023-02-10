@@ -6,12 +6,14 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 10:22:23 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:11:25 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
+
+# include <functional>
 
 # include <rb_tree_utils.hpp>
 # include <utility.hpp>
@@ -29,7 +31,7 @@ namespace ft
 
 			typedef Key										key_type;
 			typedef Value									value_type;
-			typedef Compare									key_compare;
+			typedef Compare									value_compare;
 			typedef Allocator								allocator_type;
 			
 			typedef typename Allocator::size_type			size_type;
@@ -47,18 +49,18 @@ namespace ft
 			typedef ft::rb_tree_iterator< const Value >		const_iterator;
 
 			typedef ft::reverse_iterator< iterator >		reverse_iterator;
-			typedef ft::reverse_iterator< const iterator >	const_reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
 			typedef typename Allocator::template rebind< node_type >::other
 														node_allocator;
 
 	// CONSTRUCTOR
 			
-			explicit rb_tree( const key_compare &comp, const allocator_type &alloc = allocator_type() )
-				: _root( NULL ), _leaf( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
+			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
+				: _leaf( NULL ), _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
 
 			rb_tree( const rb_tree &src )
-				: _root( NULL ), _leaf( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
+				: _leaf( NULL ), _root( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
 			{
 				*this = src;
 			}
@@ -67,7 +69,7 @@ namespace ft
 
 			~rb_tree( void )
 			{
-				this->clear();
+				// this->clear();
 			}
 
 	// ASSIGNMENT OPERATOR
@@ -76,12 +78,12 @@ namespace ft
 			{
 				if (this != &rhs)
 				{
-					this->clear();
-					this->_comp = rhs._comp;
-					if (rhs._root)
-					{
-						// copying or insert
-					}
+					// this->clear();
+					// this->_comp = rhs._comp;
+					// if (rhs._root)
+					// {
+					// 	// copying or insert
+					// }
 				}
 
 				return *this;
@@ -146,13 +148,6 @@ namespace ft
 
 	// 		void					swap( rb_tree &other );
 
-		// Member functions for Observers
-			
-			key_compare				key_comp( void ) const
-			{
-				return this->_comp;
-			}
-
 // 			size_type	countBlackNodes( node_pointer node )
 // 			{
 // 				if (!node)
@@ -195,9 +190,31 @@ namespace ft
 				return rightheight;
 			}
 
-			void		insert( const value_type &v )
+			node_pointer	_isExist(const value_type &val )
 			{
-				node_pointer	node = new node_pointer(v);
+				node_pointer	tmp = _root;
+
+				while (tmp)
+				{
+					if (_comp(val, tmp->value))
+						tmp = tmp->left;
+					else if (_comp(tmp->value, val))
+						tmp = tmp->right;
+					else
+						return tmp;
+				}
+				
+				return NULL;
+			}
+
+			ft::pair< iterator, bool >		insert( const value_type &val )
+			{
+				node_pointer	tmp = _isExist(val);
+				
+				if (tmp)
+					return ft::make_pair(iterator(tmp), false);
+				
+				node_pointer	node = _createNode(val);
 				
 				if (!_root)
 				{
@@ -210,7 +227,8 @@ namespace ft
 					_insert(_root, node);
 					_size++;
 				}
-
+				
+				return ft::make_pair(iterator(node), true);
 			}
 
 		private:
@@ -218,7 +236,7 @@ namespace ft
 			node_pointer	_leaf;
 			node_pointer	_root;
 			size_type		_size;
-			key_compare		_comp;
+			value_compare	_comp;
 			node_allocator	_node_alloc;
 
 	// PRIVATE MEMBER FUNCTION

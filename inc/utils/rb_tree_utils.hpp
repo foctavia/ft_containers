@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 16:02:21 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 14:49:48 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,26 @@ namespace ft
 	template< typename T >
 	class rb_tree_iterator : public std::iterator< std::bidirectional_iterator_tag, T, std::ptrdiff_t, T *, T & >
 	{		
-		protected:
-
-			typedef ft::iterator_traits< T >				traits_type;
-
 		public:
 			
-			typedef T										*iterator_type;
-			typedef std::bidirectional_iterator_tag			iterator_category;
-			typedef typename traits_type::value_type		value_type;
-			typedef typename traits_type::difference_type	difference_type;
-			typedef typename traits_type::reference			reference;
-			typedef typename traits_type::pointer			pointer;
 
-			typedef rb_tree_node< T >						node_type;
-			typedef rb_tree_node< T >						*node_pointer;
+			typedef T								value_type;
+			typedef std::bidirectional_iterator_tag	iterator_category;
+			typedef T								&reference;
+			typedef const T							&const_reference;
+			typedef T								*pointer;
+			typedef const T							*const_pointer;
 
-			typedef rb_tree_iterator< T >					iterator;
-			typedef rb_tree_iterator< const T >				const_iterator;
+			typedef rb_tree_node< T >				node_type;
+			typedef rb_tree_node< const T >			const_node_type;
 
-			node_pointer									node;
+			typedef rb_tree_node< T >				*node_pointer;
+			typedef rb_tree_node< const T >			*const_node_pointer;
+
+			typedef rb_tree_iterator< T >			iterator;
+			typedef rb_tree_iterator< const T >		const_iterator;
+
+			node_pointer							node;
 
 	// CONSTRUCTOR
 
@@ -135,6 +135,7 @@ namespace ft
 
 			pointer				operator->( void ) const	{ return &this->node->value; }
 
+			// operator			const_iterator() const		{ return const_iterator(reinterpret_cast<const_node_pointer>(node)); }
 		// Member functions for overload operator
 
 			// rb_tree_iterator	&operator++( void )
