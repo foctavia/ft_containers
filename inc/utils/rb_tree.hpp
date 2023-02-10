@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/09 17:54:23 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 10:22:23 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
 
 	// CONSTRUCTOR
 			
-			rb_tree( const Compare &comp, const allocator_type &alloc = allocator_type() )
+			explicit rb_tree( const key_compare &comp, const allocator_type &alloc = allocator_type() )
 				: _root( NULL ), _leaf( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
 
 			rb_tree( const rb_tree &src )
@@ -89,9 +89,12 @@ namespace ft
 
 	// MEMBER FUNCTION
 	
-	// 	// Getter
+		// Getter
 
-	// 		allocator_type			get_allocator( void ) const;
+			allocator_type			get_allocator( void ) const
+			{
+				return allocator_type(this->_node_alloc);
+			}
 
 	// 	// Member functions for Iterator
 		
@@ -222,7 +225,7 @@ namespace ft
 
 			node_pointer	_createNode( const value_type &val )
 			{
-				node_pointer	tmp = _node_alloc::allocate(1);
+				node_pointer	tmp = _node_alloc.allocate(1);
 				
 				_node_alloc.construct(tmp, val);
 
@@ -267,7 +270,7 @@ namespace ft
 					if (grandparent->is_left)
 					{
 						tmp->is_left = true;
-						tmp->parent.left = tmp;
+						tmp->parent->left = tmp;
 					}
 					else
 					{
@@ -300,7 +303,7 @@ namespace ft
 					if (grandparent->is_left)
 					{
 						tmp->is_left = true;
-						tmp->parent.left = tmp;
+						tmp->parent->left = tmp;
 					}
 					else
 					{
@@ -315,72 +318,77 @@ namespace ft
 
 			void			_rotate(node_pointer node)
 			{
-				if (node->is_left)
+				if (node->is_left && node->parent->is_left) // node is left child and parent is left child
 				{
-					if (node->parent->is_left)
-					{
-						_rotateRight(node->parent->parent);
-						node->color = red;
-						node->parent->color = black;
-						if (node->parent->right)
-							node->parent->right->color = red;
-					}
-					else
-					{
-						_rotateRightLeft(node->parent->parent);
-						node->color = black;
-						node->right->color = red;
-						node->left->color = red;
-					}
+					_rotateRight(node->parent->parent);
+					node->color = red;
+					node->parent->color = black;
+					if (node->parent->right)
+						node->parent->right->color = red;
 				}
-				else
+				else if (node->is_left && !node->parent->is_left) // node is left child and parent is right child
 				{
-					if (node->parent->is_left)
-					{
-						_rotateLeft(node->parent->parent);
-						node->color = red;
-						node->parent->color = black;
-						if (node->parent->right)
-							node->parent->right->color = red;
-					}
-					else
-					{
-						_rotateLeftRight(node->parent->parent);
-						node->color = black;
-						node->right->color = red;
-						node->left->color = red;
-					}
+					_rotateRightLeft(node->parent->parent);
+					node->color = black;
+					node->right->color = red;
+					node->left->color = red;
 				}
+				else if (!node->is_left && !node->parent->is_left) // node is right child and parent is right child
+				{
+					_rotateLeft(node->parent->parent);
+					node->color = red;
+					node->parent->color = black;
+					if (node->parent->left)
+						node->parent->left->color = red;
+				}
+				else // node is right child and parent is left child
+				{
+					_rotateLeftRight(node->parent->parent);
+					node->color = black;
+					node->right->color = red;
+					node->left->color = red;
+				}
+			}
+
+			node_pointer	_getAunt(node_pointer node)
+			{
+				if (!node->parent)
+					return NULL;
+				if (node->parent->is_left) // if parent is left child then aunt is right child of grandparent
+					return node->parent->parent->right;
+				
+				return node->parent->parent->left;	// if parent is right child then aunt is left child of grandparent
+			}
+
+			void			_colorFlip(node_pointer node)
+			{
+				node_pointer	aunt = _getAunt(node);
+				
+				if (aunt)
+					aunt->color = black;		
+				node->parent->parent->color = red;
+				node->parent->color = black;
 			}
 
 			void			_correctTree(node_pointer node)
 			{
-				if (node->parent->is_left) // aunt is grandparent right child
-				{
-					if (node->parent->parent->right == NULL || node->parent->parent->right->color == black)
-						return _rotate(node);
-					if (node->parent->parent->right != NULL)
-						node->parent->parent->right->color = black;
-					node->parent->parent->color = red;
-					node->parent->color = black;
-				}
-				else // aunt is grandparent left child
-				{
-					if (node->parent->parent->left == NULL || node->parent->parent->left->color == black)
-						return _rotate(node);
-					if (node->parent->parent->left != NULL)
-						node->parent->parent->left->color = black;
-					node->parent->parent->color = red;
-					node->parent->color = black;
-				}
+				node_pointer	aunt = _getAunt(node);
+
+				if (aunt == NULL || aunt->color == black)
+					return _rotate(node);
+				_colorFlip(node);
 			}
 
 			void			_checkColor(node_pointer node)
 			{
 				if (node == _root)
+				{
+					node->color = black;
 					return ;
+				}
 				if (node->color == red && node->parent->color == red)
 					_correctTree(node);
+				_checkColor(node->parent);
 			}
 
 			void			_insert( node_pointer parent, node_pointer newNode )
