@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:25:20 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:51:36 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ namespace ft
 
 	// DESTRUCTOR
 
-			~map( void )
-			{}
+			~map( void )	{ }
 
 	// ASSIGNMENT OPERATOR
 
@@ -129,15 +128,15 @@ namespace ft
 	// 		mapped_type				&at( const key_type &key );
 	// 		const mapped_type		&at( const key_type &key ) const;
 
-			// mapped_type				&operator[]( const key_type &key );
+	//		mapped_type				&operator[]( const key_type &key );
 
 	// 	// Member functions for Iterator
 		
-	// 		iterator				begin( void );
-	// 		const_iterator			begin( void ) const;
+	// 		iterator				begin( void )									{ return _tree.begin(); }
+	// 		const_iterator			begin( void ) const								{ return _tree.begin(); }
 
-	// 		iterator				end( void );
-	// 		const_iterator			end( void ) const;
+	// 		iterator				end( void )										{ return _tree.end(); }
+	// 		const_iterator			end( void ) const								{ return _tree.end(); }
 
 	// 		reverse_iterator		rbegin( void );
 	// 		const_reverse_iterator	rbegin( void ) const;
@@ -147,7 +146,7 @@ namespace ft
 
 	// 	// Member functions for Capacity
 		
-			bool					empty( void ) const			{ return _tree.empty(); }
+			bool					empty( void ) const								{ return _tree.empty(); }
 
 	// 		size_type				size( void ) const;
 
@@ -160,9 +159,11 @@ namespace ft
 			ft::pair<iterator, bool>	
 				insert( const value_type &value )									{ return _tree.insert(value); }
 			
-			// iterator				insert( iterator pos, const value_type &value );
-	// 		template< class InputIt >
-	// 		void					insert( InputIt first, InputIt last );
+	//		iterator				insert( iterator pos, const value_type &value );
+	
+			template< class InputIt >
+			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
+																					{ return _tree.insert(first, last); }
 
 	// 		iterator				erase( iterator pos );
 	// 		iterator				erase( iterator first, iterator last );

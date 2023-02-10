@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:29:32 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:55:09 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,53 @@ namespace ft
 
 	// 	// Member functions for Capacity
 		
-			bool					empty( void ) const		{ return _size == 0; }
+			bool					empty( void ) const		{ return this->_size == 0; }
 
-	// 		size_type				size( void ) const;
+			size_type				size( void ) const		{ return this->_size; }
 
-	// 		size_type				max_size( void ) const;
+			size_type				max_size( void ) const	{ return this->_node_alloc.max_size(); }
 
 	// 	// Member functions for Modifiers
 		
-	// 		void					clear( void );
+	// 		void					clear( void );	
 
-	// 		ft::pair<iterator, bool>	
-	// 			insert( const value_type &value );
+			ft::pair< iterator, bool >		insert( const value_type &val )
+			{
+				node_pointer	tmp = _isExist(val);
+				
+				if (tmp)
+					return ft::make_pair(iterator(tmp), false);
+				
+				node_pointer	node = _createNode(val);
+				
+				if (!_root)
+				{
+					_root = node;
+					_root->color = black;
+					_size++;
+				}
+				else
+				{
+					_insert(_root, node);
+					_size++;
+				}
+				
+				return ft::make_pair(iterator(node), true);
+			}
+
 	// 		iterator				insert( iterator pos, const value_type &value );
-	// 		template< class InputIt >
-	// 		void					insert( InputIt first, InputIt last );
+	
+			template< class InputIt >
+			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
+			{
+				size_type	distance = std::distance(first, last);
+				
+				if (distance && distance < max_size())
+				{
+					for(; first != last; ++first)
+						insert(*first);
+				}
+			}
 
 	//		 iterator				erase( iterator pos )
 			// {
@@ -147,6 +179,16 @@ namespace ft
 	// 		iterator				erase( iterator first, iterator last );
 
 	// 		void					swap( rb_tree &other );
+
+		private:
+
+			node_pointer	_leaf;
+			node_pointer	_root;
+			size_type		_size;
+			value_compare	_comp;
+			node_allocator	_node_alloc;
+
+	// PRIVATE MEMBER FUNCTION
 
 // 			size_type	countBlackNodes( node_pointer node )
 // 			{
@@ -206,40 +248,6 @@ namespace ft
 				
 				return NULL;
 			}
-
-			ft::pair< iterator, bool >		insert( const value_type &val )
-			{
-				node_pointer	tmp = _isExist(val);
-				
-				if (tmp)
-					return ft::make_pair(iterator(tmp), false);
-				
-				node_pointer	node = _createNode(val);
-				
-				if (!_root)
-				{
-					_root = node;
-					_root->color = black;
-					_size++;
-				}
-				else
-				{
-					_insert(_root, node);
-					_size++;
-				}
-				
-				return ft::make_pair(iterator(node), true);
-			}
-
-		private:
-
-			node_pointer	_leaf;
-			node_pointer	_root;
-			size_type		_size;
-			value_compare	_comp;
-			node_allocator	_node_alloc;
-
-	// PRIVATE MEMBER FUNCTION
 
 			node_pointer	_createNode( const value_type &val )
 			{
