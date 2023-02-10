@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:46:36 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 14:43:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:20:34 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ namespace ft
 
 			pair( void ) : first(), second()	{ }
 
-			explicit pair( const T1 &x, const T2 &y ) : first( x ), second( y )	{ }
+			pair( const T1 &x, const T2 &y ) : first( x ), second( y )	{ }
 			
 			template< class U1, class U2 >
-			explicit pair( const pair<U1, U2> &p ) : first( p.first ), second( p.second ) { }
+			pair( const pair<U1, U2> &p ) : first( p.first ), second( p.second ) { }
 	
 	// ASSIGNMENT OPERATOR
 
@@ -50,14 +50,14 @@ namespace ft
 				return *this;
 			}
 
-			template< class U1, class U2 >
-			pair	&operator=( const pair< U1, U2 > &p )
-			{
-				first = p.first;
-				second = p.second;
+			// template< class U1, class U2 >
+			// pair	&operator=( const pair< U1, U2 > &p )
+			// {
+			// 	first = p.first;
+			// 	second = p.second;
 
-				return *this;
-			}
+			// 	return *this;
+			// }
 	};
 	
 	template< class T1, class T2 >

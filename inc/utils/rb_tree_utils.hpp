@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 14:49:48 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:29:05 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ namespace ft
 
 			pointer				operator->( void ) const	{ return &this->node->value; }
 
-			// operator			const_iterator() const		{ return const_iterator(reinterpret_cast<const_node_pointer>(node)); }
 		// Member functions for overload operator
 
 			// rb_tree_iterator	&operator++( void )

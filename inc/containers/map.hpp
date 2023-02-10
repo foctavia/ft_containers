@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:07:54 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:25:20 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ namespace ft
 
 	// DESTRUCTOR
 
-			~map( void );
+			~map( void )
+			{}
 
 	// ASSIGNMENT OPERATOR
 
@@ -146,7 +147,7 @@ namespace ft
 
 	// 	// Member functions for Capacity
 		
-	// 		bool					empty( void ) const;
+			bool					empty( void ) const			{ return _tree.empty(); }
 
 	// 		size_type				size( void ) const;
 

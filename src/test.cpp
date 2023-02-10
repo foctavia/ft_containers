@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:12:33 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:28:32 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,19 +294,12 @@ void mapTest()
 {
 // mp -> test constructor and insert with value
 
-	ft::map<char,int> mymap;
+	ft::map<char,int> mp;
 	
-		mymap.insert ( ft::pair<char,int>('a',100) );
+		mp.insert ( ft::pair<char,int>('a',100) );
 	
-	// if (mp.empty())
-	// 	std::cout << "is empty" << std::endl;
-		
-	// ft::map<std::string, int>::iterator	it;
-
-	// std::cout << "mp : ";
-	// for(it = mp.begin(); it != mp.end(); ++it)
-	// 		std::cout << *it << " ";	
-	// std::cout << std::endl;
+	if (mp.empty())
+		std::cout << "is empty" << std::endl;
 	
 }
 

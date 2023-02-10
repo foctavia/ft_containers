@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:11:25 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:29:32 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ namespace ft
 
 	// 	// Member functions for Capacity
 		
-	// 		bool					empty( void ) const;
+			bool					empty( void ) const		{ return _size == 0; }
 
 	// 		size_type				size( void ) const;
 
@@ -169,14 +169,14 @@ namespace ft
 // 				}
 // 			}
 
-			size_type	getHeight( void )
+			size_type	_getHeight( void )
 			{
 				if (!_root)
 					return 0;
 				return height(_root) - 1;
 			}
 
-			size_type	height( node_pointer node )
+			size_type	_height( node_pointer node )
 			{
 				if (!node)
 					return 0;
