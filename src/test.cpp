@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 16:40:23 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:05:24 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,8 +300,8 @@ void mapTest()
 	if (mp.empty())
 		std::cout << "mp is empty (before insert)" << std::endl;
 	
+	mp.insert(ft::pair<char, int>('e', 5));
 	mp.insert(pr);
-	// mp.insert(ft::pair<char, int>('e', 5));
 	// mp.insert(ft::pair<char, int>('f', 6));
 	// mp.insert(ft::pair<char, int>('c', 3));
 	// mp.insert(ft::pair<char, int>('h', 8));
@@ -309,20 +309,20 @@ void mapTest()
 	// mp.insert(ft::pair<char, int>('j', 10));
 	// mp.insert(ft::pair<char, int>('b', 2));
 
-	// ft::map<char, int>::iterator	it = mp.begin();
+	ft::map<char, int>::iterator	it = mp.begin();
 	
-	// if (mp.empty())
-	// 	std::cout << "mp is empty (after insert)" << std::endl;
+	if (mp.empty())
+		std::cout << "mp is empty (after insert)" << std::endl;
 	
-	// std::cout << "Mp after insert:" << std::endl;
+	std::cout << "Mp after insert:" << std::endl;
 
-	// while (it != mp.end())
-	// {
-	// 	std::cout << it->first << ", " << it->second << std::endl;
-	// 	it++;
-	// }
+	while (it != mp.end())
+	{
+		std::cout << it->first << ", " << it->second << std::endl;
+		it++;
+	}
 
-	// std::cout << std::endl << "End" << std::endl << std::endl;
+	std::cout << std::endl << "End" << std::endl << std::endl;
 }
 
 int main()

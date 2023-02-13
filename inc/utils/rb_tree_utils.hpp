@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 15:27:00 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:28:44 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ namespace ft
 	// CONSTRUCTOR
 
 			rb_tree_node( void ) 
-				: value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
+				: value( 0 ), parent( 0 ), left( 0 ), right( 0 ), color( red ), is_left( false ) { }
 			
-			rb_tree_node( const value_type &v ) 
-				: value( v ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false ) { }
+			rb_tree_node( const value_type &val ) 
+				: value( val ), parent( 0 ), left( 0 ), right( 0 ), color( red ), is_left( false ) { }
 			
 			rb_tree_node( const rb_tree_node &src)
-				: value( 0 ), parent( NULL ), left( NULL ), right( NULL ), color( red ), is_left( false )
+				: value( 0 ), parent( 0 ), left( 0 ), right( 0 ), color( red ), is_left( false )
 			{
 				*this = src;
 			}

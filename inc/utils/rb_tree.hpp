@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 16:48:38 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:34:28 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ namespace ft
 
 	// CONSTRUCTOR
 			
-			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
+			rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
 				: _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc )
 			{
-				this->_nil = _createNIL();
+				this->_root = _createNIL();
 			}
 
 			rb_tree( const rb_tree &src )
@@ -83,8 +83,8 @@ namespace ft
 				{
 					this->clear();
 					this->_comp = rhs._comp;
-					this->_alloc = rhs._alloc;
-					this->_nil = _createNIL();
+					this->_node_alloc = rhs._node_alloc;
+					this->_root = _createNIL();
 					if (rhs._root)
 					{
 						this->_insert(rhs.begin(), rhs.end());
@@ -98,7 +98,7 @@ namespace ft
 	
 		// Getter
 
-			allocator_type				get_allocator( void ) const	{ return allocator_type(this->_node_alloc); }
+			allocator_type				get_allocator( void ) const	{ return allocator_type(_node_alloc); }
 
 	// 	// Member functions for Iterator
 		
@@ -120,8 +120,8 @@ namespace ft
 			void						clear( void )
 			{
 				_clear(_root);
-				if (_nil)
-					_clear(_nil);
+				// if (_nil)
+				// 	_clear(_nil);
 				_size = 0;
 			}
 
@@ -129,12 +129,12 @@ namespace ft
 			{
 				node_pointer	tmp = get_node(val);
 				
-				if (tmp)
+				if (tmp != _nil)
 					return ft::make_pair(iterator(tmp), false);
 				
 				node_pointer	node = _createNode(val);
 				
-				if (!_root)
+				if (_root == _nil)
 				{
 					_root = node;
 					_root->color = black;
@@ -197,7 +197,7 @@ namespace ft
 			{
 				node_pointer	tmp = _root;
 
-				while (tmp)
+				while (tmp != _nil)
 				{
 					if (_comp(val, tmp->value))
 						tmp = tmp->left;
@@ -206,7 +206,7 @@ namespace ft
 					else
 						break ;
 				}
-				
+
 				return tmp;
 			}
 
@@ -225,7 +225,7 @@ namespace ft
 				node_pointer	tmp = _root;
 				node_pointer	lower = _nil;
 				
-				while (tmp)
+				while (tmp != _nil)
 				{
 					if (!_comp(tmp->value, val))
 					{
@@ -244,7 +244,7 @@ namespace ft
 				node_pointer	tmp = _root;
 				node_pointer	upper = _nil;
 
-				while (tmp)
+				while (tmp != _nil)
 				{
 					if (_comp(val, tmp->value))
 					{
@@ -272,7 +272,8 @@ namespace ft
 			{
 				node_pointer	newNode = _node_alloc.allocate(1);
 				
-				get_allocator().construct(&(newNode->value), val);
+				// get_allocator().construct(&(newNode->value), val);
+				_node_alloc.construct(newNode, val);
 
 				return newNode;
 			}
@@ -338,7 +339,8 @@ namespace ft
 					_clear(current->left);
 				if (current->right)
 					_clear(current->right);
-				get_allocator().destroy(&(current->value));
+				_node_alloc.destroy(current);
+				// get_allocator().destroy(&(current->value));
 				_node_alloc.deallocate(current, 1);
 				current = NULL;
 			}
