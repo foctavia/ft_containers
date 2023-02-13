@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:55:09 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:22:49 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ namespace ft
 	/* RB_TREE **************************************************************************** */
 
 	template< typename Key, typename Value, typename Compare = std::less< Key >, 
-				typename Allocator = std::allocator< rb_tree_node< Value > > >
+				typename Allocator = std::allocator< Value > >
 	class rb_tree
 	{
 		public:
@@ -52,15 +52,18 @@ namespace ft
 			typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
 			typedef typename Allocator::template rebind< node_type >::other
-														node_allocator;
+															node_allocator;
 
 	// CONSTRUCTOR
 			
 			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
-				: _leaf( NULL ), _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc ) { }
+				: _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc )
+			{
+				this->_nil = _createNIL();
+			}
 
 			rb_tree( const rb_tree &src )
-				: _leaf( NULL ), _root( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
+				: _nil( NULL ), _root( NULL ), _size( 0 ), _comp( src._comp ), _node_alloc( src._node_alloc )
 			{
 				*this = src;
 			}
@@ -69,21 +72,23 @@ namespace ft
 
 			~rb_tree( void )
 			{
-				// this->clear();
+				this->clear();
 			}
 
 	// ASSIGNMENT OPERATOR
 
-			rb_tree		&operator=( const rb_tree &rhs )
+			rb_tree						&operator=( const rb_tree &rhs )
 			{
 				if (this != &rhs)
 				{
-					// this->clear();
-					// this->_comp = rhs._comp;
-					// if (rhs._root)
-					// {
-					// 	// copying or insert
-					// }
+					this->clear();
+					this->_comp = rhs._comp;
+					this->_alloc = rhs._alloc;
+					this->_nil = _createNIL();
+					if (rhs._root)
+					{
+						this->_insert(rhs.begin(), rhs.end());
+					}
 				}
 
 				return *this;
@@ -93,40 +98,36 @@ namespace ft
 	
 		// Getter
 
-			allocator_type			get_allocator( void ) const
-			{
-				return allocator_type(this->_node_alloc);
-			}
+			allocator_type				get_allocator( void ) const	{ return allocator_type(this->_node_alloc); }
 
 	// 	// Member functions for Iterator
 		
-	// 		iterator				begin( void );
-	// 		const_iterator			begin( void ) const;
+			iterator					begin( void )				{ return iterator(_getMin()); }
+			const_iterator				begin( void ) const			{ return const_iterator(_getMin()); }
 
-	// 		iterator				end( void );
-	// 		const_iterator			end( void ) const;
+			iterator					end( void )					{ return iterator(_nil); }
+			const_iterator				end( void ) const			{ return const_iterator(_nil); }
 
-	// 		reverse_iterator		rbegin( void );
-	// 		const_reverse_iterator	rbegin( void ) const;
-
-	// 		reverse_iterator		rend( void );
-	// 		const_reverse_iterator	rend( void ) const;
 
 	// 	// Member functions for Capacity
-		
-			bool					empty( void ) const		{ return this->_size == 0; }
 
-			size_type				size( void ) const		{ return this->_size; }
+			size_type					size( void ) const			{ return this->_size; }
 
-			size_type				max_size( void ) const	{ return this->_node_alloc.max_size(); }
+			size_type					max_size( void ) const		{ return this->_node_alloc.max_size(); }
 
 	// 	// Member functions for Modifiers
 		
-	// 		void					clear( void );	
-
-			ft::pair< iterator, bool >		insert( const value_type &val )
+			void						clear( void )
 			{
-				node_pointer	tmp = _isExist(val);
+				_clear(_root);
+				// if (_nil)
+				// 	_clear(_nil);
+				_size = 0;
+			}
+
+			ft::pair< iterator, bool >	insert( const value_type &val )
+			{
+				node_pointer	tmp = get_node(val);
 				
 				if (tmp)
 					return ft::make_pair(iterator(tmp), false);
@@ -137,21 +138,22 @@ namespace ft
 				{
 					_root = node;
 					_root->color = black;
+					_attachNIL();
 					_size++;
 				}
 				else
 				{
+					_detachNIL();
 					_insert(_root, node);
+					_attachNIL();
 					_size++;
 				}
 				
 				return ft::make_pair(iterator(node), true);
 			}
-
-	// 		iterator				insert( iterator pos, const value_type &value );
 	
 			template< class InputIt >
-			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
+			void						insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 			{
 				size_type	distance = std::distance(first, last);
 				
@@ -162,33 +164,184 @@ namespace ft
 				}
 			}
 
-	//		 iterator				erase( iterator pos )
-			// {
-			// 	iterator	result = pos;
-				
-			// 	++result;
-				
-			// 	node_pointer	tmp; //rebalance_tree_erase(_root, _leaf);
-				
-			// 	node_allocator.destroy(tmp);
-			// 	node_allocator.deallocate(tmp, 1);
-				
-			// 	return result;
-			// }
+	//		iterator					erase( iterator pos );
 			
-	// 		iterator				erase( iterator first, iterator last );
+	// 		iterator					erase( iterator first, iterator last );
 
-	// 		void					swap( rb_tree &other );
+	//		size_type					erase( const value_type &val );
+
+			void						swap( rb_tree &other )
+			{
+				node_pointer	tmp_nil			= _nil;
+				node_pointer	tmp_root		= _root;
+				size_type		tmp_size		= _size;
+				value_compare	tmp_comp		= _comp;
+				node_allocator	tmp_node_alloc	= _node_alloc;
+
+				this->_nil						= other._nil;
+				this->_root						= other._root;
+				this->_size						= other._size;
+				this->_comp						= other._comp;
+				this->_node_alloc				= other._node_alloc;
+				
+				other._nil						= tmp_nil;
+				other._root						= tmp_root;
+				other._size						= tmp_size;
+				other._comp						= tmp_comp;
+				other._node_alloc				= tmp_node_alloc;
+			}
+	
+		// Member functions for Lookup
+
+			node_pointer				get_node(const value_type &val )
+			{
+				node_pointer	tmp = _root;
+
+				while (tmp)
+				{
+					if (_comp(val, tmp->value))
+						tmp = tmp->left;
+					else if (_comp(tmp->value, val))
+						tmp = tmp->right;
+					else
+						break ;
+				}
+				
+				return tmp;
+			}
+
+			node_pointer			find( const value_type &val )
+			{
+				node_pointer	tmp = lower_bound(val);
+
+				if (tmp == _nil || _comp(val, tmp->value))
+					return _nil;
+
+				return tmp;
+			}
+
+			node_pointer			lower_bound(const value_type &val )
+			{
+				node_pointer	tmp = _root;
+				node_pointer	lower = _nil;
+				
+				while (tmp)
+				{
+					if (!_comp(tmp->value, val))
+					{
+						lower = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
+
+				return lower;
+			}
+
+			node_pointer			upper_bound( const value_type &val )
+			{
+				node_pointer	tmp = _root;
+				node_pointer	upper = _nil;
+
+				while (tmp)
+				{
+					if (_comp(val, tmp->value))
+					{
+						upper = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
+
+				return upper;
+			}
 
 		private:
 
-			node_pointer	_leaf;
+			node_pointer	_nil;
 			node_pointer	_root;
 			size_type		_size;
 			value_compare	_comp;
 			node_allocator	_node_alloc;
 
 	// PRIVATE MEMBER FUNCTION
+
+			node_pointer	_createNode( const value_type &val )
+			{
+				node_pointer	newNode = _node_alloc.allocate(1);
+				
+				get_allocator().construct(&(newNode->value), val);
+
+				return newNode;
+			}
+
+			node_pointer	_createNIL( void )
+			{
+				_nil = _createNode(value_type());
+				_nil->parent = _root;
+				_nil->right = _nil->left = NULL;
+				_nil->is_left = false;
+				_nil->color = black;
+
+				return _nil;
+			}
+
+			node_pointer	_getMin( void )
+			{
+				node_pointer	tmp = _root;
+				
+				while (tmp->left)
+					tmp = tmp->left;
+					
+				return tmp;
+			}
+
+			node_pointer	_getMax( void )
+			{
+				node_pointer	tmp = _root;
+				
+				while (tmp->right && tmp->right != _nil)
+					tmp = tmp->right;
+					
+				return tmp;
+			}
+			
+			void			_detachNIL( void )
+			{
+				node_pointer	tmp = _getMax();
+
+				if (tmp != _nil)
+				{
+					tmp->right = NULL;
+					_nil->parent = NULL;
+				}
+			}
+
+			void			_attachNIL( void )
+			{
+				node_pointer	tmp = _getMax();
+
+				if (tmp != _nil)
+				{
+					tmp->right = _nil;
+					_nil->parent = tmp;
+				}
+			}
+
+			void					_clear( node_pointer current )
+			{
+				if (!current)
+					return ;
+				if (current->left)
+					_clear(current->left);
+				if (current->right)
+					_clear(current->right);
+				get_allocator().destroy(&(current->value));
+				_node_alloc.deallocate(current, 1);
+				current = NULL;
+			}
 
 // 			size_type	countBlackNodes( node_pointer node )
 // 			{
@@ -230,38 +383,6 @@ namespace ft
 					return leftheight;
 					
 				return rightheight;
-			}
-
-			node_pointer	_isExist(const value_type &val )
-			{
-				node_pointer	tmp = _root;
-
-				while (tmp)
-				{
-					if (_comp(val, tmp->value))
-						tmp = tmp->left;
-					else if (_comp(tmp->value, val))
-						tmp = tmp->right;
-					else
-						return tmp;
-				}
-				
-				return NULL;
-			}
-
-			node_pointer	_createNode( const value_type &val )
-			{
-				node_pointer	tmp = _node_alloc.allocate(1);
-				
-				_node_alloc.construct(tmp, val);
-
-				return tmp;
-			}
-
-			void			_destroyNode( node_pointer node )
-			{
-				_node_alloc.destroy(node);
-				_node_alloc.dealocate(node, 1);
 			}
 
 			void			_rotateLeftRight(node_pointer grandparent)

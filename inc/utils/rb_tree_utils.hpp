@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:29:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:27:00 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ namespace ft
 
 	// CONSTRUCTOR
 
-			rb_tree_iterator( void ) : node() { }
+			rb_tree_iterator( void ) : node( NULL ) { }
 
-			explicit rb_tree_iterator( const node_pointer n ) : node( n ) { }
+			rb_tree_iterator( const node_pointer n ) : node( n ) { }
 
 			template< typename _T >
-			rb_tree_iterator(const rb_tree_iterator< _T > &src) : node(NULL)
+			rb_tree_iterator(const rb_tree_iterator< _T > &src) : node( NULL )
 			{
 				*this = src;
 			}
@@ -120,7 +120,7 @@ namespace ft
 			template< typename _T >
 			rb_tree_iterator	&operator=(const rb_tree_iterator< _T > &rhs)
 			{
-				this->node = rhs.node;
+				this->node = rhs.base();
 				
 				return *this;
 			}
@@ -131,37 +131,45 @@ namespace ft
 			
 			node_pointer		base() const				{ return this->node; }
 		
-			reference			operator*( void ) const		{ return this->node->value; }
+			reference			operator*( void )			{ return this->node->value; }
+			const_reference		operator*( void ) const		{ return this->node->value; }
 
-			pointer				operator->( void ) const	{ return &this->node->value; }
+			pointer				operator->( void )			{ return &this->node->value; }
+			const_pointer		operator->( void ) const	{ return &this->node->value; }
 
 		// Member functions for overload operator
 
-			// rb_tree_iterator	&operator++( void )
-			// {
-			// 	node = rb_increment(node);
-			// 	return *this;
-			// }
+			rb_tree_iterator	&operator++( void )
+			{
+				node = _rb_increment(node);
+				
+				return *this;
+			}
 
-			// rb_tree_iterator	operator++( int )
-			// {
-			// 	rb_tree_iterator	tmp = *this;
-			// 	node = rb_increment(node);
-			// 	return tmp;
-			// }
+			rb_tree_iterator	operator++( int )
+			{
+				rb_tree_iterator	tmp = *this;
+				
+				node = _rb_increment(node);
+				
+				return tmp;
+			}
 
-			// rb_tree_iterator	&operator--( void )
-			// {
-			// 	node = rb_decrement(node);
-			// 	return *this;
-			// }
+			rb_tree_iterator	&operator--( void )
+			{
+				node = _rb_decrement(node);
+				
+				return *this;
+			}
 
-			// rb_tree_iterator	operator--( int )
-			// {
-			// 	rb_tree_iterator	tmp = *this;
-			// 	node = rb_decrement(node);
-			// 	return tmp;
-			// }
+			rb_tree_iterator	operator--( int )
+			{
+				rb_tree_iterator	tmp = *this;
+				
+				node = _rb_decrement(node);
+
+				return tmp;
+			}
 
 			bool				operator==( const rb_tree_iterator &other ) const
 			{
@@ -171,6 +179,60 @@ namespace ft
 			bool				operator!=( const rb_tree_iterator &other ) const
 			{
 				return this->node != other.node;
+			}
+
+		private:
+
+			node_pointer	_rb_increment( node_pointer current )
+			{
+				node_pointer	next;
+
+				if (!current)
+					return NULL;
+
+				if (current->right)
+				{
+					next = current->right;
+					while (next->left)
+						next = next->left;
+				}
+				else
+				{
+					next = current->parent;
+					while (next && !current->is_left)
+					{
+						current = next;
+						next = next->parent;
+					}
+				}
+				
+				return next;
+			}
+
+			node_pointer	_rb_decrement( node_pointer current )
+			{
+				node_pointer	prev;
+
+				if (!current)
+					return NULL;
+
+				if (current->left)
+				{
+					prev = current->left;
+					while (prev->right)
+						prev = prev->right;
+				}
+				else
+				{
+					prev = current->parent;
+					while (prev && current->is_left)
+					{
+						current = prev;
+						prev = prev->parent;
+					}
+				}
+				
+				return prev;
 			}
 
 	};

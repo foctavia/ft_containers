@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:51:36 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:38:18 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,19 @@ namespace ft
 			explicit map( const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type() )
 				: _tree( comp, alloc ), _comp( comp ), _alloc( alloc ) { }
 
-			// template< class InputIt >
-			// map( InputIt first, InputIt last, const Compare &comp = Compare(), const Allocator &alloc = Allocator() );
+			template< class InputIt >
+			map( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0,
+				const Compare &comp = Compare(), const Allocator &alloc = Allocator() )
+				: _tree( comp, alloc ), _comp( comp ), _alloc( alloc )
+			{
+				this->_tree.insert(first, last);
+			}
 			
-			// map( const map &src )
-			// 	: _tree( 0 ), _comp( src._comp ), _alloc( src._alloc )
-			// {
-			// 	*this = src;
-			// }
+			map( const map &src )
+				: _tree( src.comp, src.alloc ), _comp( src._comp ), _alloc( src._alloc )
+			{
+				*this = src;
+			}
 
 	// DESTRUCTOR
 
@@ -109,97 +114,125 @@ namespace ft
 
 	// ASSIGNMENT OPERATOR
 
-			// map						&operator=( const map &rhs )
-			// {
-			// 	if (this != &rhs)
-			// 		this->insert(rhs.begin(), rhs.last());
+			map						&operator=( const map &rhs )
+			{
+				if (this != &rhs)
+					this->_tree.insert(rhs.begin(), rhs.last());
 
-			// 	return *this;
-			// }
+				return *this;
+			}
 
-	// // MEMBER FUNCTION
+	// MEMBER FUNCTION
 	
-	// 	// Getter
+		// Getter
 
-	// 		allocator_type			get_allocator( void ) const;
+			allocator_type			get_allocator( void ) const					{ return this->_alloc; }
 
-	// 	// Member functions for Element access
+		// Member functions for Element access
 			
-	// 		mapped_type				&at( const key_type &key );
-	// 		const mapped_type		&at( const key_type &key ) const;
+			mapped_type				&at( const key_type &key )
+			{
+				iterator	node = find(key);
+				if (node == end())
+					throw std::out_of_range("map::at");
+				
+				return (*node).second;
+			}
+			
+			const mapped_type		&at( const key_type &key ) const
+			{
+				const_iterator	node = find(key);
+				if (node == end())
+					throw std::out_of_range("map::at");
+				
+				return (*node).second;
+			}
 
-	//		mapped_type				&operator[]( const key_type &key );
+			mapped_type				&operator[]( const key_type &key )			{ return (*(insert(get_value(key)).first)).second; }
 
-	// 	// Member functions for Iterator
+		// Member functions for Iterator
 		
-	// 		iterator				begin( void )									{ return _tree.begin(); }
-	// 		const_iterator			begin( void ) const								{ return _tree.begin(); }
+			iterator				begin( void )								{ return _tree.begin(); }
+			const_iterator			begin( void ) const							{ return _tree.begin(); }
 
-	// 		iterator				end( void )										{ return _tree.end(); }
-	// 		const_iterator			end( void ) const								{ return _tree.end(); }
+			iterator				end( void )									{ return _tree.end(); }
+			const_iterator			end( void ) const							{ return _tree.end(); }
 
-	// 		reverse_iterator		rbegin( void );
-	// 		const_reverse_iterator	rbegin( void ) const;
+			reverse_iterator		rbegin( void )								{ return reverse_iterator(end()); }
+			const_reverse_iterator	rbegin( void ) const						{ return const_reverse_iterator(end()); }
 
-	// 		reverse_iterator		rend( void );
-	// 		const_reverse_iterator	rend( void ) const;
+			reverse_iterator		rend( void )								{ return reverse_iterator(begin()); }
+			const_reverse_iterator	rend( void ) const							{ return const_reverse_iterator(begin()); }
 
-	// 	// Member functions for Capacity
+		// Member functions for Capacity
 		
-			bool					empty( void ) const								{ return _tree.empty(); }
+			bool					empty( void ) const							{ return _tree.size() == 0; }
 
-	// 		size_type				size( void ) const;
+			size_type				size( void ) const							{ return _tree.size(); }
 
-	// 		size_type				max_size( void ) const;
+			size_type				max_size( void ) const						{ return _tree.max_size(); }
 
-	// 	// Member functions for Modifiers
+		// Member functions for Modifiers
 		
-	// 		void					clear( void );
+			void					clear( void )								{ return _tree.clear(); }
 
 			ft::pair<iterator, bool>	
-				insert( const value_type &value )									{ return _tree.insert(value); }
+				insert( const value_type &value )								{ return _tree.insert(value); }
 			
-	//		iterator				insert( iterator pos, const value_type &value );
+			iterator				insert( iterator pos, const value_type &value )
+			{
+				(void)pos;
+
+				return insert(value).first;
+			}
 	
 			template< class InputIt >
 			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
-																					{ return _tree.insert(first, last); }
+																				{ _tree.insert(first, last); }
 
 	// 		iterator				erase( iterator pos );
 	// 		iterator				erase( iterator first, iterator last );
 	// 		size_type				erase( const key_type &key );
 
-	// 		void					swap( map &other );
+			void					swap( map &other )							{ _tree.swap(other._tree); }
 
 	// 	// Member functions for Lookup
 
-	// 		size_type				count( const key_type &key ) const;
+			iterator				lower_bound( const key_type &key )			{ return iterator(_tree.lower_bound(_get_value(key))); }
+			const_iterator			lower_bound( const key_type &key ) const	{ return const_iterator(_tree.lower_bound(_get_value(key))); }
 
-	// 		iterator				find( const key_type &key );
-	// 		const_iterator			find( const key_type &key ) const;
+			iterator				upper_bound( const key_type &key )			{ return iterator(_tree.upper_bound(_get_value(key))); }
+			const_iterator			upper_bound( const key_type &key ) const	{ return const_iterator(_tree.upper_bound(_get_value(key))); }
 
-	// 		ft::pair< iterator, iterator >	
-	// 			equal_range( const key_type &key );
-	// 		ft::pair< const_iterator, const_iterator >	
-	// 			equal_range( const key_type &key ) const;
+			ft::pair< iterator, iterator >	
+				equal_range( const key_type &key )								{ return ft::make_pair(lower_bound(key), upper_bound(key)); }
+			ft::pair< const_iterator, const_iterator >	
+				equal_range( const key_type &key ) const						{ return ft::make_pair(lower_bound(key), upper_bound(key)); }
 
-	// 		iterator				lower_bound( const key_type &key );
-	// 		const_iterator			lower_bound( const key_type &key ) const;
+			iterator				find( const key_type &key )					{ return iterator(_tree.find(_get_value(key))); }
+			const_iterator			find( const key_type &key ) const			{ return const_iterator(_tree.find(_get_value(key))); }
 
-	// 		iterator				upper_bound( const key_type &key );
-	// 		const_iterator			upper_bound( const key_type &key ) const;
+			size_type				count( const key_type &key ) const
+			{
+				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
+				size_type									count = std::distance(tmp.first, tmp.second);
+				
+				return count;
+			}
+
+		// Member functions for Observers
 			
-	// 	// Member functions for Observers
+			key_compare				key_comp( void ) const						{ return key_compare(); }
 			
-	// 		key_compare				key_comp( void ) const;
-			
-	// 		ft::map::value_compare	value_comp( void ) const;
+			map::value_compare		value_comp( void ) const					{ return value_compare(key_comp()); }
 
 		private:
 
 			tree_type		_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
+
+			value_type				_get_value( const key_type &key )			{ return ft::make_pair(key, mapped_type()); }
 			
 	};
 	
