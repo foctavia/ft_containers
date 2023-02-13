@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 15:38:18 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:25:52 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,18 @@ namespace ft
 	// CONSTRUCTOR
 
 			explicit map( const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type() )
-				: _tree( comp, alloc ), _comp( comp ), _alloc( alloc ) { }
+				: _tree( value_compare(comp), alloc ), _comp( comp ), _alloc( alloc ) { }
 
 			template< class InputIt >
 			map( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0,
 				const Compare &comp = Compare(), const Allocator &alloc = Allocator() )
-				: _tree( comp, alloc ), _comp( comp ), _alloc( alloc )
+				: _tree( value_compare(comp), alloc ), _comp( comp ), _alloc( alloc )
 			{
 				this->_tree.insert(first, last);
 			}
 			
 			map( const map &src )
-				: _tree( src.comp, src.alloc ), _comp( src._comp ), _alloc( src._alloc )
+				: _tree( value_compare(src._comp), src._alloc ), _comp( src._comp ), _alloc( src._alloc )
 			{
 				*this = src;
 			}
@@ -224,7 +224,7 @@ namespace ft
 			
 			key_compare				key_comp( void ) const						{ return key_compare(); }
 			
-			map::value_compare		value_comp( void ) const					{ return value_compare(key_comp()); }
+			map::value_compare	value_comp( void ) const					{ return value_compare(key_comp()); }
 
 		private:
 

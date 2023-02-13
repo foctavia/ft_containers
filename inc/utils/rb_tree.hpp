@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 18:34:28 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:40:30 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ namespace ft
 
 	// CONSTRUCTOR
 			
-			rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
+			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
 				: _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc )
 			{
 				this->_root = _createNIL();
@@ -79,17 +79,17 @@ namespace ft
 
 			rb_tree						&operator=( const rb_tree &rhs )
 			{
-				if (this != &rhs)
-				{
+				// if (this != &rhs)
+				// {
 					this->clear();
 					this->_comp = rhs._comp;
 					this->_node_alloc = rhs._node_alloc;
 					this->_root = _createNIL();
 					if (rhs._root)
 					{
-						this->_insert(rhs.begin(), rhs.end());
+						this->insert(rhs.begin(), rhs.end());
 					}
-				}
+				// }
 
 				return *this;
 			}
@@ -127,7 +127,7 @@ namespace ft
 
 			ft::pair< iterator, bool >	insert( const value_type &val )
 			{
-				node_pointer	tmp = get_node(val);
+				node_pointer	tmp = find(val);
 				
 				if (tmp != _nil)
 					return ft::make_pair(iterator(tmp), false);
@@ -193,6 +193,18 @@ namespace ft
 	
 		// Member functions for Lookup
 
+			// node_pointer				get_node(node_pointer node, const value_type &val)
+			// {
+			// 	if (node == _nil)
+			// 		return node;
+			// 	if (_comp(val, node->value) && !_comp(node->value, val))
+			// 		return (get_node(node->left, val));
+			// 	if (!_comp(val, node->value) && _comp(node->value, val))
+			// 		return (get_node(node->right, val));
+					
+			// 	return node;
+			// }
+
 			node_pointer				get_node(const value_type &val )
 			{
 				node_pointer	tmp = _root;
@@ -227,8 +239,11 @@ namespace ft
 				
 				while (tmp != _nil)
 				{
-					if (!_comp(tmp->value, val))
+						std::cout << "here1" << std::endl;
+					
+					if (!_comp(tmp->value, val) && tmp->left)
 					{
+						std::cout << "here2" << std::endl;
 						lower = tmp;
 						tmp = tmp->left;
 					}
