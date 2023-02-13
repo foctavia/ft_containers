@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 16:22:49 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:48:38 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ namespace ft
 			void						clear( void )
 			{
 				_clear(_root);
-				// if (_nil)
-				// 	_clear(_nil);
+				if (_nil)
+					_clear(_nil);
 				_size = 0;
 			}
 
@@ -292,7 +292,7 @@ namespace ft
 			{
 				node_pointer	tmp = _root;
 				
-				while (tmp->left)
+				while (tmp && tmp->left)
 					tmp = tmp->left;
 					
 				return tmp;
@@ -302,7 +302,7 @@ namespace ft
 			{
 				node_pointer	tmp = _root;
 				
-				while (tmp->right && tmp->right != _nil)
+				while (tmp && tmp->right && tmp->right != _nil)
 					tmp = tmp->right;
 					
 				return tmp;
@@ -312,7 +312,7 @@ namespace ft
 			{
 				node_pointer	tmp = _getMax();
 
-				if (tmp != _nil)
+				if (tmp && tmp != _nil)
 				{
 					tmp->right = NULL;
 					_nil->parent = NULL;
@@ -323,7 +323,7 @@ namespace ft
 			{
 				node_pointer	tmp = _getMax();
 
-				if (tmp != _nil)
+				if (tmp && tmp != _nil)
 				{
 					tmp->right = _nil;
 					_nil->parent = tmp;

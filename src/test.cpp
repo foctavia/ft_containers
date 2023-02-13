@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 16:09:55 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:40:23 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ void mapTest()
 		std::cout << "mp is empty (before insert)" << std::endl;
 	
 	mp.insert(pr);
-	mp.insert(ft::pair<char, int>('e', 5));
+	// mp.insert(ft::pair<char, int>('e', 5));
 	// mp.insert(ft::pair<char, int>('f', 6));
 	// mp.insert(ft::pair<char, int>('c', 3));
 	// mp.insert(ft::pair<char, int>('h', 8));
