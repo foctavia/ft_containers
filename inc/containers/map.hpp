@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 16:12:45 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:37:21 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,45 +201,45 @@ namespace ft
 
 	// 	// Member functions for Lookup
 
-			iterator				lower_bound( const key_type &key )			{ return iterator(_tree.lower_bound(_get_value(key))); }
-			// {
-			// 	iterator	it = begin();
+			iterator				lower_bound( const key_type &key )			//{ return iterator(_tree.lower_bound(_get_value(key))); }
+			{
+				iterator	it = begin();
 				
-			// 	while (it != end() && it->first < key)
-			// 		it++;
+				while (it != end() && it->first < key)
+					it++;
 
-			// 	return it;	
-			// }
+				return it;	
+			}
 			
-			const_iterator			lower_bound( const key_type &key ) const	{ return const_iterator(_tree.lower_bound(_get_value(key))); }
-			// {
-			// 	const_iterator	it = begin();
+			const_iterator			lower_bound( const key_type &key ) const	//{ return const_iterator(_tree.lower_bound(_get_value(key))); }
+			{
+				const_iterator	it = begin();
 				
-			// 	while (it != end() && it->first < key)
-			// 		it++;
+				while (it != end() && it->first < key)
+					it++;
 
-			// 	return it;
-			// }
+				return it;
+			}
 
-			iterator				upper_bound( const key_type &key )			{ return iterator(_tree.upper_bound(_get_value(key))); }
-			// {
-			// 	iterator	it = begin();
+			iterator				upper_bound( const key_type &key )			//{ return iterator(_tree.upper_bound(_get_value(key))); }
+			{
+				iterator	it = begin();
 				
-			// 	while (it != end() && it->first <= key)
-			// 		it++;
+				while (it != end() && it->first <= key)
+					it++;
 
-			// 	return it;
-			// }
+				return it;
+			}
 			
-			const_iterator			upper_bound( const key_type &key ) const	{ return const_iterator(_tree.upper_bound(_get_value(key))); }
-			// {
-			// 	const_iterator	it = begin();
+			const_iterator			upper_bound( const key_type &key ) const	//{ return const_iterator(_tree.upper_bound(_get_value(key))); }
+			{
+				const_iterator	it = begin();
 				
-			// 	while (it != end() && it->first <= key)
-			// 		it++;
+				while (it != end() && it->first <= key)
+					it++;
 
-			// 	return it;
-			// }
+				return it;
+			}
 
 			ft::pair< iterator, iterator >	
 				equal_range( const key_type &key )								{ return ft::make_pair(lower_bound(key), upper_bound(key)); }
@@ -251,8 +251,8 @@ namespace ft
 
 			size_type				count( const key_type &key ) const
 			{
-				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
-				size_type									count = std::distance(tmp.first, tmp.second);
+				ft::pair<iterator, iterator>	tmp = equal_range(key);
+				size_type						count = std::distance(tmp.first, tmp.second);
 				
 				return count;
 			}
