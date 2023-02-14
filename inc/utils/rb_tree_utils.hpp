@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 13:57:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:03:53 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,33 +80,26 @@ namespace ft
 	{		
 		public:
 			
-
-			typedef T								value_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
+			
+			typedef T								value_type;
 			typedef T								&reference;
-			typedef const T							&const_reference;
 			typedef T								*pointer;
-			typedef const T							*const_pointer;
 
 			typedef rb_tree_node< T >				node_type;
-			typedef rb_tree_node< const T >			const_node_type;
-
 			typedef rb_tree_node< T >				*node_pointer;
-			typedef rb_tree_node< const T >			*const_node_pointer;
 
 			typedef rb_tree_iterator< T >			iterator;
-			typedef rb_tree_iterator< const T >		const_iterator;
 
 			node_pointer							node;
 
 	// CONSTRUCTOR
 
-			rb_tree_iterator( void ) : node( NULL ) { }
+			rb_tree_iterator( void ) : node( ) { }
 
-			rb_tree_iterator( const node_pointer n ) : node( n ) { }
+			explicit rb_tree_iterator( node_pointer n ) : node( n ) { }
 
-			template< typename _T >
-			rb_tree_iterator(const rb_tree_iterator< _T > &src) : node( NULL )
+			rb_tree_iterator( const rb_tree_iterator &src ) : node( NULL )
 			{
 				*this = src;
 			}
@@ -117,10 +110,9 @@ namespace ft
 
 	// ASSIGNMENT OPERATOR
 
-			template< typename _T >
-			rb_tree_iterator	&operator=(const rb_tree_iterator< _T > &rhs)
+			rb_tree_iterator	&operator=(const rb_tree_iterator &rhs)
 			{
-				this->node = rhs.base();
+				this->node = rhs.node;
 				
 				return *this;
 			}
@@ -132,10 +124,8 @@ namespace ft
 			node_pointer		base() const				{ return this->node; }
 		
 			reference			operator*( void )			{ return this->node->value; }
-			const_reference		operator*( void ) const		{ return this->node->value; }
 
 			pointer				operator->( void )			{ return &this->node->value; }
-			const_pointer		operator->( void ) const	{ return &this->node->value; }
 
 		// Member functions for overload operator
 
@@ -236,6 +226,151 @@ namespace ft
 			}
 
 	};
+
+	/* RB_TREE_CONST_ITERATOR ************************************************************* */
+
+	template< typename T >
+	class rb_tree_const_iterator : public std::iterator< std::bidirectional_iterator_tag, T, std::ptrdiff_t, T *, T & >
+	{		
+		public:
+			
+
+			typedef std::bidirectional_iterator_tag	iterator_category;
+			
+			typedef T								value_type;
+			typedef const T							&const_reference;
+			typedef const T							*const_pointer;
+
+			typedef rb_tree_node< T >				node_type;
+			typedef rb_tree_node< T >				*node_pointer;
+
+			typedef rb_tree_iterator< T >			iterator;
+			typedef rb_tree_const_iterator< T >		const_iterator;
+
+			node_pointer							node;
+
+	// CONSTRUCTOR
+
+			rb_tree_const_iterator( void ) : node( ) { }
+
+			explicit rb_tree_const_iterator( node_pointer n ) : node( n ) { }
+
+			rb_tree_const_iterator( const iterator &src ) : node( src.node ) { }
+			
+	// DESTRUCTOR
+
+			~rb_tree_const_iterator( void ) { }
+
+	// MEMBER FUNCTIONS
+			
+		// Member functions for element access
+
+			node_pointer		base( void ) const			{ return this->node; }
+		
+			const_reference		operator*( void ) const		{ return this->node->value; }
+
+			const_pointer		operator->( void ) const	{ return &this->node->value; }
+
+		// Member functions for overload operator
+
+			rb_tree_const_iterator	&operator++( void )
+			{
+				node = _rb_increment(node);
+				
+				return *this;
+			}
+
+			rb_tree_const_iterator	operator++( int )
+			{
+				rb_tree_const_iterator	tmp = *this;
+				
+				node = _rb_increment(node);
+				
+				return tmp;
+			}
+
+			rb_tree_const_iterator	&operator--( void )
+			{
+				node = _rb_decrement(node);
+				
+				return *this;
+			}
+
+			rb_tree_const_iterator	operator--( int )
+			{
+				rb_tree_const_iterator	tmp = *this;
+				
+				node = _rb_decrement(node);
+
+				return tmp;
+			}
+
+			bool				operator==( const rb_tree_const_iterator &other ) const
+			{
+				return this->node == other.node;
+			}
+
+			bool				operator!=( const rb_tree_const_iterator &other ) const
+			{
+				return this->node != other.node;
+			}
+
+		private:
+
+			node_pointer	_rb_increment( node_pointer current )
+			{
+				node_pointer	next;
+
+				if (!current)
+					return NULL;
+
+				if (current->right)
+				{
+					next = current->right;
+					while (next->left)
+						next = next->left;
+				}
+				else
+				{
+					next = current->parent;
+					while (next && !current->is_left)
+					{
+						current = next;
+						next = next->parent;
+					}
+				}
+				
+				return next;
+			}
+
+			node_pointer	_rb_decrement( node_pointer current )
+			{
+				node_pointer	prev;
+
+				if (!current)
+					return NULL;
+
+				if (current->left)
+				{
+					prev = current->left;
+					while (prev->right)
+						prev = prev->right;
+				}
+				else
+				{
+					prev = current->parent;
+					while (prev && current->is_left)
+					{
+						current = prev;
+						prev = prev->parent;
+					}
+				}
+				
+				return prev;
+			}
+
+	};
+
 
 	// NON-MEMBER FUNCTION
 

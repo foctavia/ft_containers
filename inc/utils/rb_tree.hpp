@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 14:15:01 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:47:41 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
 			typedef ft::rb_tree_node< value_type >			*node_pointer;
 
 			typedef ft::rb_tree_iterator< Value >			iterator;
-			typedef ft::rb_tree_iterator< const Value >		const_iterator;
+			typedef ft::rb_tree_const_iterator< Value >		const_iterator;
 
 			typedef ft::reverse_iterator< iterator >		reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
@@ -120,8 +120,6 @@ namespace ft
 			void						clear( void )
 			{
 				_clear(_root);
-				// if (_nil)
-				// 	_clear(_nil);
 				_size = 0;
 			}
 
@@ -205,7 +203,7 @@ namespace ft
 			// 	return node;
 			// }
 
-			node_pointer				get_node(const value_type &val )
+			node_pointer				get_node( value_type val )
 			{
 				node_pointer	tmp = _root;
 
@@ -222,7 +220,7 @@ namespace ft
 				return tmp;
 			}
 
-			node_pointer			find( const value_type &val )
+			node_pointer			find( value_type val )
 			{
 				node_pointer	tmp = lower_bound(val);
 
@@ -232,7 +230,7 @@ namespace ft
 				return tmp;
 			}
 
-			node_pointer			lower_bound(const value_type &val )
+			node_pointer			lower_bound( value_type val )
 			{
 				node_pointer	tmp = _root;
 				node_pointer	lower = _nil;
@@ -251,7 +249,7 @@ namespace ft
 				return lower;
 			}
 
-			node_pointer			upper_bound( const value_type &val )
+			node_pointer			upper_bound( value_type val )
 			{
 				node_pointer	tmp = _root;
 				node_pointer	upper = _nil;
@@ -280,7 +278,7 @@ namespace ft
 
 	// PRIVATE MEMBER FUNCTION
 
-			node_pointer	_createNode( const value_type &val )
+			node_pointer	_createNode( value_type val )
 			{
 				node_pointer	newNode = _node_alloc.allocate(1);
 				

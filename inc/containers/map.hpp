@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 11:50:47 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:04:51 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ namespace ft
 				return (*node).second;
 			}
 
-			mapped_type				&operator[]( const key_type &key )			{ return (*(insert(get_value(key)).first)).second; }
+			mapped_type				&operator[]( const key_type &key )			{ return (*(insert(_get_value(key)).first)).second; }
 
 		// Member functions for Iterator
 		
@@ -201,11 +201,45 @@ namespace ft
 
 	// 	// Member functions for Lookup
 
-			iterator				lower_bound( const key_type &key )			{ return iterator(_tree.lower_bound(_get_value(key))); }
-			const_iterator			lower_bound( const key_type &key ) const	{ return const_iterator(_tree.lower_bound(_get_value(key))); }
+			iterator				lower_bound( const key_type &key )			//{ return iterator(_tree.lower_bound(_get_value(key))); }
+			{
+				iterator	it = begin();
+				
+				while (it != end() && it->first < key)
+					it++;
 
-			iterator				upper_bound( const key_type &key )			{ return iterator(_tree.upper_bound(_get_value(key))); }
-			const_iterator			upper_bound( const key_type &key ) const	{ return const_iterator(_tree.upper_bound(_get_value(key))); }
+				return it;	
+			}
+			
+			const_iterator			lower_bound( const key_type &key ) const	//{ return const_iterator(_tree.lower_bound(_get_value(key))); }
+			{
+				const_iterator	it = begin();
+				
+				while (it != end() && it->first < key)
+					it++;
+
+				return it;
+			}
+
+			iterator				upper_bound( const key_type &key )			//{ return iterator(_tree.upper_bound(_get_value(key))); }
+			{
+				iterator	it = begin();
+				
+				while (it != end() && it->first <= key)
+					it++;
+
+				return it;
+			}
+			
+			const_iterator			upper_bound( const key_type &key ) const	//{ return const_iterator(_tree.upper_bound(_get_value(key))); }
+			{
+				const_iterator	it = begin();
+				
+				while (it != end() && it->first <= key)
+					it++;
+
+				return it;
+			}
 
 			ft::pair< iterator, iterator >	
 				equal_range( const key_type &key )								{ return ft::make_pair(lower_bound(key), upper_bound(key)); }
@@ -213,7 +247,7 @@ namespace ft
 				equal_range( const key_type &key ) const						{ return ft::make_pair(lower_bound(key), upper_bound(key)); }
 
 			iterator				find( const key_type &key )					{ return iterator(_tree.find(_get_value(key))); }
-			const_iterator			find( const key_type &key ) const			{ return const_iterator(_tree.find(_get_value(key))); }
+			const_iterator			find( const key_type &key ) const			{ return iterator(_tree.find(_get_value(key))); }
 
 			size_type				count( const key_type &key ) const
 			{
@@ -235,7 +269,7 @@ namespace ft
 			key_compare		_comp;
 			allocator_type	_alloc;
 
-			value_type				_get_value( const key_type &key )			{ return ft::make_pair(key, mapped_type()); }
+			value_type				_get_value( const key_type &key ) const		{ return ft::make_pair(key, mapped_type()); }
 			
 	};
 	
