@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 19:40:30 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:15:01 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ namespace ft
 {
 	/* RB_TREE **************************************************************************** */
 
-	template< typename Key, typename Value, typename Compare = std::less< Key >, 
+	template< typename Value, typename Compare, 
 				typename Allocator = std::allocator< Value > >
 	class rb_tree
 	{
 		public:
 
-			typedef Key										key_type;
 			typedef Value									value_type;
 			typedef Compare									value_compare;
+			typedef std::allocator<Value>					value_allocator;	
 			typedef Allocator								allocator_type;
 			
 			typedef typename Allocator::size_type			size_type;
@@ -42,8 +42,8 @@ namespace ft
 			typedef typename Allocator::pointer				pointer;
 			typedef typename Allocator::const_pointer		const_pointer;
 			
-			typedef ft::rb_tree_node< Value >				node_type;
-			typedef ft::rb_tree_node< Value >				*node_pointer;
+			typedef ft::rb_tree_node< value_type >			node_type;
+			typedef ft::rb_tree_node< value_type >			*node_pointer;
 
 			typedef ft::rb_tree_iterator< Value >			iterator;
 			typedef ft::rb_tree_iterator< const Value >		const_iterator;
@@ -56,7 +56,7 @@ namespace ft
 
 	// CONSTRUCTOR
 			
-			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type() )
+			explicit rb_tree( const value_compare &comp = value_compare(), const allocator_type &alloc = node_allocator() )
 				: _root( NULL ), _size( 0 ), _comp( comp ), _node_alloc( alloc )
 			{
 				this->_root = _createNIL();
@@ -237,13 +237,10 @@ namespace ft
 				node_pointer	tmp = _root;
 				node_pointer	lower = _nil;
 				
-				while (tmp != _nil)
-				{
-						std::cout << "here1" << std::endl;
-					
-					if (!_comp(tmp->value, val) && tmp->left)
+				while (tmp && tmp != _nil)
+				{	
+					if (!_comp(tmp->value, val))
 					{
-						std::cout << "here2" << std::endl;
 						lower = tmp;
 						tmp = tmp->left;
 					}
@@ -287,8 +284,8 @@ namespace ft
 			{
 				node_pointer	newNode = _node_alloc.allocate(1);
 				
-				// get_allocator().construct(&(newNode->value), val);
 				_node_alloc.construct(newNode, val);
+				// get_allocator().construct(&(newNode->value), val);
 
 				return newNode;
 			}
@@ -354,8 +351,8 @@ namespace ft
 					_clear(current->left);
 				if (current->right)
 					_clear(current->right);
-				_node_alloc.destroy(current);
 				// get_allocator().destroy(&(current->value));
+				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
 				current = NULL;
 			}
@@ -550,9 +547,10 @@ namespace ft
 					node->color = black;
 					return ;
 				}
-				if (node->color == red && node->parent->color == red)
+				if (node && node->color == red && node->parent->color == red)
 					_correctTree(node);
-				_checkColor(node->parent);
+				if (node && node->parent)
+					_checkColor(node->parent);
 			}
 
 			void			_insert( node_pointer parent, node_pointer newNode )

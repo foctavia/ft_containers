@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 19:38:42 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:09:57 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,16 +300,16 @@ void mapTest()
 	if (mp.empty())
 		std::cout << "mp is empty (before insert)" << std::endl;
 	
+	mp.insert(pr);
+	mp.insert(pr);
 	mp.insert(ft::pair<char, int>('e', 5));
-	mp.insert(pr);
-	mp.insert(pr);
 
-	// mp.insert(ft::pair<char, int>('f', 6));
-	// mp.insert(ft::pair<char, int>('c', 3));
-	// mp.insert(ft::pair<char, int>('h', 8));
-	// mp.insert(ft::pair<char, int>('n', 14));
-	// mp.insert(ft::pair<char, int>('j', 10));
-	// mp.insert(ft::pair<char, int>('b', 2));
+	mp.insert(ft::pair<char, int>('f', 6));
+	mp.insert(ft::pair<char, int>('c', 3));
+	mp.insert(ft::pair<char, int>('h', 8));
+	mp.insert(ft::pair<char, int>('n', 14));
+	mp.insert(ft::pair<char, int>('j', 10));
+	mp.insert(ft::pair<char, int>('b', 2));
 
 	ft::map<char, int>::iterator	it = mp.begin();
 	

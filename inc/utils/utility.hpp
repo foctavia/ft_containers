@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:46:36 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:31:26 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:53:40 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,20 @@ namespace ft
 
 			pair	&operator=( const pair &p )
 			{
-				if (this != &p)
-				{
-					first = p.first;
-					second = p.second;
-				}
+				this->first = p.first;
+				this->second = p.second;
 
 				return *this;
 			}
 
-			template< class U1, class U2 >
-			pair	&operator=( const pair< U1, U2 > &p )
-			{
-				first = p.first;
-				second = p.second;
+			// template< class U1, class U2 >
+			// pair	&operator=( const pair< U1, U2 > &p )
+			// {
+			// 	first = p.first;
+			// 	second = p.second;
 
-				return *this;
-			}
+			// 	return *this;
+			// }
 	};
 	
 	template< class T1, class T2 >

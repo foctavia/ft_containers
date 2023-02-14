@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/13 19:25:52 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:50:47 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ namespace ft
 
 		private:
 		
-			typedef ft::rb_tree< key_type, value_type, value_compare, allocator_type >
+			typedef typename Allocator::template rebind< value_type >::other
+															pair_allocator;
+															
+			typedef ft::rb_tree< value_type, value_compare, pair_allocator >
 															tree_type;
 
 		public:
