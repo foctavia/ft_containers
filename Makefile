@@ -6,54 +6,65 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/08 16:41:10 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/15 11:11:09 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Colors
+RED			= "\033[1;31m"
 GREEN		= "\033[1;32m"
+BLUE		= "\033[1;34m"
 RESET		= "\033[m"
+END			= "\e[0m"
 
 # Variables
 NAME		= ft_containers
 
-CXX			= c++
-CXXFLAGS	= -Wall -Wextra -Werror -g
-REAL 		= 0
+STD			= std_containers
 
-CONTDIR		= inc/containers/ 
-UTILSDIR	= inc/utils/
-SRCDIR		= src/
+CXX			= c++
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98
+
+CONTDIR		= headers/containers/ 
+UTILDIR		= headers/utils/
+TESTDIR		= tests/
 OBJDIR		= obj/
 
-SRC			= test.cpp
+TEST		= mainTest.cpp \
+				vectorTest.cpp \
+				mapTest.cpp
 				
-OBJ			= $(addprefix ${OBJDIR}, ${SRC:%.cpp=%.o})
-INC			= -I./$(CONTDIR) -I./$(UTILSDIR)
+OBJ			= $(addprefix ${OBJDIR}, ${TEST:%.cpp=%.o})
+INC			= -I./$(CONTDIR) -I./$(UTILDIR)
 
 ifeq ($(REAL),1)
 CXXFLAGS 	+= -DREAL=1
 endif
 
-ifeq ($(REAL),0)
-CXXFLAGS 	+= -std=c++98
-endif
-
 ifeq ($(DMEM),1)
-CXXFLAGS 	+= -fsanitize=address
+CXXFLAGS 	+= -fsanitize=address -fno-omit-frame-pointer -g
 endif
 
 # Rules
 all			: $(NAME)
 
-diff:
-	make re
-	make re NAME=std_containers REAL=1
-	./ft_containers 2>/dev/null 1>ft
-	./std_containers 2>/dev/null 1>std
-	diff ft std
+diff		: make re
+			make re NAME=std_containers REAL=1
+			@echo "Checking diff between ft and std"
+			@./ft_containers 2>/dev/null 1>ft
+			@./std_containers 2>/dev/null 1>std
+			@DIFF=$$(diff ft std >/dev/null 2>&1; echo $$?) ; \
+			export DIFF ; \
+			$(MAKE) check_diff
 
-$(OBJDIR)%.o: $(SRCDIR)%.cpp
+check_diff	:
+ifeq ($(DIFF),0)
+	@echo ${GREEN}"OK - ft and std output are the same"${RESET}
+else
+	@echo ${RED}"KO - ft and std differ"${RESET}
+endif
+
+$(OBJDIR)%.o: $(TESTDIR)%.cpp
 			@mkdir -p ${@D}
 			$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
 
@@ -62,7 +73,7 @@ $(NAME)		: $(OBJ)
 			@echo "Compiling ft_containers"$(GREEN)"\tOK"$(RESET)
 
 clean		:
-			rm -rf $(OBJDIR)
+			@rm -rf $(OBJDIR)
 
 fclean		: clean
 			@rm -f $(NAME)

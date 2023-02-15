@@ -1,68 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.cpp                                           :+:      :+:    :+:   */
+/*   mainTest.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 15:03:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:07:12 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
+
 #if REAL
-    #include <map>
-    #include <stack>
     #include <vector>
 	#include <map>
-	#include <type_traits>
     namespace ft = std;
 #else
-    #include <type_traits.hpp>
 	#include <vector.hpp>
 	#include <map.hpp>
 #endif
 
-#include <ios>
-#include <iostream>
-#include <new>
-#include <string>
+#include "vectorTest.cpp"
+#include "mapTest.cpp"
 
-void	is_integralTest( void )
-{
-    std::cout << "***TESTING IS_INTEGRAL TEMPLATE***" << "\n" << "\n";
-    std::cout << std::boolalpha;
-    std::cout << "char : " << ft::is_integral<char>::value << std::endl;
-    std::cout << "const char : " << ft::is_integral<const char >::value << std::endl;
-    std::cout << "const volatile int : " << ft::is_integral<const volatile int>::value << std::endl;
-    std::cout << "float : " << ft::is_integral<float>::value << "\n";
-    std::cout << "int : " << ft::is_integral<int>::value << "\n";
-    std::cout << "ft::vector<int> : " << ft::is_integral<ft::vector<int> >::value << "\n";
-    std::cout << "short : " << ft::is_integral<short>::value << "\n";
-    std::cout << "***" << "\n";
-}
-
-template<typename T>
-typename ft::enable_if<ft::is_integral<T>::value, T>::type add(T a, T b)
-{
-	return a + b;
-}
-
-template<typename T>
-typename ft::enable_if<!ft::is_integral<T>::value, T>::type add(T a, T b)
-{
-	(void)a;
-	(void)b;
-	return T();
-}
-
-void	enable_ifTest( void )
-{
-	std::cout << add(1, 5);
-	std::cout << add("hihi", "hoho");
-}
- 
-void vectorTest()
+void vectorTest( void )
 {
 // vec -> test constructor and insert with count and value
 	ft::vector<int>	vec(3, 2);
@@ -290,7 +252,7 @@ void vectorTest()
 	
 }
 
-void mapTest()
+void mapTest( void )
 {
 // mp -> test constructor and insert with value
 
@@ -327,92 +289,11 @@ void mapTest()
 	std::cout << std::endl << "End" << std::endl << std::endl;
 }
 
-int beginTest()
+int main( void )
 {
-  ft::map<char,int> mymap;
-
-
-	if (mymap.begin() != mymap.end())
-		std::cout << "This should not happen\n";
-
-  mymap['b'] = 100;
-  mymap['a'] = 200;
-  mymap['c'] = 300;
-
-	if (mymap.begin() == mymap.end())
-		std::cout << "This is wrong\n";
-  // show content:
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); it++)
-    std::cout << it->first << " => " << it->second << '\n';
-
-	std::cout << "Hello there\n";
-	for (ft::map<char,int>::const_iterator it=mymap.begin(); it!=mymap.end(); it++)
-    std::cout << it->first << " => " << it->second << '\n';
-	std::cout << "General Kenobi\n";
-
-	ft::map<char, int>::const_iterator it = mymap.begin();
-	ft::map<char, int>::const_iterator ti = mymap.end();
-	std::cout << "Wupwup\n";
-
-	it++;
-	++it;
-	it--;
-	--it;
-	std::cout << "marker1\n";
-
-	ti--;
-	--ti;
-	++ti;
-	ti++;
-
-	ti = it;
-
-	std::cout << "Trump is a kiddo\n";
-	ft::map<char, int>::iterator end = mymap.end();
-	while(it != end)
-	{
-    	std::cout << it->first << " => " << it->second << '\n';
-		it++;
-	}
-
-  return 0;
-}
-
-int countTest ()
-{
-  ft::map<char,int> mymap;
-  char c;
-
-  mymap ['a']=101;
-  std::cout << "assigned 'a'\n";
-  mymap ['c']=202;
-  std::cout << "assiged 'c'\n";
-  mymap ['f']=303;
-  std::cout << "assigned 'f'\n";
-
-	std::cout << "end of assignations\n";
-  for (c='a'; c<'h'; c++)
-  {
-    std::cout << c;
-    if (mymap.count(c)>0)
-      std::cout << " is an element of mymap.\n";
-    else 
-      std::cout << " is not an element of mymap.\n";
-  }
-
-  return 0;
-}
-
-int main()
-{
-	// is_integralTest();
-	// std::cout << std::endl;
-	// enable_ifTest();
-	// std::cout << std::endl;
 	// vectorTest();
-	// mapTest();
-	// beginTest();
-	countTest();
+	mapTest();
+	
     return 0;
 }
 
