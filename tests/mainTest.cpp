@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 11:07:12 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:10:28 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,10 +289,53 @@ void mapTest( void )
 	std::cout << std::endl << "End" << std::endl << std::endl;
 }
 
+int rbeginTest()
+{
+  ft::map<char,int> mymap;
+
+  mymap['x'] = 100;
+  mymap['y'] = 200;
+  mymap['z'] = 300;
+
+  // show content:
+  ft::map<char,int>::reverse_iterator rit;
+  for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
+    std::cout << rit->first << " => " << rit->second << '\n';
+
+
+	for (ft::map<char,int>::const_reverse_iterator it=mymap.rbegin(); it!=mymap.rend(); it++)
+    std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<char, int>::const_reverse_iterator it = mymap.rbegin();
+	ft::map<char, int>::const_reverse_iterator ti = mymap.rend();
+
+	it++;
+	++it;
+	it--;
+	--it;
+
+	ti--;
+	--ti;
+	++ti;
+	ti++;
+
+	ti = it;
+
+	ft::map<char, int>::reverse_iterator end = mymap.rend();
+	while(it != end)
+	{
+    	std::cout << it->first << " => " << it->second << '\n';
+		it++;
+	}
+
+  return 0;
+}
+
 int main( void )
 {
 	// vectorTest();
-	mapTest();
+	// mapTest();
+	rbeginTest();
 	
     return 0;
 }

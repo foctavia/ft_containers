@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 14:57:57 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:04:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ namespace ft
 			~rb_tree( void )
 			{
 				this->clear();
+				_node_alloc.destroy(_nil);
+				_node_alloc.deallocate(_nil, 1);
+				_nil = NULL;
 			}
 
 	// ASSIGNMENT OPERATOR
@@ -84,7 +87,7 @@ namespace ft
 					this->clear();
 					this->_comp = rhs._comp;
 					this->_node_alloc = rhs._node_alloc;
-					this->_root = _createNIL();
+					// this->_root = _createNIL();
 					if (rhs._root)
 					{
 						this->insert(rhs.begin(), rhs.end());
@@ -120,6 +123,11 @@ namespace ft
 			void						clear( void )
 			{
 				_clear(_root);
+				_nil->parent = _root;
+				_nil->left = _nil->right = NULL;
+				_nil->is_left = false;
+				_nil->color = black;
+				_root = _nil;
 				_size = 0;
 			}
 
@@ -195,7 +203,7 @@ namespace ft
 			// {
 			// 	node_pointer	tmp = _root;
 
-			// 	while (tmp != _nil)
+			// 	while (tmp && tmp != _nil)
 			// 	{
 			// 		if (_comp(val, tmp->value))
 			// 			tmp = tmp->left;
@@ -237,24 +245,24 @@ namespace ft
 				return lower;
 			}
 
-			// node_pointer			upper_bound( value_type val ) const
-			// {
-			// 	node_pointer	tmp = _root;
-			// 	node_pointer	upper = _nil;
+			node_pointer			upper_bound( value_type val ) const
+			{
+				node_pointer	tmp = _root;
+				node_pointer	upper = _nil;
 
-			// 	while (tmp != _nil)
-			// 	{
-			// 		if (_comp(val, tmp->value))
-			// 		{
-			// 			upper = tmp;
-			// 			tmp = tmp->left;
-			// 		}
-			// 		else
-			// 			tmp = tmp->right;
-			// 	}
+				while (tmp != _nil)
+				{
+					if (_comp(val, tmp->value))
+					{
+						upper = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
 
-			// 	return upper;
-			// }
+				return upper;
+			}
 
 		private:
 
@@ -331,7 +339,7 @@ namespace ft
 
 			void					_clear( node_pointer current )
 			{
-				if (!current)
+				if (current == _nil || !current)
 					return ;
 				if (current->left)
 					_clear(current->left);

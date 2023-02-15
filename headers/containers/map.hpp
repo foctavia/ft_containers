@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 10:03:59 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:39:10 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ namespace ft
 			map						&operator=( const map &rhs )
 			{
 				if (this != &rhs)
-					this->_tree.insert(rhs.begin(), rhs.last());
+					_tree = rhs._tree;
 
 				return *this;
 			}
@@ -161,8 +161,21 @@ namespace ft
 			iterator				end( void )									{ return _tree.end(); }
 			const_iterator			end( void ) const							{ return _tree.end(); }
 
-			reverse_iterator		rbegin( void )								{ return reverse_iterator(end()); }
-			const_reverse_iterator	rbegin( void ) const						{ return const_reverse_iterator(end()); }
+			reverse_iterator		rbegin( void )								
+			{
+				if (empty())
+					return rend();
+					
+				return reverse_iterator(end());
+			}
+			
+			const_reverse_iterator	rbegin( void ) const						
+			{
+				if (empty())
+					return rend();
+					
+				return const_reverse_iterator(end());
+			}
 
 			reverse_iterator		rend( void )								{ return reverse_iterator(begin()); }
 			const_reverse_iterator	rend( void ) const							{ return const_reverse_iterator(begin()); }

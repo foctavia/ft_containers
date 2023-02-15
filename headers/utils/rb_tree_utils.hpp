@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 16:03:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:43:56 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ namespace ft
 
 			rb_tree_const_iterator( void ) : node( ) { }
 
-			explicit rb_tree_const_iterator( node_pointer n ) : node( n ) { }
+			explicit rb_tree_const_iterator( const node_pointer n ) : node( n ) { }
 
 			rb_tree_const_iterator( const iterator &src ) : node( src.node ) { }
 			
