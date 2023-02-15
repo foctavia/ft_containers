@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 16:37:21 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:03:59 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,8 +251,8 @@ namespace ft
 
 			size_type				count( const key_type &key ) const
 			{
-				ft::pair<iterator, iterator>	tmp = equal_range(key);
-				size_type						count = std::distance(tmp.first, tmp.second);
+				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
+				size_type									count = std::distance(tmp.first, tmp.second);
 				
 				return count;
 			}

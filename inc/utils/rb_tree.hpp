@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/14 15:47:41 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:10:14 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,19 +191,7 @@ namespace ft
 	
 		// Member functions for Lookup
 
-			// node_pointer				get_node(node_pointer node, const value_type &val)
-			// {
-			// 	if (node == _nil)
-			// 		return node;
-			// 	if (_comp(val, node->value) && !_comp(node->value, val))
-			// 		return (get_node(node->left, val));
-			// 	if (!_comp(val, node->value) && _comp(node->value, val))
-			// 		return (get_node(node->right, val));
-					
-			// 	return node;
-			// }
-
-			node_pointer				get_node( value_type val )
+			node_pointer				find( value_type val )
 			{
 				node_pointer	tmp = _root;
 
@@ -220,53 +208,53 @@ namespace ft
 				return tmp;
 			}
 
-			node_pointer			find( value_type val )
-			{
-				node_pointer	tmp = lower_bound(val);
+			// node_pointer			find( value_type val )
+			// {
+			// 	node_pointer	tmp = lower_bound(val);
 
-				if (tmp == _nil || _comp(val, tmp->value))
-					return _nil;
+			// 	if (tmp == _nil || _comp(val, tmp->value))
+			// 		return _nil;
 
-				return tmp;
-			}
+			// 	return tmp;
+			// }
 
-			node_pointer			lower_bound( value_type val )
-			{
-				node_pointer	tmp = _root;
-				node_pointer	lower = _nil;
+			// node_pointer			lower_bound( value_type val ) const
+			// {
+			// 	node_pointer	tmp = _root;
+			// 	node_pointer	lower = _nil;
 				
-				while (tmp && tmp != _nil)
-				{	
-					if (!_comp(tmp->value, val))
-					{
-						lower = tmp;
-						tmp = tmp->left;
-					}
-					else
-						tmp = tmp->right;
-				}
+			// 	while (tmp && tmp != _nil)
+			// 	{	
+			// 		if (!_comp(tmp->value, val))
+			// 		{
+			// 			lower = tmp;
+			// 			tmp = tmp->left;
+			// 		}
+			// 		else
+			// 			tmp = tmp->right;
+			// 	}
 
-				return lower;
-			}
+			// 	return lower;
+			// }
 
-			node_pointer			upper_bound( value_type val )
-			{
-				node_pointer	tmp = _root;
-				node_pointer	upper = _nil;
+			// node_pointer			upper_bound( value_type val ) const
+			// {
+			// 	node_pointer	tmp = _root;
+			// 	node_pointer	upper = _nil;
 
-				while (tmp != _nil)
-				{
-					if (_comp(val, tmp->value))
-					{
-						upper = tmp;
-						tmp = tmp->left;
-					}
-					else
-						tmp = tmp->right;
-				}
+			// 	while (tmp != _nil)
+			// 	{
+			// 		if (_comp(val, tmp->value))
+			// 		{
+			// 			upper = tmp;
+			// 			tmp = tmp->left;
+			// 		}
+			// 		else
+			// 			tmp = tmp->right;
+			// 	}
 
-				return upper;
-			}
+			// 	return upper;
+			// }
 
 		private:
 
@@ -299,7 +287,7 @@ namespace ft
 				return _nil;
 			}
 
-			node_pointer	_getMin( void )
+			node_pointer	_getMin( void ) const
 			{
 				node_pointer	tmp = _root;
 				
@@ -309,7 +297,7 @@ namespace ft
 				return tmp;
 			}
 
-			node_pointer	_getMax( void )
+			node_pointer	_getMax( void ) const
 			{
 				node_pointer	tmp = _root;
 				
