@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 16:04:37 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:00:22 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ namespace ft
 		public:
 
 			typedef Value									value_type;
-			typedef Compare									value_compare;
-			typedef std::allocator<Value>					value_allocator;	
+			typedef Compare									value_compare;	
 			typedef Allocator								allocator_type;
 			
 			typedef typename Allocator::size_type			size_type;
@@ -73,6 +72,7 @@ namespace ft
 			~rb_tree( void )
 			{
 				this->clear();
+				
 				_node_alloc.destroy(_nil);
 				_node_alloc.deallocate(_nil, 1);
 				_nil = NULL;
@@ -82,17 +82,14 @@ namespace ft
 
 			rb_tree						&operator=( const rb_tree &rhs )
 			{
-				// if (this != &rhs)
-				// {
-					this->clear();
-					this->_comp = rhs._comp;
-					this->_node_alloc = rhs._node_alloc;
-					// this->_root = _createNIL();
-					if (rhs._root)
-					{
-						this->insert(rhs.begin(), rhs.end());
-					}
-				// }
+				this->clear();
+				
+				this->_comp = rhs._comp;
+				this->_node_alloc = rhs._node_alloc;
+				if (rhs._root)
+				{
+					this->insert(rhs.begin(), rhs.end());
+				}
 
 				return *this;
 			}
@@ -123,11 +120,13 @@ namespace ft
 			void						clear( void )
 			{
 				_clear(_root);
+				
 				_nil->parent = _root;
 				_nil->left = _nil->right = NULL;
 				_nil->is_left = false;
 				_nil->color = black;
 				_root = _nil;
+				
 				_size = 0;
 			}
 
@@ -279,7 +278,6 @@ namespace ft
 				node_pointer	newNode = _node_alloc.allocate(1);
 				
 				_node_alloc.construct(newNode, val);
-				// get_allocator().construct(&(newNode->value), val);
 
 				return newNode;
 			}
@@ -345,7 +343,7 @@ namespace ft
 					_clear(current->left);
 				if (current->right)
 					_clear(current->right);
-				// get_allocator().destroy(&(current->value));
+					
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
 				current = NULL;

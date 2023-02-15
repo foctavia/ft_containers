@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 16:43:56 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:43:08 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,8 +238,8 @@ namespace ft
 			typedef std::bidirectional_iterator_tag	iterator_category;
 			
 			typedef T								value_type;
-			typedef const T							&const_reference;
-			typedef const T							*const_pointer;
+			typedef const T							&reference;
+			typedef const T							*pointer;
 
 			typedef rb_tree_node< T >				node_type;
 			typedef rb_tree_node< T >				*node_pointer;
@@ -265,11 +265,11 @@ namespace ft
 			
 		// Member functions for element access
 
-			node_pointer		base( void ) const			{ return this->node; }
+			node_pointer	base( void ) const			{ return this->node; }
 		
-			const_reference		operator*( void ) const		{ return this->node->value; }
+			reference		operator*( void ) const		{ return this->node->value; }
 
-			const_pointer		operator->( void ) const	{ return &this->node->value; }
+			pointer			operator->( void ) const	{ return &this->node->value; }
 
 		// Member functions for overload operator
 

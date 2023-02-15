@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:47:58 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 16:46:37 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:54:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ namespace ft
 			reference			operator*( void ) const
 			{
 				Iter	tmp = current;
-				--tmp;
-
-				return *tmp;
+				
+				return *--tmp;
 			}
 
 			pointer				operator->( void ) const				{ return &(operator*()); }
