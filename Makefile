@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/15 11:11:09 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/15 18:08:06 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,14 +48,15 @@ endif
 # Rules
 all			: $(NAME)
 
-diff		: make re
-			make re NAME=std_containers REAL=1
-			@echo "Checking diff between ft and std"
-			@./ft_containers 2>/dev/null 1>ft
-			@./std_containers 2>/dev/null 1>std
-			@DIFF=$$(diff ft std >/dev/null 2>&1; echo $$?) ; \
-			export DIFF ; \
-			$(MAKE) check_diff
+diff		: 
+	make re
+	make re NAME=std_containers REAL=1
+	@echo "Checking diff between ft and std"
+	@./ft_containers 2>/dev/null 1>ft
+	@./std_containers 2>/dev/null 1>std
+	@DIFF=$$(diff ft std >/dev/null 2>&1; echo $$?) ; \
+	export DIFF ; \
+	$(MAKE) check_diff
 
 check_diff	:
 ifeq ($(DIFF),0)
