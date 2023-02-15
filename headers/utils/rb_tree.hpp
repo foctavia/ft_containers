@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 18:00:22 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:32:21 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ namespace ft
 			~rb_tree( void )
 			{
 				this->clear();
-				
-				_node_alloc.destroy(_nil);
-				_node_alloc.deallocate(_nil, 1);
-				_nil = NULL;
+				this->_destroyNode(_nil);
 			}
 
 	// ASSIGNMENT OPERATOR
@@ -173,7 +170,18 @@ namespace ft
 			
 	// 		iterator					erase( iterator first, iterator last );
 
-	//		size_type					erase( const value_type &val );
+			size_type					erase( const value_type &val )
+			{
+				node_pointer	tmp = find(value);
+
+				if (tmp == _nil)
+					return 0;
+
+				_erase(tmp);
+				_destroyNode(tmp);
+
+				return 1;
+			}
 
 			void						swap( rb_tree &other )
 			{
@@ -282,6 +290,14 @@ namespace ft
 				return newNode;
 			}
 
+			void			_destroyNode( node_pointer node )
+			{
+				_node_alloc.destroy(node);
+				_node_alloc.deallocate(node, 1);
+				
+				node = NULL;
+			}
+
 			node_pointer	_createNIL( void )
 			{
 				_nil = _createNode(value_type());
@@ -335,7 +351,7 @@ namespace ft
 				}
 			}
 
-			void					_clear( node_pointer current )
+			void			_clear( node_pointer current )
 			{
 				if (current == _nil || !current)
 					return ;
@@ -344,12 +360,10 @@ namespace ft
 				if (current->right)
 					_clear(current->right);
 					
-				_node_alloc.destroy(current);
-				_node_alloc.deallocate(current, 1);
-				current = NULL;
+				_destroyNode(current);
 			}
 
-// 			size_type	countBlackNodes( node_pointer node )
+// 			size_type		_countBlackNodes( node_pointer node )
 // 			{
 // 				if (!node)
 // 					return 1;
@@ -370,14 +384,14 @@ namespace ft
 // 				}
 // 			}
 
-			size_type	_getHeight( void )
+			size_type		_getHeight( void )
 			{
 				if (!_root)
 					return 0;
 				return height(_root) - 1;
 			}
 
-			size_type	_height( node_pointer node )
+			size_type		_height( node_pointer node )
 			{
 				if (!node)
 					return 0;
@@ -389,6 +403,11 @@ namespace ft
 					return leftheight;
 					
 				return rightheight;
+			}
+
+			void			_erase( node_pointer node )
+			{
+				
 			}
 
 			void			_rotateLeftRight(node_pointer grandparent)
