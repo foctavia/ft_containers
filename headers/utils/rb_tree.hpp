@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 10:10:14 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:57:57 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,51 +191,51 @@ namespace ft
 	
 		// Member functions for Lookup
 
-			node_pointer				find( value_type val )
-			{
-				node_pointer	tmp = _root;
-
-				while (tmp != _nil)
-				{
-					if (_comp(val, tmp->value))
-						tmp = tmp->left;
-					else if (_comp(tmp->value, val))
-						tmp = tmp->right;
-					else
-						break ;
-				}
-
-				return tmp;
-			}
-
-			// node_pointer			find( value_type val )
+			// node_pointer				find( value_type val )
 			// {
-			// 	node_pointer	tmp = lower_bound(val);
+			// 	node_pointer	tmp = _root;
 
-			// 	if (tmp == _nil || _comp(val, tmp->value))
-			// 		return _nil;
+			// 	while (tmp != _nil)
+			// 	{
+			// 		if (_comp(val, tmp->value))
+			// 			tmp = tmp->left;
+			// 		else if (_comp(tmp->value, val))
+			// 			tmp = tmp->right;
+			// 		else
+			// 			break ;
+			// 	}
 
 			// 	return tmp;
 			// }
 
-			// node_pointer			lower_bound( value_type val ) const
-			// {
-			// 	node_pointer	tmp = _root;
-			// 	node_pointer	lower = _nil;
-				
-			// 	while (tmp && tmp != _nil)
-			// 	{	
-			// 		if (!_comp(tmp->value, val))
-			// 		{
-			// 			lower = tmp;
-			// 			tmp = tmp->left;
-			// 		}
-			// 		else
-			// 			tmp = tmp->right;
-			// 	}
+			node_pointer			find( value_type val )
+			{
+				node_pointer	tmp = lower_bound(val);
 
-			// 	return lower;
-			// }
+				if (tmp == _nil || _comp(val, tmp->value))
+					return _nil;
+
+				return tmp;
+			}
+
+			node_pointer			lower_bound( value_type val ) const
+			{
+				node_pointer	tmp = _root;
+				node_pointer	lower = _nil;
+				
+				while (tmp && tmp != _nil)
+				{	
+					if (!_comp(tmp->value, val))
+					{
+						lower = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
+
+				return lower;
+			}
 
 			// node_pointer			upper_bound( value_type val ) const
 			// {
