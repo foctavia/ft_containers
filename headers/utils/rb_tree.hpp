@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 15:28:52 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:28:09 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ namespace ft
 				{
 					_root = node;
 					_root->color = black;
-					_attachNIL();
 					_size++;
+					_attachNIL();
 				}
 				else
 				{
@@ -163,20 +163,6 @@ namespace ft
 				{
 					for(; first != last; ++first)
 						insert(*first);
-				}
-			}
-			
-			void					erase( iterator first, iterator last )
-			{
-				size_type	distance = std::distance(first, last);
-				
-				if (distance && distance < max_size())
-				{
-					while( first != last)
-					{
-						value_type	tmp = (*first++);
-						erase(tmp);
-					}
 				}
 			}
 
@@ -330,24 +316,87 @@ namespace ft
 				if (color == black)
 					_correctTreeErase(replace);
 				_destroyNode(node);
-					
+				
 			}
+
+			// node_pointer get_successor(node_pointer to_delete)
+			// {
+			// 	node_pointer successor = to_delete->right;
+
+			// 	while (successor && successor->left)
+			// 		successor = successor->left;
+			// 	return successor;
+			// }
+
+			// void _erase(node_pointer to_delete)
+			// {
+			// 	ft::rb_tree_color original_color = to_delete->color;
+			// 	node_pointer successor;
+
+			// 	if (!to_delete->left && !to_delete->right)
+			// 		successor = NULL;
+			// 	else if (!to_delete->left)
+			// 		successor = to_delete->right;
+			// 	else if (!to_delete->right)
+			// 		successor = to_delete->left;
+			// 	else
+			// 	{
+			// 		successor = get_successor(to_delete);
+			// 		node_pointer successor_of_successor = successor->right;
+			// 		original_color = successor->color;
+			// 		if (successor_of_successor && (successor == to_delete->right || successor == to_delete->left))
+			// 			successor_of_successor->parent = successor;
+			// 		else
+			// 			_replaceNode(successor, successor->right);
+			// 		_replaceNode(to_delete, successor);
+			// 		successor->color = original_color;
+			// 		if (original_color == black)
+			// 			_correctTreeErase(successor_of_successor);
+			// 		_destroyNode(to_delete);
+			// 		return ;
+			// 	}
+			// 	_replaceNode(to_delete, successor);
+			// 	if (original_color == black)
+			// 		_correctTreeErase(successor);
+			// 	_destroyNode(to_delete);
+				
+			// }
 
 			size_type					erase( const value_type &value )
 			{
 				node_pointer	tmp = find(value);
 
+				std::cout << "1. in rbtree::erase, size is " << _size << std::endl;
 				if (tmp == _nil)
+				{
+					std::cout << "value is " << tmp->value.first <<
+						 "2. in rbtree::erase" << std::endl;
+
 					return 0;
+				}
+				std::cout << "3. in rbtree::erase" << std::endl;
 					
 				if (_size == 1)
+				{
+					std::cout << "4. in rbtree::erase" << std::endl;
 					clear();
+
+				}
 				else
 				{
+					std::cout << "5. in rbtree::erase" << std::endl;
+					
 					_detachNIL();
+					std::cout << "6. in rbtree::erase" << std::endl;
+
 					_erase(tmp);
-					_attachNIL();
+					std::cout << "7. in rbtree::erase" << std::endl;
+
 					_size--;
+					std::cout << "8. in erase size is " << _size << std::endl;
+					_attachNIL();
+					std::cout << "9. in rbtree::erase" << std::endl;
+
 				}
 
 				return 1;

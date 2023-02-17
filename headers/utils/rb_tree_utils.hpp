@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 15:15:31 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:34:13 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ namespace ft
 	/* RB_TREE_ITERATOR ******************************************************************* */
 
 	template< typename T >
-	class rb_tree_iterator : public std::iterator< std::bidirectional_iterator_tag, T, std::ptrdiff_t, T *, T & >
+	class rb_tree_iterator //: public std::iterator< std::bidirectional_iterator_tag, T, std::ptrdiff_t, T *, T & >
 	{		
 		public:
 			
@@ -85,6 +85,9 @@ namespace ft
 			typedef T								value_type;
 			typedef T								&reference;
 			typedef T								*pointer;
+
+			// typedef std::bidirectional_iterator_tag		iterator_category;
+			typedef std::ptrdiff_t 						difference_type;
 
 			typedef rb_tree_node< T >				node_type;
 			typedef rb_tree_node< T >				*node_pointer;
@@ -129,21 +132,51 @@ namespace ft
 
 		// Member functions for overload operator
 
-			rb_tree_iterator	&operator++( void )
-			{
-				node = _rb_increment(node);
+			// rb_tree_iterator	&operator++( void )
+			// {
+			// 	node = _rb_increment(node);
 				
+			// 	return *this;
+			// }
+
+			// rb_tree_iterator	operator++( int )
+			// {
+			// 	rb_tree_iterator	tmp = *this;
+				
+			// 	node = _rb_increment(node);
+				
+			// 	return tmp;
+			// }
+
+			rb_tree_iterator &operator++()
+			{
+				if (node->right)
+				{
+					node = node->right;
+					while (node->left)
+						node = node->left;
+				}
+				else
+				{
+					node_pointer tmp = node->parent;
+					while (node == tmp->right)
+					{
+						node = tmp;
+						tmp = tmp->parent;
+					}
+					if (node->right != tmp)
+						node = tmp;
+				}
 				return *this;
 			}
 
-			rb_tree_iterator	operator++( int )
+			rb_tree_iterator operator++(int)
 			{
-				rb_tree_iterator	tmp = *this;
-				
-				node = _rb_increment(node);
-				
+				rb_tree_iterator tmp = *this;
+				++(*this);
 				return tmp;
 			}
+
 
 			rb_tree_iterator	&operator--( void )
 			{
@@ -177,8 +210,8 @@ namespace ft
 			{
 				node_pointer	next = NULL;
 
-				if (!current)
-					return NULL;
+				// if (!current)
+				// 	return NULL;
 
 				if (current && current->right)
 				{
@@ -203,8 +236,8 @@ namespace ft
 			{
 				node_pointer	prev = NULL;
 
-				if (!current)
-					return NULL;
+				// if (!current)
+				// 	return NULL;
 
 				if (current && current->left)
 				{
@@ -273,22 +306,51 @@ namespace ft
 
 		// Member functions for overload operator
 
-			rb_tree_const_iterator	&operator++( void )
-			{
-				node = _rb_increment(node);
+			// rb_tree_const_iterator	&operator++( void )
+			// {
+			// 	node = _rb_increment(node);
 				
+			// 	return *this;
+			// }
+
+			// rb_tree_const_iterator	operator++( int )
+			// {
+			// 	rb_tree_const_iterator	tmp = *this;
+				
+			// 	node = _rb_increment(node);
+				
+			// 	return tmp;
+			// }
+
+			rb_tree_const_iterator &operator++()
+			{
+				if (node->right)
+				{
+					node = node->right;
+					while (node->left)
+						node = node->left;
+				}
+				else
+				{
+					node_pointer tmp = node->parent;
+					while (node == tmp->right)
+					{
+						node = tmp;
+						tmp = tmp->parent;
+					}
+					if (node->right != tmp)
+						node = tmp;
+				}
 				return *this;
 			}
 
-			rb_tree_const_iterator	operator++( int )
+			rb_tree_const_iterator operator++(int)
 			{
-				rb_tree_const_iterator	tmp = *this;
-				
-				node = _rb_increment(node);
-				
+				rb_tree_const_iterator tmp = *this;
+				++(*this);
 				return tmp;
 			}
-
+			
 			rb_tree_const_iterator	&operator--( void )
 			{
 				node = _rb_decrement(node);
@@ -321,8 +383,8 @@ namespace ft
 			{
 				node_pointer	next;
 
-				if (!current)
-					return NULL;
+				// if (!current)
+				// 	return NULL;
 
 				if (current->right)
 				{
@@ -347,8 +409,8 @@ namespace ft
 			{
 				node_pointer	prev;
 
-				if (!current)
-					return NULL;
+				// if (!current)
+				// 	return NULL;
 
 				if (current->left)
 				{

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 15:15:55 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:19:27 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <functional>
 
+// # include <red_black_tree.hpp>
 # include <rb_tree_utils.hpp>
 # include <rb_tree.hpp>
 # include <utility.hpp>
@@ -193,9 +194,31 @@ namespace ft
 			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 																				{ _tree.insert(first, last); }
 
-			void					erase( iterator pos )						{ _tree.erase(*pos); };
+			iterator				erase( iterator pos )
+			{
+				if (pos == end())
+					return end();
+				_tree.erase(*pos);
+				
+				return pos;
+			};
 			
-			void					erase( iterator first, iterator last )		{ _tree.erase(first, last); }
+			iterator				erase( iterator first, iterator last )		
+			{
+				size_type	distance = std::distance(first, last);
+				
+				if (distance && distance < max_size())
+				{
+					while (first != last)
+					{
+						value_type	tmp = (*first++);
+						_tree.erase(tmp);
+						std::cout << "In map::erase, tree._size = " << _tree.size() << std::endl;
+					}
+				}
+				
+				return last;
+			}
 		
 			size_type				erase( const key_type &key )				{ return _tree.erase(_get_value(key)); }
 
