@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 17:43:08 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:27:39 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,15 +175,15 @@ namespace ft
 
 			node_pointer	_rb_increment( node_pointer current )
 			{
-				node_pointer	next;
+				node_pointer	next = NULL;
 
 				if (!current)
 					return NULL;
 
-				if (current->right)
+				if (current && current->right)
 				{
 					next = current->right;
-					while (next->left)
+					while (next && next->left)
 						next = next->left;
 				}
 				else
@@ -201,15 +201,15 @@ namespace ft
 
 			node_pointer	_rb_decrement( node_pointer current )
 			{
-				node_pointer	prev;
+				node_pointer	prev = NULL;
 
 				if (!current)
 					return NULL;
 
-				if (current->left)
+				if (current && current->left)
 				{
 					prev = current->left;
-					while (prev->right)
+					while (prev && prev->right)
 						prev = prev->right;
 				}
 				else

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 17:53:24 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 07:51:51 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,11 @@ namespace ft
 			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 																				{ _tree.insert(first, last); }
 
-	// 		iterator				erase( iterator pos );
-	// 		iterator				erase( iterator first, iterator last );
-	// 		size_type				erase( const key_type &key );
+			void					erase( iterator pos )						{ _tree.erase(*pos); };
+			
+			void					erase( iterator first, iterator last )		{ std::cout << "1" <<std::endl; _tree.erase(first, last); }
+		
+			size_type				erase( const key_type &key )				{ return _tree.erase(_get_value(key)); }
 
 			void					swap( map &other )							{ _tree.swap(other._tree); }
 
