@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 07:51:51 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:11:54 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ namespace ft
 
 			void					erase( iterator pos )						{ _tree.erase(*pos); };
 			
-			void					erase( iterator first, iterator last )		{ std::cout << "1" <<std::endl; _tree.erase(first, last); }
+			void					erase( iterator first, iterator last )		{ _tree.erase(first, last); }
 		
 			size_type				erase( const key_type &key )				{ return _tree.erase(_get_value(key)); }
 

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 09:33:06 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:26:53 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,154 +170,31 @@ namespace ft
 			{
 				size_type	distance = std::distance(first, last);
 				
-					std::cout << "2" << std::endl;
-				
 				if (distance && distance < max_size())
 				{
-					std::cout << "3" << std::endl;
-					for(; first != last; ++first)
-						erase(*first);
+					while( first != last)
+					{
+						value_type	tmp = (*first++);
+						erase(tmp);
+					}
 				}
 			}
 
-			void						_replaceNode(node_pointer node, node_pointer replace)
-			{
-				std::cout << "rep.1" << std::endl;
-
-				bool				is_left = node->is_left;
-				node_pointer		parent = node->parent;
-				// node_pointer		left = node->left;
-				// node_pointer		right = node->right;
-
-				if (!parent)
-				{
-					std::cout << "rep.2" << std::endl;
-					_root = replace;
-				}	
-				else
-				{
-					std::cout << "rep.3" << std::endl;
-
-					if (is_left)
-					{
-						std::cout << "rep.4" << std::endl;
-						
-						parent->left = replace;
-					}
-					else
-					{
-						std::cout << "rep.5" << std::endl;
-						
-						parent->right = replace;
-					}
-				}
-				std::cout << "rep.6" << std::endl;
-				if (replace)
-				{	
-					replace->parent = parent;
-					replace->is_left = is_left;
-					std::cout << "rep.7" << std::endl;
-				}
+			// node_pointer				_getSister(node_pointer node)
+			// {
+			// 	if (!node->parent)
+			// 		return NULL;
 				
-				// if (left != replace)
-				// 	replace->left = left;
-				// if (right != replace)
-				// 	replace->right = right;
-				// if (left && left != replace)
-				// 	left->parent = replace;
-				// if (right && right != replace)
-				// 	right->parent = replace;
-			}
-
-			ft::rb_tree_color			_moveNode(node_pointer node, node_pointer replace)
-			{
-				std::cout << "4.1" << std::endl;
-				ft::rb_tree_color	color = node->color;
-				node_pointer		successor = node;
-
-				if (!node->left && !node->right)
-				{
-					_replaceNode(node, NULL);
-					return color;
-				}
-				// if (!node->left || !node->right)
-				// {
-				// 	if (node->right)
-				// 		replace = node->right;
-				// 	else
-				// 		replace = node->left;
-				// 	_replaceNode(node, replace);
-				// }
-				if (!node->left)
-				{
-					std::cout << "4.2" << std::endl;
-
-					replace = node->right;
-					_replaceNode(node, node->right);
-				}
-				else if (!node->right)
-				{
-					std::cout << "4.3" << std::endl;
-
-					replace = node->left;
-					_replaceNode(node, node->left);
-				}
-				else
-				{
-					std::cout << "4.4" << std::endl;
-
-					successor = _getSuccessor(node->right);
-					color = successor->color;
-					replace = successor->right;
-					if (successor->parent == node)
-					{
-						std::cout << "4.5" << std::endl;
-						
-						replace->parent = successor;
-					}
-					else
-					{
-						std::cout << "4.6" << std::endl;
-						
-						_replaceNode(successor, successor->right);
-						std::cout << "4.6.1" << std::endl;
-
-						successor->right = node->right;
-						successor->right->parent = successor;
-					}
-					std::cout << "4.7" << std::endl;
-
-					_replaceNode(node, successor);
-					successor->left = node->left;
-					successor->left->parent = successor;
-					successor->color = node->color;
-
-					// node_pointer	successor = _getSuccessor(node->right);
-					// color = _moveNode(successor, replace);
-					// _replaceNode(node, successor);
-				}
+			// 	if (node->is_left)
+			// 		return node->parent->right;
 				
-				return color;
-			}
-
-			node_pointer				_getSister(node_pointer node)
-			{
-				if (!node->parent)
-					return NULL;
-				
-				if (node->is_left)
-					return node->parent->right;
-				
-				return node->parent->left;
-			}
+			// 	return node->parent->left;
+			// }
 
 			void						_correctTreeErase(node_pointer node)
 			{
-				std::cout << "7" << std::endl;
 				while (node && node != _root && node->color == black)
 				{
-					std::cout << "8" << std::endl;
-					
 					if (node->is_left)
 					{
 						node_pointer	sister = node->parent->right;
@@ -325,7 +202,7 @@ namespace ft
 						{
 							sister->color = black;
 							node->parent->color = red;
-							leftRotate(node->parent);
+							_rotateLeft(node->parent);
 							sister = node->parent->right;
 						}
 						if (sister->left->color == black && sister->right->color == black)
@@ -339,13 +216,13 @@ namespace ft
 							{
 								sister->left->color = black;
 								sister->color = red;
-								rightRotate(sister);
+								_rotateRight(sister);
 								sister = node->parent->right;
 							}
 							sister->color = node->parent->color;
 							node->parent->color = black;
 							sister->right->color = black;
-							leftRotate(node->parent);
+							_rotateLeft(node->parent);
 							node = _root;
 						}
 					}
@@ -356,7 +233,7 @@ namespace ft
 						{
 							sister->color = black;
 							node->parent->color = red;
-							rightRotate(node->parent);
+							_rotateRight(node->parent);
 							sister = node->parent->left;
 						}
 						if (sister->left->color == black && sister->right->color == black)
@@ -370,71 +247,79 @@ namespace ft
 							{
 								sister->right->color = black;
 								sister->color = red;
-								leftRotate(sister);
+								_rotateLeft(sister);
 								sister = node->parent->left;
 							}
 							sister->color = node->parent->color;
 							node->parent->color = black;
 							sister->left->color = black;
-							rightRotate(node->parent);
+							_rotateRight(node->parent);
 							node = _root;
 						}
 					}
 				}
+				if (node)
+					node->color = black;
 			}
 
-			void moveDown(node_pointer nParent, node_pointer x) {
-				if (x->parent != NULL) {
-				if (x->is_left) {
-					x->parent->left = nParent;
-				} else {
-					x->parent->right = nParent;
+			void						_replaceNode(node_pointer node, node_pointer replace)
+			{
+				bool				is_left = node->is_left;
+				node_pointer		parent = node->parent;
+				node_pointer		left = node->left;
+				node_pointer		right = node->right;
+
+				if (!parent)
+					_root = replace;	
+				else
+				{
+					if (is_left)
+						parent->left = replace;
+					else
+						parent->right = replace;
 				}
+				
+				if (replace)
+				{	
+					replace->parent = parent;
+					replace->is_left = is_left;
+					if (left != replace)
+						replace->left = left;
+					if (right != replace)
+						replace->right = right;
+					if (left && left != replace)
+						left->parent = replace;
+					if (right && right != replace)
+						right->parent = replace;
 				}
-				nParent->parent = x->parent;
-				x->parent = nParent;
+				
 			}
 
-			void leftRotate(node_pointer x) {
-				// new parent will be node's right child
-				node_pointer nParent = x->right;
-			
-				// update root if current node is root
-				if (x == _root)
-				_root = nParent;
-			
-				moveDown(nParent, x);
-			
-				// connect x with new parent's left element
-				x->right = nParent->left;
-				// connect new parent's left element with node
-				// if it is not null
-				if (nParent->left != NULL)
-				nParent->left->parent = x;
-			
-				// connect new parent with x
-				nParent->left = x;
-			}
+			ft::rb_tree_color			_moveNode(node_pointer node, node_pointer replace)
+			{
+				ft::rb_tree_color	color = node->color;
 
-			void rightRotate(node_pointer x) {
-				// new parent will be node's left child
-				node_pointer nParent = x->left;
-			
-				// update root if current node is root
-				if (x == _root)
-				_root = nParent;
-			
-				moveDown(nParent, x);
-			
-				// connect x with new parent's right element
-				x->left = nParent->right;
-				// connect new parent's right element with node
-				// if it is not null
-				if (nParent->right != NULL)
-				nParent->right->parent = x;
-			
-				// connect new parent with x
-				nParent->right = x;
+				if (!node->left && !node->right)
+				{
+					_replaceNode(node, NULL);
+					return color;
+				}
+				if (!node->left || !node->right)
+				{
+					if (node->right)
+						replace = node->right;
+					else
+						replace = node->left;
+					_replaceNode(node, replace);
+				}
+				else
+				{
+					node_pointer	successor = _getSuccessor(node->right);
+					color = _moveNode(successor, replace);
+					_replaceNode(node, successor);
+				}
+				
+				return color;
 			}
 
 			void						_erase(node_pointer node)
@@ -442,22 +327,16 @@ namespace ft
 				node_pointer		replace = NULL;
 				ft::rb_tree_color	color = _moveNode(node, replace);
 
-				std::cout << "5" << std::endl;
-
 				if (color == black)
-				{
-					std::cout << "6" << std::endl;
 					_correctTreeErase(replace);
-				}
-					
 				_destroyNode(node);
+					
 			}
 
 			size_type					erase( const value_type &value )
 			{
 				node_pointer	tmp = find(value);
 
-				std::cout << "4" << std::endl;
 				if (tmp == _nil)
 					return 0;
 					
@@ -683,26 +562,26 @@ namespace ft
 // 				}
 // 			}
 
-			size_type		_getHeight( void )
-			{
-				if (!_root)
-					return 0;
-				return height(_root) - 1;
-			}
+			// size_type		_getHeight( void )
+			// {
+			// 	if (!_root)
+			// 		return 0;
+			// 	return height(_root) - 1;
+			// }
 
-			size_type		_height( node_pointer node )
-			{
-				if (!node)
-					return 0;
+			// size_type		_height( node_pointer node )
+			// {
+			// 	if (!node)
+			// 		return 0;
 					
-				size_type	leftheight = height(node->left) + 1;
-				size_type	rightheight = height(node->right) + 1;
+			// 	size_type	leftheight = height(node->left) + 1;
+			// 	size_type	rightheight = height(node->right) + 1;
 				
-				if (leftheight > rightheight)
-					return leftheight;
+			// 	if (leftheight > rightheight)
+			// 		return leftheight;
 					
-				return rightheight;
-			}
+			// 	return rightheight;
+			// }
 
 			void			_rotateLeftRight(node_pointer grandparent)
 			{
