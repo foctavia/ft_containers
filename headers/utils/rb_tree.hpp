@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 14:26:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:28:52 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,7 +393,7 @@ namespace ft
 			// 	return tmp;
 			// }
 
-			node_pointer			find( value_type val )
+			node_pointer			find( value_type val ) const
 			{
 				node_pointer	tmp = lower_bound(val);
 
@@ -562,20 +562,20 @@ namespace ft
 // 				}
 // 			}
 
-			// size_type		_getHeight( void )
+			// size_type		_getHeight( void ) const
 			// {
-			// 	if (!_root)
+			// 	if (_root == _nil)
 			// 		return 0;
-			// 	return height(_root) - 1;
+			// 	return _height(_root) - 1;
 			// }
 
-			// size_type		_height( node_pointer node )
+			// size_type		_height( node_pointer node ) const
 			// {
 			// 	if (!node)
 			// 		return 0;
 					
-			// 	size_type	leftheight = height(node->left) + 1;
-			// 	size_type	rightheight = height(node->right) + 1;
+			// 	size_type	leftheight = _height(node->left) + 1;
+			// 	size_type	rightheight = _height(node->right) + 1;
 				
 			// 	if (leftheight > rightheight)
 			// 		return leftheight;

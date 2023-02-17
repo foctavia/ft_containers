@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 12:31:19 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:15:31 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ namespace ft
 			
 			node_pointer		base() const				{ return this->node; }
 		
-			reference			operator*( void )			{ return this->node->value; }
+			reference			operator*( void ) const		{ return this->node->value; }
 
-			pointer				operator->( void )			{ return &this->node->value; }
+			pointer				operator->( void ) const	{ return &this->node->value; }
 
 		// Member functions for overload operator
 
