@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/10 15:41:14 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:29:50 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <stdexcept>
 # include <iostream>
 
-# include <type_traits.hpp>
-# include <reverse_iterator.hpp>
-# include <random_access_iterator.hpp>
-# include <algorithm.hpp>
+# include "type_traits.hpp"
+# include "reverse_iterator.hpp"
+# include "random_access_iterator.hpp"
+# include "algorithm.hpp"
 
 namespace ft
 {

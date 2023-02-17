@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:27 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:25:33 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # include <functional>
 
 // # include <red_black_tree.hpp>
-# include <rb_tree_utils.hpp>
-# include <rb_tree.hpp>
-# include <utility.hpp>
-# include <type_traits.hpp>
-# include <reverse_iterator.hpp>
-# include <algorithm.hpp>
+# include "rb_tree_utils.hpp"
+# include "rb_tree.hpp"
+# include "utility.hpp"
+# include "type_traits.hpp"
+# include "reverse_iterator.hpp"
+# include "algorithm.hpp"
 
 namespace ft
 {
@@ -213,7 +213,7 @@ namespace ft
 					{
 						value_type	tmp = (*first++);
 						_tree.erase(tmp);
-						std::cout << "In map::erase, tree._size = " << _tree.size() << std::endl;
+						// std::cout << "In map::erase, tree._size = " << _tree.size() << std::endl;
 					}
 				}
 				
