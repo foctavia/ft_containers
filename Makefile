@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/19 18:47:01 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/19 21:27:51 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ UTILDIR		= headers/utils/
 TESTDIR		= tests/
 OBJDIR		= obj/
 
-TEST		= tricky_erase.cpp 
+TEST		= ite_n1.cpp 
 				# mainTest.cpp \
 				# vectorTest.cpp \
 				# mapTest.cpp

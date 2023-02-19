@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/19 08:36:36 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/19 21:53:15 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ namespace ft
 				: value( val ), parent( 0 ), left( 0 ), right( 0 ), color( red ), is_left( false ) { }
 			
 			rb_tree_node( const rb_tree_node &src)
-				: value( src.value ), parent( src.parent ), left( src.left ), right( src.right ), color( src.color ), is_left( src.is_left )
-			{
-				// *this = src;
-			}
+				: value( src.value ), parent( src.parent ), left( src.left ), right( src.right ), color( src.color ), is_left( src.is_left ) { }
 
 	// DESTRUCTOR
 			
@@ -76,7 +73,7 @@ namespace ft
 	/* RB_TREE_ITERATOR ******************************************************************* */
 
 	template< typename T >
-	class rb_tree_iterator //: public std::iterator< std::bidirectional_iterator_tag, T, std::ptrdiff_t, T *, T & >
+	class rb_tree_iterator
 	{		
 		public:
 			
@@ -86,7 +83,6 @@ namespace ft
 			typedef T								&reference;
 			typedef T								*pointer;
 
-			// typedef std::bidirectional_iterator_tag		iterator_category;
 			typedef std::ptrdiff_t 						difference_type;
 
 			typedef rb_tree_node< T >				node_type;
@@ -100,12 +96,9 @@ namespace ft
 
 			rb_tree_iterator( void ) : node( ) { }
 
-			explicit rb_tree_iterator( node_pointer n ) : node( n ) { }
+			rb_tree_iterator( node_pointer n ) : node( n ) { }
 
-			rb_tree_iterator( const rb_tree_iterator &src ) : node( NULL )
-			{
-				*this = src;
-			}
+			rb_tree_iterator( const rb_tree_iterator &src ) : node( src.node ) { }
 			
 	// DESTRUCTOR
 
@@ -256,9 +249,11 @@ namespace ft
 
 			rb_tree_const_iterator( void ) : node( ) { }
 
-			explicit rb_tree_const_iterator( const node_pointer n ) : node( n ) { }
+			rb_tree_const_iterator( const node_pointer n ) : node( n ) { }
 
 			rb_tree_const_iterator( const iterator &src ) : node( src.node ) { }
+
+			rb_tree_const_iterator( const rb_tree_const_iterator &src ) : node( src.node ) { }
 			
 	// DESTRUCTOR
 
@@ -276,48 +271,19 @@ namespace ft
 
 		// Member functions for overload operator
 
-			// rb_tree_const_iterator	&operator++( void )
-			// {
-			// 	node = _rb_increment(node);
-				
-			// 	return *this;
-			// }
-
-			// rb_tree_const_iterator	operator++( int )
-			// {
-			// 	rb_tree_const_iterator	tmp = *this;
-				
-			// 	node = _rb_increment(node);
-				
-			// 	return tmp;
-			// }
-
-			rb_tree_const_iterator &operator++()
+			rb_tree_const_iterator	&operator++( void )
 			{
-				if (node->right)
-				{
-					node = node->right;
-					while (node->left)
-						node = node->left;
-				}
-				else
-				{
-					node_pointer tmp = node->parent;
-					while (node == tmp->right)
-					{
-						node = tmp;
-						tmp = tmp->parent;
-					}
-					if (node->right != tmp)
-						node = tmp;
-				}
+				node = _rb_increment(node);
+				
 				return *this;
 			}
 
-			rb_tree_const_iterator operator++(int)
+			rb_tree_const_iterator	operator++( int )
 			{
-				rb_tree_const_iterator tmp = *this;
-				++(*this);
+				rb_tree_const_iterator	tmp = *this;
+				
+				node = _rb_increment(node);
+				
 				return tmp;
 			}
 			
