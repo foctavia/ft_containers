@@ -6,12 +6,17 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 18:26:17 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:15:11 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
+
+# define BLACK "\033[1;30m"
+# define RED "\033[1;31m"
+# define GREEN "\033[1;32m"
+# define RESET "\033[m"
 
 # include <functional>
 
@@ -165,87 +170,143 @@ namespace ft
 						insert(*first);
 				}
 			}
-
-			// node_pointer				_getSister(node_pointer node)
-			// {
-			// 	if (!node->parent)
-			// 		return NULL;
-				
-			// 	if (node->is_left)
-			// 		return node->parent->right;
-				
-			// 	return node->parent->left;
-			// }
-
-			void						_correctTreeErase(node_pointer node)
+			
+			void	_correctTreeErase(node_pointer parent, bool is_left)
 			{
-				while (node && node != _root && node->color == black)
+				node_pointer	sister = _getSibling(parent, is_left);
+				node_pointer	child = _getChild(parent, is_left);
+
+				
+
+				if (parent)
+					std::cout << "parent value is " << parent->value.first << " color is " << parent->color << std::endl;
+				if (is_left)
+					std::cout << "it is left" << std::endl;
+				else 
+					std::cout << "it is right" << std::endl;
+
+				if (child && child->color == red)
 				{
-					if (node->is_left)
+					child->color = black;
+					return ;
+				}
+				
+				if (is_left)
+				{	
+					if (sister && sister->color == red)
 					{
-						node_pointer	sister = node->parent->right;
-						if (sister->color == red)
+						if (sister)
+							std::cout << "red sister value is " << sister->value.first << std::endl;
+						sister->color = black;
+						parent->color = red;
+						_rotateLeft(parent);
+						_correctTreeErase(parent, is_left);
+					}
+					if (sister && (!sister->right || (sister->right && sister->right->color == black)) && (!sister->left || (sister->left && sister->left->color == black)))
+					{
+						if (sister)
+							std::cout << "1. black sister value is " << sister->value.first << std::endl;
+						sister->color = red;
+						if (parent->color == red)
 						{
-							sister->color = black;
-							node->parent->color = red;
-							_rotateLeft(node->parent);
-							sister = node->parent->right;
+							std::cout << "it stop!" << std::endl;
+							parent->color = black;
+							return ;
 						}
-						if (sister->left->color == black && sister->right->color == black)
+						else if (parent->color == black && parent == _root)
 						{
-							sister->color = red;
-							node = node->parent;
+							
+							return ;
 						}
 						else
 						{
-							if (sister->right->color == black)
-							{
-								sister->left->color = black;
-								sister->color = red;
-								_rotateRight(sister);
-								sister = node->parent->right;
-							}
-							sister->color = node->parent->color;
-							node->parent->color = black;
-							sister->right->color = black;
-							_rotateLeft(node->parent);
-							node = _root;
+							
+							_correctTreeErase(parent->parent, parent->is_left);
 						}
 					}
 					else
 					{
-						node_pointer	sister = node->parent->left;
-						if (sister->color == red)
+						if (sister && sister->right && sister->right->color == black)
 						{
-							sister->color = black;
-							node->parent->color = red;
-							_rotateRight(node->parent);
-							sister = node->parent->left;
-						}
-						if (sister->left->color == black && sister->right->color == black)
-						{
+							if (sister->left)
+								sister->left->color = black;
 							sister->color = red;
-							node = node->parent;
-						}
-						else
-						{
-							if (sister->left->color == black)
-							{
-								sister->right->color = black;
-								sister->color = red;
-								_rotateLeft(sister);
-								sister = node->parent->left;
-							}
-							sister->color = node->parent->color;
-							node->parent->color = black;
-							sister->left->color = black;
-							_rotateRight(node->parent);
-							node = _root;
-						}
+							_rotateRight(sister);
+							sister = parent->right;
+						}							
+						sister->color = parent->color;
+						parent->color = black;
+						if (sister->right)
+							sister->right->color = black;
+						_rotateLeft(parent);
 					}
 				}
-				if (node)
-					node->color = black;
+				else
+				{
+					if (sister && sister->color == red)
+					{
+						sister->color = black;
+						parent->color = red;
+						_rotateRight(parent);
+						_correctTreeErase(parent, is_left);
+					}
+					if (sister && (!sister->left || (sister->left && sister->left->color == black)) && (!sister->right || (sister->right && sister->right->color == black)))
+					{
+						sister->color = red;
+						if (parent->color == red)
+						{
+							parent->color = black;
+							return ;
+						}
+						else if (parent->color == black && parent == _root)
+							return ;
+						else
+							_correctTreeErase(parent->parent, parent->is_left);
+					}
+					else
+					{
+						if (sister && sister->left && sister->left->color == black)
+						{
+							if (sister->right)
+								sister->right->color = black;
+							sister->color = red;
+							_rotateLeft(sister);
+							sister = parent->left;
+						}
+						sister->color = parent->color;
+						parent->color = black;
+						if (sister->left)
+							sister->left->color = black;
+						_rotateRight(parent);
+					}
+				}
+			}
+
+			node_pointer				_getSibling(node_pointer parent, bool is_left)
+			{	
+				if (is_left)
+					return parent->right;
+				return parent->left;
+			}
+
+			node_pointer				_getChild(node_pointer parent, bool is_left)
+			{	
+				if (is_left)
+					return parent->left;
+				return parent->right;
+			}
+
+			void	_checkColorErase(node_pointer node, node_pointer replace, node_pointer parent, bool is_left)
+			{		
+				if (node->color == black && replace && replace->color == red)
+					replace->color = black;
+				else if (node->color == red && replace && replace->color == black)
+				{
+					replace->color = red;
+					_erase_fix(parent, is_left);
+				}
+				else if (node->color == black && (!replace || (replace && replace->color == black)) && _getChild(parent, is_left) != _root)
+					_erase_fix(parent, is_left);
 			}
 
 			void						_replaceNode(node_pointer node, node_pointer replace)
@@ -255,7 +316,13 @@ namespace ft
 				node_pointer		left = node->left;
 				node_pointer		right = node->right;
 
-				if (!parent)
+				if (node == _root)
+				{
+					_root = replace;
+					_root->parent = NULL;
+					_root->color = black;
+				}
+				else if (!parent)
 					_root = replace;	
 				else
 				{
@@ -277,84 +344,72 @@ namespace ft
 						left->parent = replace;
 					if (right && right != replace)
 						right->parent = replace;
-				}
-				
+				}	
 			}
 
-			ft::rb_tree_color			_moveNode(node_pointer node, node_pointer replace)
+			void			_erase(node_pointer node)
 			{
-				ft::rb_tree_color	color = node->color;
+				node_pointer	replace = NULL;
+				node_pointer	parent = NULL;
+				bool			is_left;
 
 				if (!node->left && !node->right)
 				{
 					_replaceNode(node, NULL);
-					return color;
+					parent = node->parent;
+					is_left = node->is_left;
 				}
-				if (!node->left || !node->right)
+				else if (!node->left || !node->right)
 				{
-					if (node->right)
-						replace = node->right;
-					else
+					if (!node->right)
 						replace = node->left;
+					else
+						replace = node->right;
+					is_left = replace->is_left;
+					parent = node->parent;
 					_replaceNode(node, replace);
 				}
 				else
 				{
-					node_pointer	successor = _getSuccessor(node->right);
-					color = _moveNode(successor, replace);
-					_replaceNode(node, successor);
+					replace = _getSuccessor(node);
+					if (replace == node->right)
+					{
+						is_left = replace->is_left;
+						parent = replace;
+						_replaceNode(node, replace);
+					}
+					else
+					{
+						parent = replace->parent;
+						is_left = replace->is_left;
+						_replaceNode(replace, replace->right);
+						_replaceNode(node, replace);
+					}
 				}
 				
-				return color;
-			}
-
-			void						_erase(node_pointer node)
-			{
-				node_pointer		replace = NULL;
-				ft::rb_tree_color	color = _moveNode(node, replace);
-
-				if (color == black)
-					_correctTreeErase(replace);
-				_destroyNode(node);
+				if (parent)
+					_checkColorErase(node, replace, parent, is_left);
 				
+				_destroyNode(node);
 			}
 
 			size_type					erase( const value_type &value )
 			{
 				node_pointer	tmp = find(value);
-
-				// std::cout << "1. in rbtree::erase, size is " << _size << std::endl;
+				
 				if (tmp == _nil)
-				{
-					// std::cout << "value is " << tmp->value.first <<
-						//  "2. in rbtree::erase" << std::endl;
-
 					return 0;
-				}
-				// std::cout << "3. in rbtree::erase" << std::endl;
 					
 				if (_size == 1)
-				{
-					// std::cout << "4. in rbtree::erase" << std::endl;
 					clear();
-
-				}
 				else
-				{
-					// std::cout << "5. in rbtree::erase" << std::endl;
-					
+				{	
 					_detachNIL();
-					// std::cout << "6. in rbtree::erase" << std::endl;
-
 					_erase(tmp);
-					// std::cout << "7. in rbtree::erase" << std::endl;
-
-					_size--;
-					// std::cout << "8. in erase size is " << _size << std::endl;
 					_attachNIL();
-					// std::cout << "9. in rbtree::erase" << std::endl;
-
+					_size--;
 				}
+				displayTree();
 
 				return 1;
 			}
@@ -403,8 +458,6 @@ namespace ft
 			{
 				node_pointer	tmp = lower_bound(val);
 
-				// std::cout << "value is " << tmp->value.first << " and val is " << val.first <<
-				// 		 " in rbtree::find" << std::endl;
 				if (tmp == _nil || _comp(val, tmp->value))
 					return _nil;
 
@@ -448,6 +501,16 @@ namespace ft
 
 				return upper;
 			}
+			
+			void	displayTree( void )
+			{
+				if (_root)
+				{
+					_treeHelper("", _root, true);
+					std::cout << std::endl;
+				}
+				_check_rules_violation();
+			}
 
 		private:
 
@@ -489,10 +552,12 @@ namespace ft
 
 			node_pointer	_getSuccessor(node_pointer node)
 			{
-				while (node && node->left)
-					node = node->left;
+				node_pointer	successor = node->right;
+				
+				while (successor && successor->left)
+					successor = successor->left;
 
-				return node;
+				return successor;
 			}
 
 			node_pointer	_getMin( void ) const
@@ -548,48 +613,6 @@ namespace ft
 					
 				_destroyNode(current);
 			}
-
-// 			size_type		_countBlackNodes( node_pointer node )
-// 			{
-// 				if (!node)
-// 					return 1;
-
-// 				size_type	rightBlackNode = countBlackNodes(node->right);
-// 				size_type	leftBlackNode = countBlackNodes(node->left);
-
-// 				if (rightBlackNode != leftBlackNode)
-// 				{
-// 					// throw error
-// 					// or fix the tree
-// 				}
-// 				else
-// 				{
-// 					if (node->color == black)
-// 						leftBlackNode++;
-// 					return leftBlackNode;
-// 				}
-// 			}
-
-			// size_type		_getHeight( void ) const
-			// {
-			// 	if (_root == _nil)
-			// 		return 0;
-			// 	return _height(_root) - 1;
-			// }
-
-			// size_type		_height( node_pointer node ) const
-			// {
-			// 	if (!node)
-			// 		return 0;
-					
-			// 	size_type	leftheight = _height(node->left) + 1;
-			// 	size_type	rightheight = _height(node->right) + 1;
-				
-			// 	if (leftheight > rightheight)
-			// 		return leftheight;
-					
-			// 	return rightheight;
-			// }
 
 			void			_rotateLeftRight(node_pointer grandparent)
 			{
@@ -718,9 +741,11 @@ namespace ft
 				node_pointer	aunt = _getAunt(node);
 				
 				if (aunt)
-					aunt->color = black;		
-				node->parent->parent->color = red;
-				node->parent->color = black;
+					aunt->color = black;
+				if (node->parent && node->parent->parent && node->parent->parent != _root)	
+					node->parent->parent->color = red;
+				if (node->parent)
+					node->parent->color = black;
 			}
 
 			void			_correctTreeInsert(node_pointer node)
@@ -741,6 +766,7 @@ namespace ft
 				}
 				if (node && node->color == red && node->parent->color == red)
 					_correctTreeInsert(node);
+				
 				if (node && node->parent)
 					_checkColor(node->parent);
 			}
@@ -772,8 +798,100 @@ namespace ft
 				
 				_checkColor(newNode);
 			}
+
+			bool	_check_black_nodes( node_pointer node, int black_count, int &path_black_count)
+			{
+				if (!node)
+				{
+					if (path_black_count == -1)
+						path_black_count = black_count;
+					else if (path_black_count != black_count)
+					{
+						std::cout << "There isn't the same amount of black nodes in each path from root to null!" << std::endl;
+						return false; 
+					}
+					return true;
+				}
+				if (node != _nil && node->color == black)
+					black_count++;
+				return _check_black_nodes(node->left, black_count, path_black_count) && _check_black_nodes(node->right, black_count, path_black_count);
+			}
+
+			bool	_check_consecutive_red( node_pointer node )
+			{
+				if (!node)
+					return true;
+				if (node->color == red && node->parent && node->parent->color == red)
+				{
+					std::cout << "There are two consecutive red nodes in the tree!" << std::endl;
+					return false;
+				}
+				return _check_consecutive_red(node->left) && _check_consecutive_red(node->right);
+			}
+
+			void	_check_rules_violation( void)
+			{
+				bool	violation = false;
+
+				if (_root->color == red)
+				{
+					violation = true;
+					std::cout << "Root is not black as supposed to!" << std::endl;
+				}
+				int		path_black_count = -1;
+				if (!_check_black_nodes(_root, 0, path_black_count))
+					violation = true;
+				if (!_check_consecutive_red(_root))
+					violation = true;
+				if (violation)
+					std::cout << RED << "One of the red black tree rules has been violated" << RESET << std::endl << std::endl;
+				else
+					std::cout << GREEN << "Tree is balanced!" << RESET << std::endl << std::endl;
+			}
+
+			void	_treeHelper(std::string prefix, node_pointer node, bool is_left)
+			{
+				if (node)
+				{
+					_treeHelper(prefix + "	", node->right, false);
+					std::cout << prefix;
+					std::cout << (is_left ? "└──" : "┌──");
+					if (node != _nil)
+					{
+						if (node->color == red)
+							std::cout << RED;
+						else
+							std::cout << BLACK;
+						std::cout << " " << node->value.first << RESET << std::endl;
+					}
+					else
+						std::cout << " #" << std::endl;
+					_treeHelper(prefix + (is_left ? "	" : "|	"), node->left, true);
+				}
+			}
+
+			void	_printTree( node_pointer node )
+			{
+				if (node && node != _nil)
+				{
+					std::cout << node->value.first << ". parent is " << node->parent << " left is "  << node->left << " right is " << node->right << std::endl;
+				}
+			}
+
+			
+
+			void	printTree( void )
+			{
+				node_pointer	first = _getMin();
+				
+				while(first != _nil)
+				{
+					_printTree(first);
+					first++;
+				}
+			}
+			
 	};
-	
 }
 
 #endif

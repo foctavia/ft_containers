@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 18:25:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/19 08:36:36 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,51 +132,21 @@ namespace ft
 
 		// Member functions for overload operator
 
-			// rb_tree_iterator	&operator++( void )
-			// {
-			// 	node = _rb_increment(node);
-				
-			// 	return *this;
-			// }
-
-			// rb_tree_iterator	operator++( int )
-			// {
-			// 	rb_tree_iterator	tmp = *this;
-				
-			// 	node = _rb_increment(node);
-				
-			// 	return tmp;
-			// }
-
-			rb_tree_iterator &operator++()
+			rb_tree_iterator	&operator++( void )
 			{
-				if (node->right)
-				{
-					node = node->right;
-					while (node->left)
-						node = node->left;
-				}
-				else
-				{
-					node_pointer tmp = node->parent;
-					while (node == tmp->right)
-					{
-						node = tmp;
-						tmp = tmp->parent;
-					}
-					if (node->right != tmp)
-						node = tmp;
-				}
+				node = _rb_increment(node);
+				
 				return *this;
 			}
 
-			rb_tree_iterator operator++(int)
+			rb_tree_iterator	operator++( int )
 			{
-				rb_tree_iterator tmp = *this;
-				++(*this);
+				rb_tree_iterator	tmp = *this;
+				
+				node = _rb_increment(node);
+				
 				return tmp;
 			}
-
 
 			rb_tree_iterator	&operator--( void )
 			{
@@ -210,8 +180,8 @@ namespace ft
 			{
 				node_pointer	next = NULL;
 
-				// if (!current)
-				// 	return NULL;
+				if (!current)
+					return NULL;
 
 				if (current && current->right)
 				{
@@ -236,8 +206,8 @@ namespace ft
 			{
 				node_pointer	prev = NULL;
 
-				// if (!current)
-				// 	return NULL;
+				if (!current)
+					return NULL;
 
 				if (current && current->left)
 				{
