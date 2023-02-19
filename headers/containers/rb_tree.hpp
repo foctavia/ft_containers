@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/19 18:15:11 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:28:03 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,20 +170,11 @@ namespace ft
 						insert(*first);
 				}
 			}
-			
+
 			void	_correctTreeErase(node_pointer parent, bool is_left)
 			{
 				node_pointer	sister = _getSibling(parent, is_left);
 				node_pointer	child = _getChild(parent, is_left);
-
-				
-
-				if (parent)
-					std::cout << "parent value is " << parent->value.first << " color is " << parent->color << std::endl;
-				if (is_left)
-					std::cout << "it is left" << std::endl;
-				else 
-					std::cout << "it is right" << std::endl;
 
 				if (child && child->color == red)
 				{
@@ -195,50 +186,39 @@ namespace ft
 				{	
 					if (sister && sister->color == red)
 					{
-						if (sister)
-							std::cout << "red sister value is " << sister->value.first << std::endl;
 						sister->color = black;
 						parent->color = red;
 						_rotateLeft(parent);
 						_correctTreeErase(parent, is_left);
 					}
-					if (sister && (!sister->right || (sister->right && sister->right->color == black)) && (!sister->left || (sister->left && sister->left->color == black)))
+					else if (sister && (!sister->right || (sister->right && sister->right->color == black)) && (!sister->left || (sister->left && sister->left->color == black)))
 					{
-						if (sister)
-							std::cout << "1. black sister value is " << sister->value.first << std::endl;
 						sister->color = red;
 						if (parent->color == red)
-						{
-							std::cout << "it stop!" << std::endl;
 							parent->color = black;
-							return ;
-						}
 						else if (parent->color == black && parent == _root)
-						{
-							
 							return ;
-						}
 						else
-						{
-							
 							_correctTreeErase(parent->parent, parent->is_left);
-						}
 					}
 					else
 					{
-						if (sister && sister->right && sister->right->color == black)
+						if (sister && sister->left && sister->left->color == red && (!sister->right || (sister->right && sister->right->color == black)))
 						{
 							if (sister->left)
 								sister->left->color = black;
 							sister->color = red;
 							_rotateRight(sister);
 							sister = parent->right;
-						}							
-						sister->color = parent->color;
-						parent->color = black;
-						if (sister->right)
-							sister->right->color = black;
-						_rotateLeft(parent);
+						}
+						if (sister)
+						{
+							sister->color = parent->color;
+							parent->color = black;
+							if (sister->right)
+								sister->right->color = black;
+							_rotateLeft(parent);
+						}						
 					}
 				}
 				else
@@ -250,14 +230,11 @@ namespace ft
 						_rotateRight(parent);
 						_correctTreeErase(parent, is_left);
 					}
-					if (sister && (!sister->left || (sister->left && sister->left->color == black)) && (!sister->right || (sister->right && sister->right->color == black)))
+					else if (sister && (!sister->left || (sister->left && sister->left->color == black)) && (!sister->right || (sister->right && sister->right->color == black)))
 					{
 						sister->color = red;
 						if (parent->color == red)
-						{
 							parent->color = black;
-							return ;
-						}
 						else if (parent->color == black && parent == _root)
 							return ;
 						else
@@ -265,7 +242,7 @@ namespace ft
 					}
 					else
 					{
-						if (sister && sister->left && sister->left->color == black)
+						if (sister && sister->right && sister->right->color == red && (!sister->left || (sister->left && sister->left->color == black)))
 						{
 							if (sister->right)
 								sister->right->color = black;
@@ -273,11 +250,14 @@ namespace ft
 							_rotateLeft(sister);
 							sister = parent->left;
 						}
-						sister->color = parent->color;
-						parent->color = black;
-						if (sister->left)
-							sister->left->color = black;
-						_rotateRight(parent);
+						if (sister)
+						{
+							sister->color = parent->color;
+							parent->color = black;
+							if (sister->left)
+								sister->left->color = black;
+							_rotateRight(parent);
+						}
 					}
 				}
 			}
@@ -303,10 +283,10 @@ namespace ft
 				else if (node->color == red && replace && replace->color == black)
 				{
 					replace->color = red;
-					_erase_fix(parent, is_left);
+					_correctTreeErase(parent, is_left);
 				}
 				else if (node->color == black && (!replace || (replace && replace->color == black)) && _getChild(parent, is_left) != _root)
-					_erase_fix(parent, is_left);
+					_correctTreeErase(parent, is_left);
 			}
 
 			void						_replaceNode(node_pointer node, node_pointer replace)
@@ -409,7 +389,6 @@ namespace ft
 					_attachNIL();
 					_size--;
 				}
-				displayTree();
 
 				return 1;
 			}
@@ -661,7 +640,12 @@ namespace ft
 
 			void			_rotateLeft(node_pointer grandparent)
 			{
+				if (!grandparent)
+					return ;
+					
 				node_pointer	tmp = grandparent->right;
+				if (!tmp)
+					return ;
 				grandparent->right = tmp->left;
 				if (grandparent->right)
 				{
@@ -867,27 +851,6 @@ namespace ft
 					else
 						std::cout << " #" << std::endl;
 					_treeHelper(prefix + (is_left ? "	" : "|	"), node->left, true);
-				}
-			}
-
-			void	_printTree( node_pointer node )
-			{
-				if (node && node != _nil)
-				{
-					std::cout << node->value.first << ". parent is " << node->parent << " left is "  << node->left << " right is " << node->right << std::endl;
-				}
-			}
-
-			
-
-			void	printTree( void )
-			{
-				node_pointer	first = _getMin();
-				
-				while(first != _nil)
-				{
-					_printTree(first);
-					first++;
 				}
 			}
 			
