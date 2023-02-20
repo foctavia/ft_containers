@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/17 18:30:01 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:20:05 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ namespace ft
 	
 			explicit stack( const container_type &cont = container_type() )
 				: c( cont )									{ }
+
+			stack( const stack& src ) : c( src.c )
+			{
+				*this = src;
+			}
 	
 	// DESTRUCTOR
 

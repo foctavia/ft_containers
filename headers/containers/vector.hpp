@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 16:09:00 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:16:52 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ namespace ft
 			}
 
 			vector( vector const &src )
-				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( src._alloc ) 
+				: _first_elem( src._first_elem ), _size( src._size ), _capacity( src._capacity ), _alloc( src._alloc ) 
 			{
-				*this = src;
+				// *this = src;
 			}
 
 	// DESTRUCTOR

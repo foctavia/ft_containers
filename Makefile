@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/20 16:29:13 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/20 18:09:35 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,11 @@ UTILDIR		= headers/utils/
 TESTDIR		= tests/
 OBJDIR		= obj/
 
-TEST		= mainTest.cpp \
-				vectorTest.cpp \
-				mapTest.cpp \
-				stackTest.cpp \
-				setTest.cpp
+TEST		= stackTest.cpp \
+				# vectorTest.cpp \
+				# mapTest.cpp \
+				# stackTest.cpp \
+				# setTest.cpp
 				
 OBJ			= $(addprefix ${OBJDIR}, ${TEST:%.cpp=%.o})
 INC			= -I./$(CONTDIR) -I./$(UTILDIR)
