@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/19 21:26:30 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:43:31 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ namespace ft
 
 		public:
 																	
-			typedef typename tree_type::iterator			iterator;
+			typedef typename tree_type::const_iterator		iterator;
 			typedef typename tree_type::const_iterator		const_iterator;
 			
 			typedef ft::reverse_iterator< iterator >		reverse_iterator;
