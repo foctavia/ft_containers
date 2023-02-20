@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 15:21:10 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:47:56 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <memory>
 # include <stdexcept>
 # include <iostream>
+# include <new>
 
 # include "type_traits.hpp"
 # include "reverse_iterator.hpp"
@@ -168,6 +169,8 @@ namespace ft
 			{
 				if (new_cap > max_size())
 					throw std::length_error("vector::reserve");
+				if (new_cap >= max_size())
+					throw std::bad_alloc();
 				if (new_cap > _capacity)
 				{	
 					pointer	copy = _upsizeVector(new_cap);
@@ -224,8 +227,8 @@ namespace ft
 					for(; first != last; ++first)
 						pos = insert(pos, 1, *first) + 1;
 				}
-				else
-					throw std::length_error("vector::_M_range_insert");
+				// else
+				// 	throw std::length_error("vector::insert(range iterator)");
 
 				return pos;
 			}
@@ -293,6 +296,8 @@ namespace ft
 			{
 				if (new_size > max_size())
 					throw std::length_error("vector::resize");
+				if (new_size >= max_size())
+					throw std::bad_alloc();
 				if (new_size > _size)
 					insert(end(), new_size - _size, value);
 				else if (new_size < _size)

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 15:18:52 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:44:03 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,52 @@ void vectorTest( void )
 	}
 	catch(const std::exception &e)
 	{
-		std::cerr << RED("ERROR : construction : ") << e.what() << std::endl << std::endl;
+		std::cerr << RED("ERROR : ") << "construction : " << e.what() << std::endl << std::endl;
+	}
+
+	try
+	{	
+		vec.at(vec.size());
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
+
+	try
+	{	
+		vec.reserve(vec.max_size());
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
+
+	try
+	{	
+		vec.reserve(vec.max_size() + 1);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
+
+	try
+	{	
+		vec.resize(vec.max_size(), 0);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
+
+	try
+	{	
+		vec.resize(vec.max_size() + 1, 0);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
 	}
 	
 }
