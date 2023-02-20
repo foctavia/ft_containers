@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/20 11:26:48 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/20 13:59:19 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,9 @@ UTILDIR		= headers/utils/
 TESTDIR		= tests/
 OBJDIR		= obj/
 
-TEST		= ite_n0b.cpp 
-				# mainTest.cpp \
-				# vectorTest.cpp \
-				# mapTest.cpp
+TEST		= mainTest.cpp \
+				vectorTest.cpp \
+				mapTest.cpp
 				
 OBJ			= $(addprefix ${OBJDIR}, ${TEST:%.cpp=%.o})
 INC			= -I./$(CONTDIR) -I./$(UTILDIR)
@@ -53,22 +52,22 @@ diff		:
 	make re
 	make re NAME=std_containers REAL=1
 	@echo "Checking diff between ft and std"
-	@./ft_containers 2>/dev/null 1>ft
-	@./std_containers 2>/dev/null 1>std
+	@./$(NAME) 2>/dev/null 1>ft
+	@./$(STD) 2>/dev/null 1>std
 	@DIFF=$$(diff ft std >/dev/null 2>&1; echo $$?) ; \
 	export DIFF ; \
 	$(MAKE) check_diff
 
 check_diff	:
 ifeq ($(DIFF),0)
-	@echo ${GREEN}"OK - ft and std output are the same"${RESET}
+	@echo $(GREEN)"OK - ft and std output are the same"$(RESET)
 else
-	@echo ${RED}"KO - ft and std differ"${RESET}
+	@echo $(RED)"KO - ft and std differ"$(RESET)
 endif
 
 $(OBJDIR)%.o: $(TESTDIR)%.cpp
 			@mkdir -p ${@D}
-			$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
+			@$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
 
 $(NAME)		: $(OBJ)
 			$(CXX) $(CXXFLAGS) $(INC) $(OBJ) -o $@

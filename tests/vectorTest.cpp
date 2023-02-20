@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 18:09:00 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:18:52 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,98 +21,104 @@
 
 #define RED(s) "\033[1;31m" s "\033[m"
 #define GREEN(s) "\033[1;32m" s "\033[m"
+#define YELLOW(s) "\033[1;33m" s "\033[m"
+#define BLUE(s) "\033[1;34m" s "\033[m"
+#define PURPLE(s) "\033[1;35m" s "\033[m"
 
-template < typename T >
+template< typename T >
 void	print( T &vector )
 {
+	std::cout << std::endl << "size : " << vector.size() << "  capacity : " << vector.capacity() << std::endl;
+	
 	if (vector.empty())
-		std::cout << "Vector is empty" << std::endl;
-	
-	std::cout << "Vector size : " << vector.size() << "  capacity : " << vector.capacity() << std::endl;
-	
-	std::cout << "Vector : ";
-	for (size_t i = 0; i < vector.size(); ++i)
-		std::cout << vector[i] << " ";
-		
-	std::cout << std::endl << std::endl;
+		std::cout << "Vector is empty" << std::endl << std::endl;
+	else
+	{
+		std::cout << "content : ";
+		for (size_t i = 0; i < vector.size(); ++i)
+			std::cout << vector[i] << " ";
+			
+		std::cout << std::endl << std::endl;
+	}
 }
 
 void vectorTest( void )
 {
-// vec -> test constructor and insert with count and value
-	ft::vector<int>	vec(3, 2);
+	std::cout << PURPLE("***** TESTING VECTOR *****") << std::endl << std::endl;
 	
-	if (vec.empty())
-		std::cout << "is empty" << std::endl;
-		
-	ft::vector<int>::iterator	it;
+// vec -> test constructor and insert with count and value
 
-	std::cout << "vec : ";
-	for(it = vec.begin(); it != vec.end(); ++it)
-			std::cout << *it << " ";	
-	std::cout << std::endl;
+	std::cout << std::endl << BLUE("--> Testing constructor and insert with count and value") << std::endl << std::endl;
+	
+	ft::vector<int>	vec(5, 1);
+	
+	std::cout << GREEN("Vec (constructed with value) : ");
+	print(vec);
 
-	vec.insert(vec.begin(), 3, 6);
+	vec.insert(vec.begin(), 3, 2);
 
-	std::cout << "vec : ";
-	for(it = vec.begin(); it != vec.end(); ++it)
-			std::cout << *it << " ";	
-	std::cout << std::endl << std::endl;
+	std::cout << GREEN("Vec (after insert) : ");
+	print(vec);
 	
 // vec1 -> test constructor with range iterator
 
-	ft::vector<int>	vec1(vec.begin(), vec.end());
-	
-	if (vec == vec1)
-		std::cout << "vec and vec1 is equal" << std:: endl;
-	else
-		std::cout << "vec and vec1 is not equal" << std::endl;
+	std::cout << std::endl << BLUE("--> Testing constructor with range iterator") << std::endl << std::endl;
 
-	std::cout << "vec1 : ";
-	for(ft::vector<int>::iterator it1 = vec1.begin(); it1 != vec1.end(); ++it1)
-			std::cout << *it1 << " ";
-	std::cout << std::endl;
-	std::cout << "vec1 capacity " << vec1.capacity() 
-		<< "  vec1 size " << vec1.size() 
-		<< std::endl << std::endl;
+	ft::vector<int>	vec1(vec.begin(), vec.end());
+
+	std::cout << GREEN("Vec1 (constructed with range iterator) : ");
+	print(vec1);
+	
+	std::cout << YELLOW("Comparison test :") << std::endl;
+	if (vec == vec1)
+		std::cout << "Vec and Vec1 is equal" << std:: endl << std::endl;
+	else
+		std::cout << "Vec and Vec1 is not equal" << std::endl << std::endl;
 
 // vec2 -> test assignment operator and operator[] and at
 
+	std::cout << std::endl << BLUE("--> Testing operator=, operator[], and at") << std::endl << std::endl;
+
 	ft::vector<int>	vec2;
+
+	std::cout << GREEN("Vec2 : ");
+	print(vec2);
 
 	vec2.insert(vec2.begin(), 6);
 
-	std::cout << "vec2 : ";
-	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
-			std::cout << *it2 << " ";
-	std::cout << std::endl;
-	std::cout << "vec2 capacity " << vec2.capacity() 
-		<< "  vec2 size " << vec2.size() << std::endl;
+	std::cout << GREEN("Vec2 (after insert) : ");
+	print(vec2);
 
 	vec2 = vec;
 
+	std::cout << GREEN("Vec2 (after operator= with Vec) : ");
+	print(vec2);
+
+	std::cout << YELLOW("Comparison test :") << std::endl;
 	if (vec != vec2)
-		std::cout << "vec and vec2 is not equal" << std:: endl;
+		std::cout << "Vec and Vec2 is not equal" << std::endl << std::endl;
 	else
-		std::cout << "vec and vec2 is equal" << std::endl;
-
-	std::cout << "vec2 : ";
-	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
-			std::cout << *it2 << " ";
-	std::cout << std::endl;
-	std::cout << "vec2 capacity " << vec2.capacity() << "  vec2 size " << vec2.size() << std::endl;
+		std::cout << "Vec and Vec2 is equal" << std::endl << std::endl;
 	
-	std::cout << "elem access : ";
-	std::cout << vec2.front() << " " 
-		<< vec2[2] << " " 
-		<< vec2.at(3) << " " 
-		<< vec2.back() << std::endl << std::endl;
+	std::cout << GREEN("Vec2 (element access) : ") << std::endl;
+	std::cout << "Vec2.front()	: " << vec2.front() << std::endl
+		<< "Vec2[2]		: " << vec2[2] << std::endl 
+		<< "Vec2.at(3)	: " << vec2.at(3) << std::endl 
+		<< "Vec2.back()	: " << vec2.back() << std::endl << std::endl;
 
-// vec3 -> test pushback, popback, swap, erase
+// vec3 -> test pushback, popback, swap, erase, reverse_iterator
+
+	std::cout << std::endl << BLUE("--> Testing push_back, pop_back, swap, erase, reverse_iterator") << std::endl << std::endl;
 
 	ft::vector<int>	vec3;
 
-	vec3.insert(vec3.begin(), 3, 4);
+	std::cout << GREEN("Vec3 : ");
+	print(vec3);
+
+	vec3.push_back(1);
+	vec3.push_back(2);
+	vec3.push_back(3);
+	vec3.push_back(4);
 	vec3.push_back(5);
 	vec3.push_back(5);
 	vec3.push_back(6);
@@ -122,145 +128,129 @@ void vectorTest( void )
 	vec3.push_back(8);
 	vec3.push_back(8);
 
-
-	std::cout << "vec3 : ";
-	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
-			std::cout << *it3 << " ";
-	std::cout << std::endl;
+	std::cout << GREEN("Vec3 (after push_back) : ");
+	print(vec3);
 
 	vec3.pop_back();
-	
-	std::cout << "after pop_back" << std::endl << "vec3 : ";
-	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
-			std::cout << *it3 << " ";
-	std::cout << std::endl;
 
-	vec3.erase(vec3.begin() + 3);
-	
-	std::cout << "after erase" << std::endl << "vec3 : ";
-	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
-			std::cout << *it3 << " ";
-	std::cout << std::endl;
+	std::cout << GREEN("Vec3 (after pop_back) : ");
+	print(vec3);
 
-	vec3.erase(vec3.begin() + 5, vec3.begin() + 7);
-	
-	std::cout << "after erase range" << std::endl << "vec3 : ";
-	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
-			std::cout << *it3 << " ";
-	std::cout << std::endl;
+	vec3.erase(vec3.begin() + 4);
 
+	std::cout << GREEN("Vec3 (after erase with single iterator) : ");
+	print(vec3);
+
+	vec3.erase(vec3.begin() + 6, vec3.begin() + 8);
+
+	std::cout << GREEN("Vec3 (after erase with range iterator) : ");
+	print(vec3);
+
+	std::cout << YELLOW("Comparison test :") << std::endl;
 	if (vec2 < vec3)
-		std::cout << "vec2 is less than vec3" << std:: endl << std::endl;
+		std::cout << "Vec2 is less than vec3" << std:: endl << std::endl;
 	else
-		std::cout << "vec2 is not less than vec3" << std::endl << std::endl;
+		std::cout << "Vec2 is not less than vec3" << std::endl << std::endl;
 	
 	vec3.swap(vec2);
-	
-	std::cout << "after swap" << std::endl;
-	
-	std::cout << "vec2 : ";
-	for(ft::vector<int>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2)
-			std::cout << *it2 << " ";
-	std::cout << std::endl;
-	std::cout << "vec2 capacity " << vec2.capacity() << "  vec2 size " << vec2.size() << std::endl;
 
-	std::cout << "vec3 : ";
-	for(ft::vector<int>::iterator it3 = vec3.begin(); it3 != vec3.end(); ++it3)
-			std::cout << *it3 << " ";
-	std::cout << std::endl;
-	std::cout << "vec3 capacity " << vec3.capacity() << "  vec3 size " << vec3.size() << std::endl;
+	std::cout << GREEN("Vec3 (after swap with Vec2) : ");
+	print(vec3);
 
+	std::cout << GREEN("Vec2 (after swap with Vec3) : ");
+	print(vec2);
+
+	std::cout << YELLOW("Comparison test :") << std::endl;
 	if (vec2 < vec3)
-		std::cout << "vec2 is less than vec3" << std:: endl << std::endl;
+		std::cout << "Vec2 is less than vec3" << std:: endl << std::endl;
 	else
-		std::cout << "vec2 is not less than vec3" << std::endl << std::endl;
+		std::cout << "Vec2 is not less than vec3" << std::endl << std::endl;
 
-// vec4 -> test resize and assign
+	std::cout << GREEN("Vec2 (printed with reverse_iterator) : ") << std::endl;
+	std::cout << "size : " << vec2.size() << "  capacity : " << vec2.capacity() << std::endl << "content : ";
+	for(ft::vector<int>::reverse_iterator rit = vec2.rbegin(); rit != vec2.rend(); ++rit)
+			std::cout << *rit << " ";
+	std::cout << std::endl << std::endl;
 
-	ft::vector<int>	vec4;
-	
-	vec4.insert(vec4.begin(), 3, 4);
+// vec4 & vec5 -> test resize, data and assign
 
-	std::cout << "vec4 : ";
-	for(ft::vector<int>::iterator it4 = vec4.begin(); it4 != vec4.end(); ++it4)
-			std::cout << *it4 << " ";
-	std::cout << std::endl;
+	std::cout << std::endl << BLUE("--> Testing resize, data, and assign") << std::endl << std::endl;
+
+	ft::vector<int>	vec4(3, 6);
+
+	std::cout << GREEN("Vec4 : ");
+	print(vec4);
 
 	vec4.resize(6, 7);
-	
-	std::cout << "after resize more" << std::endl << "vec4 : ";
-	for(ft::vector<int>::iterator it4 = vec4.begin(); it4 != vec4.end(); ++it4)
-			std::cout << *it4 << " ";
-	std::cout << std::endl;
-	std::cout << "vec4 capacity " << vec4.capacity() << "  vec4 size " << vec4.size() << std::endl;
+
+	std::cout << GREEN("Vec4 (after resize with more value) : ");
+	print(vec4);
 
 	ft::vector<int>	vec5 = vec4;
 
-	vec4.resize(4, 8);
-	
-	std::cout << "after resize less" << std::endl << "vec4 : ";
-	for(ft::vector<int>::iterator it4 = vec4.begin(); it4 != vec4.end(); ++it4)
-			std::cout << *it4 << " ";
-	std::cout << std::endl;
+	std::cout << GREEN("Vec5 (assigned with operator= the value of Vec4) : ");
+	print(vec5);
 
-	std::cout << "with data" << std::endl << "vec4 : ";
+	vec4.resize(4, 8);
+
+	std::cout << GREEN("Vec4 (after resize with less value) : ");
+	print(vec4);
+
+	std::cout << GREEN("Vec4 (printed with data()) : ") << std::endl;
+	std::cout << "size : " << vec4.size() << "  capacity : " << vec4.capacity() << std::endl << "content : ";
 	for(size_t i = 0; i < vec4.size(); ++i)
 			std::cout << *(vec4.data() + i) << " ";
-	std::cout << std::endl;
-	std::cout << "vec4 capacity " << vec4.capacity() << "  vec4 size " << vec4.size() << std::endl;
+	std::cout << std::endl << std::endl;
 
 	vec4.assign(15, 3);
 
-	std::cout << "after assign " << std::endl << "vec4 : ";
-	for(ft::vector<int>::iterator it4 = vec4.begin(); it4 != vec4.end(); ++it4)
-			std::cout << *it4 << " ";
-	std::cout << std::endl;
-	std::cout << "vec4 capacity " << vec4.capacity() << "  vec4 size " << vec4.size() << std::endl << std::endl;
+	std::cout << GREEN("Vec4 (after assign with value) : ");
+	print(vec4);
 
+	std::cout << YELLOW("Comparison test :") << std::endl;
 	if (vec4 > vec5)
-		std::cout << "vec4 is more than vec5" << std:: endl;
+		std::cout << "Vec4 is more than Vec5" << std:: endl << std::endl;
 	else
-		std::cout << "vec4 is not more than vec5" << std::endl;
+		std::cout << "Vec4 is not more than Vec5" << std::endl << std::endl;
 
-	std::cout << "vec5 : ";
-	for(ft::vector<int>::iterator it5 = vec5.begin(); it5 != vec5.end(); ++it5)
-			std::cout << *it5 << " ";
-	std::cout << std::endl;
-	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl;
+	std::cout << GREEN("Vec5 : ");
+	print(vec5);
 
 	vec5.assign(vec4.begin(), vec4.begin() + 5);
 
-	std::cout << "after assign " << std::endl << "vec5 : ";
-	for(ft::vector<int>::iterator it5 = vec5.begin(); it5 != vec5.end(); ++it5)
-			std::cout << *it5 << " ";
-	std::cout << std::endl;
-	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
+	std::cout << GREEN("Vec5 (after assign with range iterator): ");
+	print(vec5);
 
-	std::cout << "with reverse_iterator " << std::endl << "vec5 : ";
-	for(ft::vector<int>::reverse_iterator it5 = vec5.rbegin(); it5 != vec5.rend(); ++it5)
-			std::cout << *it5 << " ";
-	std::cout << std::endl;
-	std::cout << "vec5 capacity " << vec5.capacity() << "  vec5 size " << vec5.size() << std::endl << std::endl;
+// vec6 & vec7 -> test exception
+
+	std::cout << std::endl << BLUE("--> Testing error and exception") << std::endl << std::endl;
 
 	ft::vector<int>	vec6;
-	
-	ft::vector<int>::iterator it5 = vec5.begin();
 	ft::vector<int>	vec7;
 	
-	vec7.insert(vec7.begin(), it5, vec6.begin());
+	ft::vector<int>::iterator it5 = vec5.begin();
+	try
+	{
+		vec7.insert(vec7.begin(), it5, vec6.begin());
+		
+		std::cout << GREEN("Vec7 (after insert with a range of different iterator): ");
+		print(vec7);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
+	
+	try
+	{	
+		ft::vector<int>	vec8(it5, vec6.begin());
 
-	std::cout << "vec7 : ";
-	for(ft::vector<int>::iterator it7 = vec7.begin(); it7 != vec7.end(); ++it7)
-			std::cout << *it7 << " ";
-	std::cout << std::endl;
-	std::cout << "vec7 capacity " << vec7.capacity() << "  vec7 size " << vec7.size() << std::endl << std::endl;
-
-	ft::vector<int>	vec8(it5, vec6.begin());
-
-	std::cout << "vec8 : ";
-	for(ft::vector<int>::iterator it8 = vec8.begin(); it8 != vec8.end(); ++it8)
-			std::cout << *it8 << " ";
-	std::cout << std::endl;
-	std::cout << "vec8 capacity " << vec8.capacity() << "  vec8 size " << vec8.size() << std::endl << std::endl;
+		std::cout << GREEN("Vec8 (constructed with a range of different iterator): ");
+		print(vec8);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : construction : ") << e.what() << std::endl << std::endl;
+	}
 	
 }

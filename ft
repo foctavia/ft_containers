@@ -1,0 +1,129 @@
+[1;35m***** TESTING VECTOR *****[m
+
+
+[1;34m--> Testing constructor and insert with count and value[m
+
+[1;32mVec (constructed with value) : [m
+size : 5  capacity : 5
+content : 1 1 1 1 1 
+
+[1;32mVec (after insert) : [m
+size : 8  capacity : 10
+content : 2 2 2 1 1 1 1 1 
+
+
+[1;34m--> Testing constructor with range iterator[m
+
+[1;32mVec1 (constructed with range iterator) : [m
+size : 8  capacity : 8
+content : 2 2 2 1 1 1 1 1 
+
+[1;33mComparison test :[m
+Vec and Vec1 is equal
+
+
+[1;34m--> Testing operator=, operator[], and at[m
+
+[1;32mVec2 : [m
+size : 0  capacity : 0
+Vector is empty
+
+[1;32mVec2 (after insert) : [m
+size : 1  capacity : 1
+content : 6 
+
+[1;32mVec2 (after operator= with Vec) : [m
+size : 8  capacity : 8
+content : 2 2 2 1 1 1 1 1 
+
+[1;33mComparison test :[m
+Vec and Vec2 is equal
+
+[1;32mVec2 (element access) : [m
+Vec2.front()	: 2
+Vec2[2]		: 2
+Vec2.at(3)	: 1
+Vec2.back()	: 1
+
+
+[1;34m--> Testing push_back, pop_back, swap, erase, reverse_iterator[m
+
+[1;32mVec3 : [m
+size : 0  capacity : 0
+Vector is empty
+
+[1;32mVec3 (after push_back) : [m
+size : 12  capacity : 16
+content : 1 2 3 4 5 5 6 6 7 7 8 8 
+
+[1;32mVec3 (after pop_back) : [m
+size : 11  capacity : 16
+content : 1 2 3 4 5 5 6 6 7 7 8 
+
+[1;32mVec3 (after erase with single iterator) : [m
+size : 10  capacity : 16
+content : 1 2 3 4 5 6 6 7 7 8 
+
+[1;32mVec3 (after erase with range iterator) : [m
+size : 8  capacity : 16
+content : 1 2 3 4 5 6 7 8 
+
+[1;33mComparison test :[m
+Vec2 is not less than vec3
+
+[1;32mVec3 (after swap with Vec2) : [m
+size : 8  capacity : 8
+content : 2 2 2 1 1 1 1 1 
+
+[1;32mVec2 (after swap with Vec3) : [m
+size : 8  capacity : 16
+content : 1 2 3 4 5 6 7 8 
+
+[1;33mComparison test :[m
+Vec2 is less than vec3
+
+[1;32mVec2 (printed with reverse_iterator) : [m
+size : 8  capacity : 16
+content : 8 7 6 5 4 3 2 1 
+
+
+[1;34m--> Testing resize, data, and assign[m
+
+[1;32mVec4 : [m
+size : 3  capacity : 3
+content : 6 6 6 
+
+[1;32mVec4 (after resize with more value) : [m
+size : 6  capacity : 6
+content : 6 6 6 7 7 7 
+
+[1;32mVec5 (assigned with operator= the value of Vec4) : [m
+size : 6  capacity : 6
+content : 6 6 6 7 7 7 
+
+[1;32mVec4 (after resize with less value) : [m
+size : 4  capacity : 6
+content : 6 6 6 7 
+
+[1;32mVec4 (printed with data()) : [m
+size : 4  capacity : 6
+content : 6 6 6 7 
+
+[1;32mVec4 (after assign with value) : [m
+size : 15  capacity : 15
+content : 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+
+[1;33mComparison test :[m
+Vec4 is not more than Vec5
+
+[1;32mVec5 : [m
+size : 6  capacity : 6
+content : 6 6 6 7 7 7 
+
+[1;32mVec5 (after assign with range iterator): [m
+size : 5  capacity : 6
+content : 3 3 3 3 3 
+
+
+[1;34m--> Testing error and exception[m
+

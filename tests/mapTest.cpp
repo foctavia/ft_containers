@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/15 18:11:43 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:02:35 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,28 @@
 	#include <map.hpp>
 #endif
 
-#define RED(s) "\033[1;31m" s "\033[m"
-#define GREEN(s) "\033[1;32m" s "\033[m"
+// #define RED(s) "\033[1;31m" s "\033[m"
+// #define GREEN(s) "\033[1;32m" s "\033[m"
+
+// template< typename T >
+// void	print( T &map )
+// {
+// 	if (map.empty())
+// 		std::cout << "Map is empty" << std::endl;
+		
+// 	std::cout << "Map size : " << map.size() << "	max size : " << map.max_size() << std::endl;
+
+// 	map::iterator	it = map.begin();
+	
+// 	std::cout << "Map : ";
+// 	while (it != map.end())
+// 	{
+// 		std::cout << it->first << ", " << it->second << std::endl;
+// 		it++;
+// 	}
+	
+// 	std::cout << std::endl << std::endl;
+// }
 
 void mapTest( void )
 {
