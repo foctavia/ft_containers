@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 13:33:27 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:31:42 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ namespace ft
 
 		// Member functions for Lookup
 
-			iterator				lower_bound( const key_type &key )			//{ return iterator(_tree.lower_bound(key)); }
+			iterator				lower_bound( const key_type &key )
 			{
 				iterator	it = begin();
 				
@@ -207,7 +207,7 @@ namespace ft
 				return it;	
 			}
 			
-			const_iterator			lower_bound( const key_type &key ) const	//{ return const_iterator(_tree.lower_bound(key)); }
+			const_iterator			lower_bound( const key_type &key ) const
 			{
 				const_iterator	it = begin();
 				
@@ -217,7 +217,7 @@ namespace ft
 				return it;
 			}
 
-			iterator				upper_bound( const key_type &key )			//{ return iterator(_tree.upper_bound(key)); }
+			iterator				upper_bound( const key_type &key )
 			{
 				iterator	it = begin();
 				
@@ -227,7 +227,7 @@ namespace ft
 				return it;
 			}
 			
-			const_iterator			upper_bound( const key_type &key ) const	//{ return const_iterator(_tree.upper_bound(key)); }
+			const_iterator			upper_bound( const key_type &key ) const
 			{
 				const_iterator	it = begin();
 				
@@ -245,13 +245,13 @@ namespace ft
 			iterator				find( const key_type &key )					{ return iterator(_tree.find(key)); }
 			const_iterator			find( const key_type &key ) const			{ return iterator(_tree.find(key)); }
 
-			size_type				count( const key_type &key ) const			{ return find(key) != end() ? 1 : 0; }
-			// {
-			// 	ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
-			// 	size_type									count = std::distance(tmp.first, tmp.second);
+			size_type				count( const key_type &key ) const
+			{
+				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
+				size_type									count = std::distance(tmp.first, tmp.second);
 				
-			// 	return count;
-			// }
+				return count;
+			}
 
 		// Member functions for Observers
 			

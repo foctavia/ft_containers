@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 15:47:56 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:09:00 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,8 +227,8 @@ namespace ft
 					for(; first != last; ++first)
 						pos = insert(pos, 1, *first) + 1;
 				}
-				// else
-				// 	throw std::length_error("vector::insert(range iterator)");
+				else
+					throw std::length_error("vector::insert(range iterator)");
 
 				return pos;
 			}

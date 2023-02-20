@@ -1,7 +1,8 @@
 obj/
 ft_containers
 std_containers
-.nfs*
+ft
+std
 42TESTERS*
 containers_test/
 ft_containers_monkey_tester

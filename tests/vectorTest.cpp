@@ -6,41 +6,11 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 15:44:03 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:26:16 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-
-#if REAL
-    #include <vector>
-    namespace ft = std;
-#else
-	#include <vector.hpp>
-#endif
-
-#define RED(s) "\033[1;31m" s "\033[m"
-#define GREEN(s) "\033[1;32m" s "\033[m"
-#define YELLOW(s) "\033[1;33m" s "\033[m"
-#define BLUE(s) "\033[1;34m" s "\033[m"
-#define PURPLE(s) "\033[1;35m" s "\033[m"
-
-template< typename T >
-void	print( T &vector )
-{
-	std::cout << std::endl << "size : " << vector.size() << "  capacity : " << vector.capacity() << std::endl;
-	
-	if (vector.empty())
-		std::cout << "Vector is empty" << std::endl << std::endl;
-	else
-	{
-		std::cout << "content : ";
-		for (size_t i = 0; i < vector.size(); ++i)
-			std::cout << vector[i] << " ";
-			
-		std::cout << std::endl << std::endl;
-	}
-}
+#include "utils.hpp"
 
 void vectorTest( void )
 {

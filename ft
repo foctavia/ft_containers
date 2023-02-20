@@ -26,7 +26,7 @@ Vec and Vec1 is equal
 
 [1;32mVec2 : [m
 size : 0  capacity : 0
-Vector is empty
+Container is empty
 
 [1;32mVec2 (after insert) : [m
 size : 1  capacity : 1
@@ -50,7 +50,7 @@ Vec2.back()	: 1
 
 [1;32mVec3 : [m
 size : 0  capacity : 0
-Vector is empty
+Container is empty
 
 [1;32mVec3 (after push_back) : [m
 size : 12  capacity : 16

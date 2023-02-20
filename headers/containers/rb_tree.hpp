@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/19 21:11:40 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:39:02 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define RB_TREE_HPP
 
 # define BLACK "\033[1;30m"
-# define RED "\033[1;31m"
-# define GREEN "\033[1;32m"
+# define RBT_RED "\033[1;31m"
+# define RBT_GREEN "\033[1;32m"
 # define RESET "\033[m"
 
 # include <functional>
@@ -208,7 +208,7 @@ namespace ft
 	
 		// Member functions for Lookup
 
-			node_pointer			find( value_type val ) const
+			node_pointer				find( value_type val ) const
 			{
 				node_pointer	tmp = lower_bound(val);
 
@@ -218,7 +218,7 @@ namespace ft
 				return tmp;
 			}
 
-			node_pointer			lower_bound( value_type val ) const
+			node_pointer				lower_bound( value_type val ) const
 			{
 				node_pointer	tmp = _root;
 				node_pointer	lower = _nil;
@@ -237,7 +237,7 @@ namespace ft
 				return lower;
 			}
 
-			node_pointer			upper_bound( value_type val ) const
+			node_pointer				upper_bound( value_type val ) const
 			{
 				node_pointer	tmp = _root;
 				node_pointer	upper = _nil;
@@ -256,7 +256,7 @@ namespace ft
 				return upper;
 			}
 			
-			void	displayTree( void )
+			void						displayTree( void )
 			{
 				if (_root)
 				{
@@ -372,19 +372,19 @@ namespace ft
 
 		// Rotate functions
 
-			void			_rotateLeftRight(node_pointer grandparent)
+			void			_rotateLeftRight( node_pointer grandparent )
 			{
 				_rotateLeft(grandparent->left);
 				_rotateRight(grandparent);
 			}
 
-			void			_rotateRightLeft(node_pointer grandparent)
+			void			_rotateRightLeft( node_pointer grandparent )
 			{
 				_rotateRight(grandparent->right);
 				_rotateLeft(grandparent);
 			}
 
-			void			_rotateRight(node_pointer grandparent)
+			void			_rotateRight( node_pointer grandparent )
 			{
 				if (!grandparent)
 					return ;
@@ -422,7 +422,7 @@ namespace ft
 				grandparent->parent = tmp;
 			}
 
-			void			_rotateLeft(node_pointer grandparent)
+			void			_rotateLeft( node_pointer grandparent )
 			{
 				if (!grandparent)
 					return ;
@@ -460,7 +460,7 @@ namespace ft
 				grandparent->parent = tmp;
 			}
 
-			void			_rotate(node_pointer node)
+			void			_rotate( node_pointer node )
 			{
 				if (node->is_left && node->parent->is_left) // node is left child and parent is left child
 				{
@@ -496,7 +496,7 @@ namespace ft
 
 		// Insert helper functions
 
-			node_pointer	_getAunt(node_pointer node)
+			node_pointer	_getAunt( node_pointer node )
 			{
 				if (!node->parent)
 					return NULL;
@@ -506,7 +506,7 @@ namespace ft
 				return node->parent->parent->left;	// if parent is right child then aunt is left child of grandparent
 			}
 
-			void			_colorFlip(node_pointer node)
+			void			_colorFlip( node_pointer node )
 			{
 				node_pointer	aunt = _getAunt(node);
 				
@@ -518,7 +518,7 @@ namespace ft
 					node->parent->color = black;
 			}
 
-			void			_correctTreeInsert(node_pointer node)
+			void			_correctTreeInsert( node_pointer node )
 			{
 				node_pointer	aunt = _getAunt(node);
 
@@ -527,7 +527,7 @@ namespace ft
 				_colorFlip(node);
 			}
 
-			void			_checkColorInsert(node_pointer node)
+			void			_checkColorInsert( node_pointer node )
 			{
 				if (node == _root)
 				{
@@ -571,9 +571,9 @@ namespace ft
 
 		// Erase helper functions
 			
-			void	_correctTreeErase(node_pointer parent, bool is_left)
+			void			_correctTreeErase( node_pointer parent, bool is_left )
 			{
-				node_pointer	sister = _getSibling(parent, is_left);
+				node_pointer	sister = _getSister(parent, is_left);
 				node_pointer	child = _getChild(parent, is_left);
 
 				if (child && child->color == red)
@@ -662,21 +662,21 @@ namespace ft
 				}
 			}
 
-			node_pointer				_getSibling(node_pointer parent, bool is_left)
+			node_pointer	_getSister( node_pointer parent, bool is_left )
 			{	
 				if (is_left)
 					return parent->right;
 				return parent->left;
 			}
 
-			node_pointer				_getChild(node_pointer parent, bool is_left)
+			node_pointer	_getChild( node_pointer parent, bool is_left )
 			{	
 				if (is_left)
 					return parent->left;
 				return parent->right;
 			}
 
-			void	_checkColorErase(node_pointer node, node_pointer replace, node_pointer parent, bool is_left)
+			void			_checkColorErase( node_pointer node, node_pointer replace, node_pointer parent, bool is_left )
 			{		
 				if (node->color == black && replace && replace->color == red)
 					replace->color = black;
@@ -689,7 +689,7 @@ namespace ft
 					_correctTreeErase(parent, is_left);
 			}
 
-			void						_replaceNode(node_pointer node, node_pointer replace)
+			void			_replaceNode( node_pointer node, node_pointer replace )
 			{
 				bool				is_left = node->is_left;
 				node_pointer		parent = node->parent;
@@ -727,7 +727,7 @@ namespace ft
 				}	
 			}
 
-			void			_erase(node_pointer node)
+			void			_erase( node_pointer node )
 			{
 				node_pointer	replace = NULL;
 				node_pointer	parent = NULL;
@@ -773,7 +773,9 @@ namespace ft
 				_destroyNode(node);
 			}
 
-			bool	_check_black_nodes( node_pointer node, int black_count, int &path_black_count)
+		// Checker & Print functions
+
+			bool			_check_black_nodes( node_pointer node, int black_count, int &path_black_count )
 			{
 				if (!node)
 				{
@@ -791,7 +793,7 @@ namespace ft
 				return _check_black_nodes(node->left, black_count, path_black_count) && _check_black_nodes(node->right, black_count, path_black_count);
 			}
 
-			bool	_check_consecutive_red( node_pointer node )
+			bool			_check_consecutive_red( node_pointer node )
 			{
 				if (!node)
 					return true;
@@ -803,7 +805,7 @@ namespace ft
 				return _check_consecutive_red(node->left) && _check_consecutive_red(node->right);
 			}
 
-			void	_check_rules_violation( void)
+			void			_check_rules_violation( void )
 			{
 				bool	violation = false;
 
@@ -818,12 +820,12 @@ namespace ft
 				if (!_check_consecutive_red(_root))
 					violation = true;
 				if (violation)
-					std::cout << RED << "One of the red black tree rules has been violated" << RESET << std::endl << std::endl;
+					std::cout << RBT_RED << "One of the red black tree rules has been violated" << RESET << std::endl << std::endl;
 				else
-					std::cout << GREEN << "Tree is balanced!" << RESET << std::endl << std::endl;
+					std::cout << RBT_GREEN << "Tree is balanced!" << RESET << std::endl << std::endl;
 			}
 
-			void	_treeHelper(std::string prefix, node_pointer node, bool is_left)
+			void			_treeHelper( std::string prefix, node_pointer node, bool is_left )
 			{
 				if (node)
 				{
@@ -833,7 +835,7 @@ namespace ft
 					if (node != _nil)
 					{
 						if (node->color == red)
-							std::cout << RED;
+							std::cout << RBT_RED;
 						else
 							std::cout << BLACK;
 						std::cout << " " << node->value.first << RESET << std::endl;
@@ -843,7 +845,6 @@ namespace ft
 					_treeHelper(prefix + (is_left ? "	" : "|	"), node->left, true);
 				}
 			}
-			
 	};
 }
 
