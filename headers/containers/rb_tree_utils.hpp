@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:19:17 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 12:12:11 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:14:22 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,12 @@ namespace ft
 			rb_tree_iterator( node_pointer n ) : node( n ) { }
 
 			rb_tree_iterator( const rb_tree_iterator &src ) : node( src.node ) { }
-
-			// template< class Iter >
-			// rb_tree_iterator( const Iter &src ) : node( src.node ) { }
 			
 	// DESTRUCTOR
 
 			~rb_tree_iterator( void ) { }
 
 	// ASSIGNMENT OPERATOR
-
-			// template< class Iter >
-			// rb_tree_iterator	&operator=(const Iter &rhs)
-			// {
-			// 	this->node = rhs.base();
-				
-			// 	return *this;
-			// }
 
 			rb_tree_iterator	&operator=(const rb_tree_iterator &rhs)
 			{
@@ -265,32 +254,10 @@ namespace ft
 			rb_tree_const_iterator( const node_pointer n ) : node( n ) { }
 
 			rb_tree_const_iterator( const iterator &src ) : node( src.node ) { }
-
-			// template< class Iter >
-			// rb_tree_const_iterator( const Iter &src ) : node( src.node ) { }
-
-			// rb_tree_const_iterator( const rb_tree_const_iterator &src ) : node( src.node ) { }
 			
 	// DESTRUCTOR
 
 			~rb_tree_const_iterator( void ) { }
-
-	// ASSIGNMENT OPERATOR
-
-			// rb_tree_const_iterator	&operator=(const rb_tree_const_iterator &rhs)
-			// {
-			// 	this->node = rhs.base();
-				
-			// 	return *this;
-			// }
-
-			// template< class Iter >
-			// rb_tree_const_iterator	&operator=(const Iter &rhs)
-			// {
-			// 	this->node = rhs.base();
-				
-			// 	return *this;
-			// }
 
 	// MEMBER FUNCTIONS
 			
