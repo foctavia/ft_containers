@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 13:12:48 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:50:53 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	mapTest( void )
 	MAINTITLE("***** TESTING MAP *****");
 	
 	TITLE("--> Testing default constructor and insert with 3 values");
-	
+
 // Testing default constructor
 	ft::map<int, std::string> mp;
 
@@ -47,6 +47,12 @@ void	mapTest( void )
 
 	SUBTITLE("Map (after insert) : ");
 	printMap(mp);
+	
+	ft::map<int, std::string>::iterator end = mp.end();
+	end++;
+	end++;
+
+	mp.erase(mp.begin(), end);
 	
 	// mp.displayTree();
 
