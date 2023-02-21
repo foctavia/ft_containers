@@ -6,28 +6,11 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 10:36:16 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:46:55 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
-
-// template< typename T >
-// void	print( T &container )
-// {	
-// 	std::cout << "size : " << container.size() << "  capacity : " << container.capacity() << std::endl;
-	
-// 	if (container.empty())
-// 		std::cout << "Container is empty" << std::endl << std::endl;
-// 	else
-// 	{
-// 		std::cout << "content : ";
-// 		for (size_t i = 0; i < container.size(); ++i)
-// 			std::cout << container[i] << " ";
-			
-// 		std::cout << std::endl << std::endl;
-// 	}
-// }
 
 void vectorTest( void )
 {
@@ -40,12 +23,12 @@ void vectorTest( void )
 	ft::vector<int>	vec(5, 1);
 	
 	SUBTITLE("Vector (constructed with value) : ");
-	print(vec);
+	printVector(vec);
 
 	vec.insert(vec.begin(), 3, 2);
 
 	SUBTITLE("Vector (after insert) : ");
-	print(vec);
+	printVector(vec);
 	
 // vec1 -> test constructor with range iterator
 
@@ -54,7 +37,7 @@ void vectorTest( void )
 	ft::vector<int>	vec1(vec.begin(), vec.end());
 
 	SUBTITLE("Vector1 (constructed with range iterator) : ");
-	print(vec1);
+	printVector(vec1);
 	
 	SUBTITLE("Comparison test :");
 	if (vec == vec1)
@@ -69,17 +52,17 @@ void vectorTest( void )
 	ft::vector<int>	vec2;
 
 	SUBTITLE("Vector2 : ");
-	print(vec2);
+	printVector(vec2);
 
 	vec2.insert(vec2.begin(), 6);
 
 	SUBTITLE("Vector2 (after insert) : ");
-	print(vec2);
+	printVector(vec2);
 
 	vec2 = vec;
 
 	SUBTITLE("Vector2 (after operator= with Vector) : ");
-	print(vec2);
+	printVector(vec2);
 
 	SUBTITLE("Comparison test :");
 	if (vec != vec2)
@@ -100,7 +83,7 @@ void vectorTest( void )
 	ft::vector<int>	vec3;
 
 	SUBTITLE("Vector3 : ");
-	print(vec3);
+	printVector(vec3);
 
 	vec3.push_back(1);
 	vec3.push_back(2);
@@ -116,22 +99,22 @@ void vectorTest( void )
 	vec3.push_back(8);
 
 	SUBTITLE("Vector3 (after push_back) : ");
-	print(vec3);
+	printVector(vec3);
 
 	vec3.pop_back();
 
 	SUBTITLE("Vector3 (after pop_back) : ");
-	print(vec3);
+	printVector(vec3);
 
 	vec3.erase(vec3.begin() + 4);
 
 	SUBTITLE("Vector3 (after erase with single iterator) : ");
-	print(vec3);
+	printVector(vec3);
 
 	vec3.erase(vec3.begin() + 6, vec3.begin() + 8);
 
 	SUBTITLE("Vector3 (after erase with range iterator) : ");
-	print(vec3);
+	printVector(vec3);
 
 	SUBTITLE("Comparison test :");
 	if (vec2 < vec3)
@@ -142,10 +125,10 @@ void vectorTest( void )
 	vec3.swap(vec2);
 
 	SUBTITLE("Vector3 (after swap with Vector2) : ");
-	print(vec3);
+	printVector(vec3);
 
 	SUBTITLE("Vector2 (after swap with Vector3) : ");
-	print(vec2);
+	printVector(vec2);
 
 	SUBTITLE("Comparison test :");
 	if (vec2 < vec3)
@@ -166,22 +149,22 @@ void vectorTest( void )
 	ft::vector<int>	vec4(3, 6);
 
 	SUBTITLE("Vector4 : ");
-	print(vec4);
+	printVector(vec4);
 
 	vec4.resize(6, 7);
 
 	SUBTITLE("Vector4 (after resize with more value) : ");
-	print(vec4);
+	printVector(vec4);
 
 	ft::vector<int>	vec5 = vec4;
 
 	SUBTITLE("Vector5 (assigned with operator= the value of Vector4) : ");
-	print(vec5);
+	printVector(vec5);
 
 	vec4.resize(4, 8);
 
 	SUBTITLE("Vector4 (after resize with less value) : ");
-	print(vec4);
+	printVector(vec4);
 
 	SUBTITLE("Vector4 (printed with data()) : ");
 	std::cout << "size : " << vec4.size() << "  capacity : " << vec4.capacity() << std::endl << "content : ";
@@ -192,7 +175,7 @@ void vectorTest( void )
 	vec4.assign(15, 3);
 
 	SUBTITLE("Vector4 (after assign with value) : ");
-	print(vec4);
+	printVector(vec4);
 
 	SUBTITLE("Comparison test :");
 	if (vec4 > vec5)
@@ -201,12 +184,12 @@ void vectorTest( void )
 		std::cout << "Vector4 is not more than Vector5" << std::endl << std::endl;
 
 	SUBTITLE("Vector5 : ");
-	print(vec5);
+	printVector(vec5);
 
 	vec5.assign(vec4.begin(), vec4.begin() + 5);
 
 	SUBTITLE("Vector5 (after assign with range iterator): ");
-	print(vec5);
+	printVector(vec5);
 
 // vec6 & vec7 -> test exception
 
@@ -221,7 +204,7 @@ void vectorTest( void )
 		vec7.insert(vec7.begin(), it5, vec6.begin());
 		
 		SUBTITLE("Vector7 (after insert with a range of different iterator): ");
-		print(vec7);
+		printVector(vec7);
 	}
 	catch(const std::exception &e)
 	{
@@ -233,7 +216,7 @@ void vectorTest( void )
 		ft::vector<int>	vec8(it5, vec6.begin());
 
 		SUBTITLE("Vector8 (constructed with a range of different iterator): ");
-		print(vec8);
+		printVector(vec8);
 	}
 	catch(const std::exception &e)
 	{

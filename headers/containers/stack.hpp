@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:43 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 18:20:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:43:50 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft
 {
 	/* STACK ****************************************************************************** */
 	
-	template< class T, class Container = ft::vector< T, std::allocator< T > > >
+	template< class T, class Container = ft::vector< T > >
 	class stack
 	{
 		public:
@@ -32,24 +32,23 @@ namespace ft
 
 	// CONSTRUCTOR
 	
-			explicit stack( const container_type &cont = container_type() )
-				: c( cont )									{ }
+			explicit stack( const container_type &cont = Container() ) : c( cont )
+															{ }
 
-			stack( const stack& src ) : c( src.c )
+			stack( const stack& src ) : c( 0 )
 			{
 				*this = src;
 			}
 	
 	// DESTRUCTOR
 
-			~stack( void )									{ this->c.clear(); }
+			~stack( void )									{ }
 			
 	// ASSIGNMENT OPERATOR
 
 			stack	&operator=( const stack &other )
 			{
-				if (this != &other)
-					this->c = other.c;
+				this->c = other.c;
 				return *this;
 			}
 

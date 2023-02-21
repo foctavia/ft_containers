@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:10:12 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 10:53:33 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:40:53 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #endif
 
 #include <iostream>
+#include <sys/time.h>
 
 #define _pair namespace::pair
 
@@ -54,36 +55,42 @@ void	vectorTest( void );
 void	mapTest( void );
 void	stackTest( void );
 void	setTest( void );
+void	checkPerformance(std::string str, struct timeval start);
 
 template< typename T >
-void	print( T &container )
+void	printVector( T &vector )
 {
-	std::cout << "size : " << container.size() << "  capacity : " << container.capacity() << std::endl;
+	std::cout << "size : " << vector.size() << "  capacity : " << vector.capacity() << std::endl;
 	
-	if (container.empty())
-		std::cout << "Container is empty" << std::endl << std::endl;
+	if (vector.empty())
+		std::cout << "Vector is empty" << std::endl << std::endl;
 	else
 	{
 		std::cout << "content : ";
-		for (size_t i = 0; i < container.size(); ++i)
-			std::cout << container[i] << " ";
+		for (size_t i = 0; i < vector.size(); ++i)
+			std::cout << vector[i] << " ";
 			
 		std::cout << std::endl << std::endl;
 	}
 }
 
-template< class Key >
-void	printSet(ft::set< Key > &st)
+template <typename T>
+void	printStack(ft::stack<T>& src)
 {
-	std::cout << "size : " << st.size() << std::endl;
+	ft::stack<int> s(src);
+
+	std::cout << "size : " << s.size() << std::endl;
 	
-	if (st.empty())
-		std::cout << "Set is empty" << std::endl << std::endl;
+	if (s.empty())
+		std::cout << "Stack is empty" << std::endl << std::endl;
 	else
-	{	
-		std::cout << "content :" << std::endl;
-		for (typename ft::set< Key >::iterator it = st.begin(); it != st.end(); it++)
-			std::cout << *it << "  ";
+	{
+		std::cout << "content : ";
+		while (!s.empty())
+		{
+			std::cout << s.top() << " ";
+			s.pop();
+		}
 		std::cout << std::endl << std::endl;
 	}
 }
@@ -101,5 +108,21 @@ void	printMap(ft::map<Key, T>& lst)
 		for (typename ft::map<Key, T>::iterator it = lst.begin(); it != lst.end(); it++)
 			std::cout << it->first << " => " << it->second << std::endl;
 		std::cout << std::endl;
+	}
+}
+
+template< class Key >
+void	printSet(ft::set< Key > &st)
+{
+	std::cout << "size : " << st.size() << std::endl;
+	
+	if (st.empty())
+		std::cout << "Set is empty" << std::endl << std::endl;
+	else
+	{	
+		std::cout << "content :" << std::endl;
+		for (typename ft::set< Key >::iterator it = st.begin(); it != st.end(); it++)
+			std::cout << *it << "  ";
+		std::cout << std::endl << std::endl;
 	}
 }

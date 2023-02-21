@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 18:16:52 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:39:37 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ namespace ft
 			// Check whether it's an integral type.  If so, it's not an iterator
 			template< class InputIt >
 			vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
-				: _first_elem( NULL ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			{	
 				_size = std::distance(first, last);
 				
@@ -81,9 +81,9 @@ namespace ft
 			}
 
 			vector( vector const &src )
-				: _first_elem( src._first_elem ), _size( src._size ), _capacity( src._capacity ), _alloc( src._alloc ) 
+				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( src._alloc ) 
 			{
-				// *this = src;
+				*this = src;
 			}
 
 	// DESTRUCTOR
@@ -227,8 +227,8 @@ namespace ft
 					for(; first != last; ++first)
 						pos = insert(pos, 1, *first) + 1;
 				}
-				else
-					throw std::length_error("vector::insert(range iterator)");
+				// else
+				// 	throw std::length_error("vector::insert(range iterator)");
 
 				return pos;
 			}

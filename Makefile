@@ -6,7 +6,7 @@
 #    By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/24 12:22:12 by foctavia          #+#    #+#              #
-#    Updated: 2023/02/21 10:35:40 by foctavia         ###   ########.fr        #
+#    Updated: 2023/02/21 12:43:55 by foctavia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,11 @@ TESTDIR		= tests/
 OBJDIR		= obj/
 
 TEST		= mainTest.cpp \
-				mapTest.cpp \
 				vectorTest.cpp \
+				stackTest.cpp \
+				mapTest.cpp \
 				setTest.cpp \
-				utils.cpp \
-				# stackTest.cpp \
+				utils.cpp
 				
 OBJ			= $(addprefix ${OBJDIR}, ${TEST:%.cpp=%.o})
 INC			= -I./$(CONTDIR) -I./$(UTILDIR)
@@ -50,6 +50,14 @@ endif
 
 # Rules
 all			: $(NAME)
+
+performance	:
+	make re
+	make re NAME=std_containers REAL=1
+	@echo "Checking diff between ft and std"
+	@./$(NAME) 5 2>/dev/null 1>ft
+	@./$(STD) 5 2>/dev/null 1>std
+	@diff ft std
 
 diff		: 
 	make re

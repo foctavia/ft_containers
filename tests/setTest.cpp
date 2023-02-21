@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:25:00 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 10:55:55 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:13:08 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 void	setTest( void )
 {
-
 	MAINTITLE("***** TESTING SET *****");
 	
 	TITLE("--> Testing default constructor and insert with 6 keys");
@@ -288,7 +287,7 @@ void	setTest( void )
 	SUBTITLE("Set2 (before swap) : ");
 	printSet(set2);
 
-	std::swap(set1, set2);
+	swap(set1, set2);
 
 	SUBTITLE("Set1 (after swap) : ");
 	printSet(set1);

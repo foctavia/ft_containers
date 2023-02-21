@@ -6,18 +6,34 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 10:35:49 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:48:01 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
 
+/*
+	For make diff with std, comment checkPerformance
+	For make performance, uncomment checkPerformance
+*/
+
 int main( void )
 {
-	// vectorTest();
+	struct timeval	start;
+	
+	gettimeofday(&start, NULL);
+	
+	vectorTest();
+	checkPerformance("Vector : ", start);
+	
+	stackTest();
+	checkPerformance("Stack : ", start);
+
 	mapTest();
-	// stackTest();
+	checkPerformance("Map : ", start);
+
 	setTest();
+	checkPerformance("Set : ", start);
 	
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:37:50 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 10:42:19 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:47:01 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,21 @@ void	RETURNS(std::string s)
 void	WARNING(std::string s)
 {
 	std::cout << YELLOW_ << " \u26A0 " << s << RESET_ << std::endl << std::endl;
+}
+
+void	checkPerformance(std::string str, struct timeval start)
+{
+	struct timeval	end;
+	long			seconds;
+	long			microseconds;
+
+	gettimeofday(&end, NULL);
+	
+	seconds = (end.tv_sec - start.tv_sec);
+	microseconds = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+	std::cout << std::endl << GREEN_ << str
+		<< (microseconds / 1000000) << "," 
+		<< (microseconds % 1000000) << " seconds" 
+		<< RESET_ << std::endl;
 }
