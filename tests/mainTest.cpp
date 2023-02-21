@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:08:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 13:19:35 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:04:45 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ int main( void )
 	
 	gettimeofday(&start, NULL);
 	vectorTest();
-	// checkPerformance("Vector : ", start);
+	checkPerformance("vector : ", start);
 	
 	gettimeofday(&start, NULL);
 	stackTest();
-	// checkPerformance("Stack : ", start);
+	checkPerformance("stack : ", start);
 
 	gettimeofday(&start, NULL);
 	mapTest();
-	// checkPerformance("Map : ", start);
+	checkPerformance("map : ", start);
 
 	gettimeofday(&start, NULL);
 	setTest();
-	// checkPerformance("Set : ", start);
+	checkPerformance("set : ", start);
 	
     return 0;
 }

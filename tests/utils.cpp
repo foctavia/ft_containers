@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:37:50 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 12:47:01 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:04:19 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,13 @@ void	checkPerformance(std::string str, struct timeval start)
 	seconds = (end.tv_sec - start.tv_sec);
 	microseconds = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
 
-	std::cout << std::endl << GREEN_ << str
+	#if REAL
+		std::cout << std::endl << GREEN("std::");
+	#else
+		std::cout << std::endl << GREEN("ft::");
+	#endif
+
+	std::cout << GREEN_ << str
 		<< (microseconds / 1000000) << "," 
 		<< (microseconds % 1000000) << " seconds" 
 		<< RESET_ << std::endl;
