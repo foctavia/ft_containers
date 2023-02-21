@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 12:12:59 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:12:48 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	mapTest( void )
 	TITLE("--> Testing empty, size and max_size");
 	
 // Testing empty, size, and max_size
-	std::cout << "Empty: " << (mp.empty() ? "true" : "false") << std::endl;
-	std::cout << "Size: " << mp.size() << std::endl;
-	std::cout << "Max size: " << mp.max_size() << std::endl;
+	std::cout << "Empty : " << (mp.empty() ? "true" : "false") << std::endl;
+	std::cout << "Size : " << mp.size() << std::endl;
+	std::cout << "Max size : " << mp.max_size() << std::endl;
 	WARNING("max_size may differ between ft_containers and std containers!");
 
 	TITLE("--> Testing clear, insert, and erase");

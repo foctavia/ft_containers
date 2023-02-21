@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 11:46:55 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:16:35 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void vectorTest( void )
 
 // vec2 -> test assignment operator and operator[] and at
 
-	TITLE("--> Testing operator=, operator[], and at");
+	TITLE("--> Testing default constructor, operator=, operator[], and element access functions");
 
 	ft::vector<int>	vec2;
 
-	SUBTITLE("Vector2 : ");
+	SUBTITLE("Vector2 (constructed with default constructor) : ");
 	printVector(vec2);
 
 	vec2.insert(vec2.begin(), 6);
@@ -76,9 +76,9 @@ void vectorTest( void )
 		<< "Vector2.at(3)	: " << vec2.at(3) << std::endl 
 		<< "Vector2.back()	: " << vec2.back() << std::endl << std::endl;
 
-// vec3 -> test pushback, popback, swap, erase, reverse_iterator
+// vec3 -> test pushback, popback, swap, erase, iterator, reverse_iterator
 
-	TITLE("--> Testing push_back, pop_back, swap, erase, reverse_iterator");
+	TITLE("--> Testing push_back, pop_back, swap, and erase");
 
 	ft::vector<int>	vec3;
 
@@ -136,15 +136,37 @@ void vectorTest( void )
 	else
 		std::cout << "Vector2 is not less than vec3" << std::endl << std::endl;
 
+	TITLE("--> Testing iterator and reverse_iterator");
+	
+	SUBTITLE("Vector2 (printed with iterator) : ");
+	std::cout << "size : " << vec2.size() << "  capacity : " << vec2.capacity() << std::endl << "content : ";
+	for(ft::vector<int>::iterator it = vec2.begin(); it != vec2.end(); ++it)
+			std::cout << *it << " ";
+	std::cout << std::endl;
+
 	SUBTITLE("Vector2 (printed with reverse_iterator) : ");
 	std::cout << "size : " << vec2.size() << "  capacity : " << vec2.capacity() << std::endl << "content : ";
 	for(ft::vector<int>::reverse_iterator rit = vec2.rbegin(); rit != vec2.rend(); ++rit)
 			std::cout << *rit << " ";
 	std::cout << std::endl << std::endl;
+	
+	TITLE("--> Testing empty, size, capacity, max_size and clear");
+
+	SUBTITLE("Vector2 : ");
+	std::cout << "Empty : " << (vec2.empty() ? "true" : "false") << std::endl;
+	std::cout << "Size : " << vec2.size() << std::endl;
+	std::cout << "Capacity : " << vec2.capacity() << std::endl;
+	std::cout << "Max size : " << vec2.max_size() << std::endl;
+	WARNING("max_size may differ between ft_containers and std containers!");
+
+	vec2.clear();
+	
+	SUBTITLE("Vector2 (after clear) : ");
+	printVector(vec2);	
 
 // vec4 & vec5 -> test resize, data and assign
 
-	TITLE("--> Testing resize, data, and assign");
+	TITLE("--> Testing copy constructor, resize, data, and assign");
 
 	ft::vector<int>	vec4(3, 6);
 
@@ -156,9 +178,9 @@ void vectorTest( void )
 	SUBTITLE("Vector4 (after resize with more value) : ");
 	printVector(vec4);
 
-	ft::vector<int>	vec5 = vec4;
+	ft::vector<int>	vec5(vec4);
 
-	SUBTITLE("Vector5 (assigned with operator= the value of Vector4) : ");
+	SUBTITLE("Vector5 (constructed by copying Vector4) : ");
 	printVector(vec5);
 
 	vec4.resize(4, 8);

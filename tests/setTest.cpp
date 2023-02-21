@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:25:00 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 12:13:08 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:12:56 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	setTest( void )
 	TITLE("--> Testing empty, size and max_size");
 	
 // Testing empty, size, and max_size
-	std::cout << "Empty: " << st.empty() << std::endl;
-	std::cout << "Size: " << st.size() << std::endl;
-	std::cout << "Max size: " << st.max_size() << std::endl;
+	std::cout << "Empty : " << st.empty() << std::endl;
+	std::cout << "Size : " << st.size() << std::endl;
+	std::cout << "Max size : " << st.max_size() << std::endl;
 	WARNING("max_size may differ between ft_containers and std containers!");
 
 	TITLE("--> Testing clear, insert, and erase");
