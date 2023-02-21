@@ -6,15 +6,16 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:25:11 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 18:20:49 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 08:21:55 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
 
 template <typename T>
-void print_stack(ft::stack<T>& s)
+void print_stack(ft::stack<T>& src)
 {
+	ft::stack<int>	s(src);
     while (!s.empty())
 	{
         std::cout << s.top() << " ";

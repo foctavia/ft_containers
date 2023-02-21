@@ -6,26 +6,11 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 18:29:27 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/21 10:55:06 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
-
-template <class Key, class T>
-void	print(ft::map<Key, T>& lst)
-{
-	std::cout << std::endl << "size : " << lst.size() << std::endl;
-	
-	if (lst.empty())
-		std::cout << "Map is empty" << std::endl;
-	else
-	{	
-		std::cout << "content :" << std::endl;
-		for (typename ft::map<Key, T>::iterator it = lst.begin(); it != lst.end(); it++)
-			std::cout << it->first << " => " << it->second << '\n';
-	}
-}
 
 /*
 	For make diff with std, comment the displayTree()
@@ -36,13 +21,15 @@ void	mapTest( void )
 
 	MAINTITLE("***** TESTING MAP *****");
 	
-// test constructor
 	TITLE("--> Testing default constructor and insert with 3 values");
+	
+// Testing default constructor
 	ft::map<int, std::string> mp;
 
-	std::cout << GREEN("Map : ");
-	print(mp);
+	SUBTITLE("Map : ");
+	printMap(mp);
 	
+// Testing insert
 	mp.insert(ft::make_pair(1, "one"));
 	mp.insert(ft::make_pair(2, "two"));
 	mp.insert(ft::make_pair(3, "three"));
@@ -59,45 +46,48 @@ void	mapTest( void )
 	mp.insert(ft::make_pair(14, "two"));
 	mp.insert(ft::make_pair(15, "three"));
 
-	std::cout << GREEN("Map (after insert) : ");
-	print(mp);
+	SUBTITLE("Map (after insert) : ");
+	printMap(mp);
 	
 	// mp.displayTree();
 
-// Testing operator=, operator[], and at
 	TITLE("--> Testing operator=, operator[], and at");
 	
 	ft::map<int, std::string> mp1;
 
-	std::cout << GREEN("Map1 : ");
-	print(mp1);
+	SUBTITLE("Map1 : ");
+	printMap(mp1);
 	
+// Testing operator=
 	mp1 = mp;
 	
-	std::cout << GREEN("Map1 (after operator= with value from Map) : ");
-	print(mp1);
+	SUBTITLE("Map1 (after operator= with value from Map) : ");
+	printMap(mp1);
 
 // Testing get_allocator
-	std::allocator<ft::pair<const int, std::string> > my_allocator = mp.get_allocator();
-	// ft::map<int, std::string> my_third_map(my_allocator);
+	std::allocator<ft::pair<const int, std::string> > alloc = mp.get_allocator();
+	(void)alloc;
 
-	std::cout << GREEN("Map (element access) : ") << std::endl;
-	std::cout << "mp.at(1)	: " << mp.at(1) << std::endl
+// Testing element access at and operator[]
+	SUBTITLE("Map (element access) : ");
+	std::cout << "mp.at(1): " << mp.at(1) << std::endl
 		<< "mp[2]	: " << mp[2] << std::endl << std::endl;
 
 	TITLE("--> Testing iterator and reverse_iterator");
 		
 // Testing begin and end
-	std::cout << GREEN("Map (printed with iterator begin() and end()) : ") << std::endl;
-	std::cout << "size : " << mp.size() << std::endl << "content : ";
+	SUBTITLE("Map (printed with iterator begin() and end()) : ");
+	std::cout << "size : " << mp.size() << std::endl << "content : " << std::endl;
 	for (ft::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
 		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << std::endl;
 
 // Testing rbegin and rend
-	std::cout << GREEN("Map (printed with reverse_iterator rbegin() and rend()) : ") << std::endl;
-	std::cout << "size : " << mp.size() << std::endl << "content : ";
+	SUBTITLE("Map (printed with reverse_iterator rbegin() and rend()) : ");
+	std::cout << "size : " << mp.size() << std::endl << "content : " << std::endl;
 	for (ft::map<int, std::string>::reverse_iterator it = mp.rbegin(); it != mp.rend(); ++it)
 		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << std::endl;
 
 	TITLE("--> Testing empty, size and max_size");
 	
@@ -112,16 +102,16 @@ void	mapTest( void )
 // Testing clear
 	mp.clear();
 	
-	std::cout << GREEN("Map (after clear) : ");
-	print(mp);
+	SUBTITLE("Map (after clear) : ");
+	printMap(mp);
 
 // Testing insert with value	
 	mp.insert(ft::make_pair(1, "one"));
 	mp.insert(ft::make_pair(2, "two"));
 	mp.insert(ft::make_pair(3, "three"));
 
-	std::cout << GREEN("Map (after insert with value) : ");
-	print(mp);
+	SUBTITLE("Map (after insert with value) : ");
+	printMap(mp);
 
 
 // Testing insert with range
@@ -131,16 +121,16 @@ void	mapTest( void )
 	mp2.insert(ft::make_pair(6, "six"));
 	mp.insert(mp2.begin(), mp2.end());
 
-	std::cout << GREEN("Map (after insert with range iterator) : ");
-	print(mp);
+	SUBTITLE("Map (after insert with range iterator) : ");
+	printMap(mp);
 
 	// mp.displayTree();
 
 // Testing erase with key
 	mp.erase(2);
 
-	std::cout << GREEN("Map (after erase with key) : ");
-	print(mp);
+	SUBTITLE("Map (after erase with key) : ");
+	printMap(mp);
 
 	// mp.displayTree();
 
@@ -149,39 +139,39 @@ void	mapTest( void )
 	
 	mp.erase(it);
 
-	std::cout << GREEN("Map (after insert with iterator) : ");
-	print(mp);
+	SUBTITLE("Map (after insert with iterator) : ");
+	printMap(mp);
 
 	// mp.displayTree();
 
 	TITLE("--> Testing swap");
 	
 // Testing swap
-	std::cout << GREEN("Map (before swap) : ");
-	print(mp);
+	SUBTITLE("Map (before swap) : ");
+	printMap(mp);
 	
-	std::cout << GREEN("Map2 (before swap) : ");
-	print(mp2);
+	SUBTITLE("Map2 (before swap) : ");
+	printMap(mp2);
 
 	mp.swap(mp2);
 
-	std::cout << GREEN("Map (after swap) : ");
-	print(mp);
+	SUBTITLE("Map (after swap) : ");
+	printMap(mp);
 	
-	std::cout << GREEN("Map2 (after swap) : ");
-	print(mp2);
+	SUBTITLE("Map2 (after swap) : ");
+	printMap(mp2);
 
-	TITLE("Testing count and find");
+	TITLE("--> Testing count and find");
 	
 // Testing count
-	std::cout << GREEN("Map (lookup functions) : ") << std::endl;
+	SUBTITLE("Map (lookup functions) : ");
 	
-	std::cout << "Count of key 4 : " << mp.count(4) << std::endl;
+	std::cout << std::endl << "Count of key 4 : " << mp.count(4) << std::endl << std::endl;
 	
 	mp.erase(4);
 	
-	std::cout << GREEN("Map (after erase of 4) : ");
-	print(mp);
+	SUBTITLE("Map (after erase of 4) : ");
+	printMap(mp);
 	
 	std::cout << "Count of key 4 : " << mp.count(4) << std::endl;
 
@@ -194,14 +184,16 @@ void	mapTest( void )
 
 	found = mp.find(6);
 	if (found != mp.end())
-		std::cout << "Found key 6 : " << found->first << " => " << found->second << std::endl;
+		std::cout << "Found key 6 : ( " << found->first << " => " << found->second << " )" << std::endl;
 	else
 		std::cout << "Not found key 6" << std::endl;
+	std::cout << std::endl;
 
 // Testing equal_range
-	TITLE("--> Testing equal_range\n-> searching for key 4");
-	RETURNS("std::pair containing a pair of iterators defining the wanted range: \
-			 the first pointing to the first element that is not less than key and the second pointing to the first element greater than key.");
+	TITLE("--> Testing equal_range");
+	
+	RETURNS("std::pair containing a pair of iterators defining the wanted range: the first pointing to the first element that is not less than key and the second pointing to the first element greater than key.");
+	
 	ft::map<int, std::string>::iterator it_low;
 	ft::map<int, std::string>::iterator it_high;
 	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> ret;
@@ -212,33 +204,33 @@ void	mapTest( void )
 	it_low = ret.first;
 	it_high = ret.second;
 
-	std::cout << "\tfirst element that is not less than key = " << it_low->first << std::endl;
-	std::cout << "\tfirst element greater than key = " << it_high->first << std::endl;
-
+	std::cout << "first element that is not less than key 4	: ( " << it_low->first << " => " << it_low->second << " )" << std::endl;
+	std::cout << "first element greater than key 4		: ( " << it_high->first << " => " << it_high->second << " )" << std::endl << std::endl;
 	// mp.displayTree();
 
-	TITLE("Testing lower_bound and upper_bound");
+	TITLE("--> Testing lower_bound and upper_bound");
 	
 	// Testing lower_bound
 	ft::map<int, std::string>::iterator low = mp.lower_bound(4);
-	std::cout << "Lower bound of 4: " << low->first << ": " << low->second << std::endl;
+	std::cout << "Lower bound of 4 : ( " << low->first << " => " << low->second << " )" << std::endl;
 
 	// Testing upper_bound
 	ft::map<int, std::string>::iterator up = mp.upper_bound(4);
-	std::cout << "Upper bound of 4: " << up->first << ": " << up->second << std::endl;
+	std::cout << "Upper bound of 4 : ( " << up->first << " => " << up->second << " )" << std::endl << std::endl;
 
+	TITLE("--> Testing key_comp");
+	
 	// Testing key_comp
-	TITLE("--> Testing key_comp\n->key_comp(3, 4)");
 	RETURNS("Returns the function object that compares the keys, which is a copy of this container's constructor argument comp. Default is std::less");
+	
 	ft::map<int, std::string>::key_compare my_key_comp = mp.key_comp();
-	std::cout << my_key_comp(3, 4) << std::endl;
-	TITLE("--> Testing key_comp\n->key_comp(5, 4)");
-	std::cout << my_key_comp(5, 4) << std::endl;
+	
+	std::cout << "key_comp(3, 4) : " << my_key_comp(3, 4) << std::endl;
+	std::cout << "key_comp(5, 4) : " << my_key_comp(5, 4) << std::endl << std::endl;
 
 	// Testing value_comp
 	// ft::map<int, std::string>::value_compare my_value_comp = mp.value_comp();
 	// std::cout << my_value_comp(std::make_pair(2, "two"), std::make_pair(1, "one")) << std::endl;
-
 
 	TITLE("--> Testing map non-member functions");
 
@@ -254,65 +246,67 @@ void	mapTest( void )
     map2.insert(ft::make_pair(2, 20));
     map2.insert(ft::make_pair(4, 40));
 
-	std::cout << GREEN("Map1 : ") << std::endl;
-	print(map1);
+	SUBTITLE("Map1 : ");
+	printMap(map1);
 
-	std::cout << GREEN("Map2 : ") << std::endl;
-	print(map2);
+	SUBTITLE("Map2 : ");
+	printMap(map2);
 
 	TITLE("--> Testing comparison, operator == != > >= < <=");
 
 // test == operator
 	if (map1 == map2)
-		std::cout << "map1 and map2 are equal" << std::endl;
+		std::cout << "Map1 and Map2 are equal" << std::endl;
 	else
-		std::cout << "map1 and map2 are not equal" << std::endl;
+		std::cout << "Map1 and Map2 are not equal" << std::endl;
 
 // test != operator
 	if (map1 != map2)
-		std::cout << "map1 and map2 are not equal" << std::endl;
+		std::cout << "Map1 and Map2 are not equal" << std::endl;
 	else
-		std::cout << "map1 and map2 are equal" << std::endl;
+		std::cout << "Map1 and Map2 are equal" << std::endl;
 
 // test < operator
 	if (map1 < map2)
-		std::cout << "map1 is less than map2" << std::endl;
+		std::cout << "Map1 is less than Map2" << std::endl;
 	else
-		std::cout << "map1 is not less than map2" << std::endl;
+		std::cout << "Map1 is not less than Map2" << std::endl;
 
 // test <= operator
 	if (map1 <= map2)
-		std::cout << "map1 is less than or equal to map2" << std::endl;
+		std::cout << "Map1 is less than or equal to Map2" << std::endl;
 	else
-		std::cout << "map1 is not less than or equal to map2" << std::endl;
+		std::cout << "Map1 is not less than or equal to Map2" << std::endl;
 
 // test > operator
 	if (map1 > map2)
-		std::cout << "map1 is greater than map2" << std::endl;
+		std::cout << "Map1 is greater than Map2" << std::endl;
 	else
-		std::cout << "map1 is not greater than map2" << std::endl;
+		std::cout << "Map1 is not greater than Map2" << std::endl;
 
 // test >= operator
 	if (map1 >= map2)
-		std::cout << "map1 is greater than or equal to map2" << std::endl;
+		std::cout << "Map1 is greater than or equal to Map2" << std::endl;
 	else
-		std::cout << "map1 is not greater than or equal to map2" << std::endl;
+		std::cout << "Map1 is not greater than or equal to Map2" << std::endl;
+
+	std::cout << std::endl;
 		
 	TITLE("--> Testing non member swap function");
 
 // test swap function
 
-	std::cout << GREEN("Map1 (before swap) : ");
-	print(map1);
+	SUBTITLE("Map1 (before swap) : ");
+	printMap(map1);
 	
-	std::cout << GREEN("Map2 (before swap) : ");
-	print(map2);
+	SUBTITLE("Map2 (before swap) : ");
+	printMap(map2);
 
 	std::swap(map1, map2);
 
-	std::cout << GREEN("Map1 (after swap) : ");
-	print(map1);
+	SUBTITLE("Map1 (after swap) : ");
+	printMap(map1);
 	
-	std::cout << GREEN("Map2 (after swap) : ");
-	print(map2);
+	SUBTITLE("Map2 (after swap) : ");
+	printMap(map2);
 }
