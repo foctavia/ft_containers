@@ -6,15 +6,11 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 12:01:55 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:38:30 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
-
-/*
-	For make diff with std, comment the displayTree()
-*/
 
 void	mapTest( void )
 {
@@ -53,8 +49,6 @@ void	mapTest( void )
 	end++;
 
 	mp.erase(mp.begin(), end);
-	
-	// mp.displayTree();
 
 	TITLE("--> Testing operator=, operator[], and at");
 	
@@ -129,15 +123,11 @@ void	mapTest( void )
 	SUBTITLE("Map (after insert with range iterator) : ");
 	printMap(mp);
 
-	// mp.displayTree();
-
 // Testing erase with key
 	mp.erase(2);
 
 	SUBTITLE("Map (after erase with key) : ");
 	printMap(mp);
-
-	// mp.displayTree();
 
 // Testing erase with iterator
 	ft::map<int, std::string>::iterator it = mp.find(3);
@@ -146,8 +136,6 @@ void	mapTest( void )
 
 	SUBTITLE("Map (after insert with iterator) : ");
 	printMap(mp);
-
-	// mp.displayTree();
 
 	TITLE("--> Testing swap");
 	
@@ -211,21 +199,20 @@ void	mapTest( void )
 
 	std::cout << "first element that is not less than key 4	: ( " << it_low->first << " => " << it_low->second << " )" << std::endl;
 	std::cout << "first element greater than key 4		: ( " << it_high->first << " => " << it_high->second << " )" << std::endl << std::endl;
-	// mp.displayTree();
 
 	TITLE("--> Testing lower_bound and upper_bound");
 	
-	// Testing lower_bound
+// Testing lower_bound
 	ft::map<int, std::string>::iterator low = mp.lower_bound(4);
 	std::cout << "Lower bound of 4 : ( " << low->first << " => " << low->second << " )" << std::endl;
 
-	// Testing upper_bound
+// Testing upper_bound
 	ft::map<int, std::string>::iterator up = mp.upper_bound(4);
 	std::cout << "Upper bound of 4 : ( " << up->first << " => " << up->second << " )" << std::endl << std::endl;
 
 	TITLE("--> Testing key_comp");
 	
-	// Testing key_comp
+// Testing key_comp
 	RETURNS("Returns the function object that compares the keys, which is a copy of this container's constructor argument comp. Default is std::less");
 	
 	ft::map<int, std::string>::key_compare my_key_comp = mp.key_comp();
@@ -233,16 +220,12 @@ void	mapTest( void )
 	std::cout << "key_comp(3, 4) : " << my_key_comp(3, 4) << std::endl;
 	std::cout << "key_comp(5, 4) : " << my_key_comp(5, 4) << std::endl << std::endl;
 
-	// Testing value_comp
-	// ft::map<int, std::string>::value_compare my_value_comp = mp.value_comp();
-	// std::cout << my_value_comp(std::make_pair(2, "two"), std::make_pair(1, "one")) << std::endl;
-
 	TITLE("--> Testing map non-member functions");
 
 	ft::map<int, int> map1;
     ft::map<int, int> map2;
 	
-    // insert some values
+// insert some values
     map1.insert(ft::make_pair(1, 10));
     map1.insert(ft::make_pair(2, 20));
     map1.insert(ft::make_pair(3, 30));

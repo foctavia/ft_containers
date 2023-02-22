@@ -6,15 +6,11 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:25:00 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 13:12:56 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:37:04 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
-
-/*
-	For make diff with std, comment the displayTree()
-*/
 
 void	setTest( void )
 {
@@ -41,8 +37,6 @@ void	setTest( void )
 
 	SUBTITLE("Set (after insert) : ");
 	printSet(st);
-	
-	// st.displayTree();
 
 	TITLE("--> Testing operator=");
 	
@@ -112,15 +106,11 @@ void	setTest( void )
 	SUBTITLE("Set (after insert with range iterator) : ");
 	printSet(st);
 
-	// st.displayTree();
-
 // Testing erase with key
 	st.erase("two");
 
 	SUBTITLE("Set (after erase with key) : ");
 	printSet(st);
-
-	// st.displayTree();
 
 // Testing erase with iterator
 	ft::set<std::string>::iterator it = st.find("three");
@@ -129,8 +119,6 @@ void	setTest( void )
 
 	SUBTITLE("Set (after insert with iterator) : ");
 	printSet(st);
-
-	// st.displayTree();
 
 	TITLE("--> Testing swap");
 	
@@ -194,8 +182,6 @@ void	setTest( void )
 
 	std::cout << "first element that is not less than key 'four'	: ( " << *it_low << " )" << std::endl;
 	std::cout << "first element greater than key 'four'		: ( " << *it_high << " )" << std::endl << std::endl;
-	
-	// st.displayTree();
 
 	TITLE("--> Testing lower_bound and upper_bound");
 	
@@ -209,7 +195,7 @@ void	setTest( void )
 
 	TITLE("--> Testing key_comp");
 	
-	// Testing key_comp
+// Testing key_comp
 	RETURNS("Returns the function object that compares the keys, which is a copy of this container's constructor argument comp. Default is std::less");
 	
 	ft::set<std::string>::key_compare my_key_comp = st.key_comp();
@@ -222,7 +208,7 @@ void	setTest( void )
 	ft::set<int> set1;
     ft::set<int> set2;
 	
-    // insert some values
+// insert some values
     set1.insert(10);
     set1.insert(20);
     set1.insert(30);
