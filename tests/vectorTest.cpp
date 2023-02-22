@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 11:31:16 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 12:02:05 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,17 +289,4 @@ void vectorTest( void )
 	{
 		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
 	}
-
-	// ft::vector<int> vec1;	
-
-    // vec1.push_back(3);
-    // printVector(vec1);
-    // // vec1.erase(vec1.begin());
-    // // vec1.erase(vec1.begin());
-    // // vec1.erase(vec1.begin());
-    // // vec1.erase(vec1.begin());
-    // vec1.pop_back();
-    // vec1.pop_back();
-    // printVector(vec1);
-	
 }
