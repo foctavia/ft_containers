@@ -26,6 +26,9 @@ o VECTOR
 --> https://en.cppreference.com/w/cpp/header/vector
 cpp Reference implementation on container Vector
 
+--> https://cplusplus.com/reference/vector/vector/
+cpp Reference implementation on container Vector
+
 --> https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/stl_vector.h
 original implementation on vector
 
@@ -38,23 +41,49 @@ o STACK
 --> https://en.cppreference.com/w/cpp/container/stack
 cpp Reference implementation on container Stack
 
+--> https://cplusplus.com/reference/stack/stack/
+cpp Reference implementation on container Stack
+
 
 o MAP
 
 --> https://en.cppreference.com/w/cpp/container/map
 cpp Reference implementation on container Map
 
+--> https://cplusplus.com/reference/map/map/
+cpp Reference implementation on container Map
+
+--> https://code.woboq.org/libreoffice/include/c++/4.8.2/bits/stl_map.h.html
+original implementation on map
+
+--> https://code.woboq.org/libreoffice/include/c++/4.8.2/bits/stl_tree.h.html
+original implementation on red black tree
+
 --> https://www.programiz.com/dsa/deletion-from-a-red-black-tree
 tutorial for map::erase
+
+--> https://www.youtube.com/watch?v=nMExd4DthdA
+series of video about Red Black Tree and implementation of rb_tree class with insert
+
+o SET
+
+--> https://en.cppreference.com/w/cpp/container/set
+cpp Reference implementation on container Set
+
+--> https://cplusplus.com/reference/set/set/
+cpp Reference implementation on container Set
 
 
 o OTHERS
 
 --> https://www.youtube.com/watch?v=tiAVWcjIF6o  & https://www.youtube.com/watch?v=dLZcocFOb5Q
-video from jhon Hagins part 1 & part 2
+video from jhon Hagins part 1 & part 2 about Meta Programmibg
 
 --> https://www.geeksforgeeks.org/substitution-failure-is-not-an-error-sfinae-in-cpp/
 explanation on SFINAE
 
 --> https://stackoverflow.com/questions/8054273/how-to-implement-an-stl-style-iterator-and-avoid-common-pitfalls
 stack_overflow with small implementation on iterators_traits
+
+--> https://code.woboq.org/libreoffice/include/c++/4.8.2/bits/
+source code of standard library
