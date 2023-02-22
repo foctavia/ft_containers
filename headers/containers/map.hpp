@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 11:15:15 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 10:48:45 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ namespace ft
 			{
 				size_type	distance = std::distance(first, last);
 				
-				if (distance && distance < max_size())
+				if (first != NULL && last != NULL && distance && distance < max_size())
 				{
 					while (first != last)
 					{

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 17:50:53 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 10:52:32 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	mapTest( void )
 	SUBTITLE("Map (after insert) : ");
 	printMap(mp);
 	
-	ft::map<int, std::string>::iterator end = mp.end();
-	end++;
-	end++;
+	// ft::map<int, std::string>::iterator end = mp.end();
+	// end++;
+	// end++;
 
-	mp.erase(mp.begin(), end);
+	// mp.erase(mp.begin(), end);
 	
 	// mp.displayTree();
 

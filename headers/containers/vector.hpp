@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/21 11:39:37 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/22 11:36:07 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,19 +218,15 @@ namespace ft
 			}
 			
 			template< class InputIt >
-			iterator				insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
+			void					insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 			{
 				size_type	distance = std::distance(first, last);
-				
-				if (distance && distance < max_size())
-				{
-					for(; first != last; ++first)
-						pos = insert(pos, 1, *first) + 1;
-				}
-				// else
-				// 	throw std::length_error("vector::insert(range iterator)");
 
-				return pos;
+				if (distance && distance > max_size())
+					throw std::length_error("vector::insert(range iterator)");
+					
+				for(; first != last; ++first)
+					pos = insert(pos, 1, *first) + 1;
 			}
 			
 			void					clear( void )
