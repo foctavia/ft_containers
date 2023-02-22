@@ -87,3 +87,11 @@ stack_overflow with small implementation on iterators_traits
 
 --> https://code.woboq.org/libreoffice/include/c++/4.8.2/bits/
 source code of standard library
+
+o TESTERS
+
+--> https://github.com/Mazoise/42TESTERS-CONTAINERS
+
+--> https://github.com/mli42/containers_test
+
+--> https://github.com/jgiron42/ft_containers_monkey_tester
