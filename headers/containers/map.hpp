@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 10:48:45 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:41:28 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,7 @@ namespace ft
 			}
 	
 			template< class InputIt >
-			void					insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
-																				{ _tree.insert(first, last); }
+			void					insert( InputIt first, InputIt last )		{ _tree.insert(first, last); }
 
 			iterator				erase( iterator pos )
 			{
@@ -204,7 +203,7 @@ namespace ft
 			
 			iterator				erase( iterator first, iterator last )		
 			{
-				size_type	distance = std::distance(first, last);
+				size_type	distance = ft::distance(first, last);
 				
 				if (first != NULL && last != NULL && distance && distance < max_size())
 				{
@@ -275,7 +274,7 @@ namespace ft
 			size_type				count( const key_type &key ) const
 			{
 				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
-				size_type									count = std::distance(tmp.first, tmp.second);
+				size_type									count = ft::distance(tmp.first, tmp.second);
 				
 				return count;
 			}

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:57 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 16:31:42 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:41:09 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ namespace ft
 			
 			iterator				erase( iterator first, iterator last )		
 			{
-				size_type	distance = std::distance(first, last);
+				size_type	distance = ft::distance(first, last);
 				
 				if (distance && distance < max_size())
 				{
@@ -248,7 +248,7 @@ namespace ft
 			size_type				count( const key_type &key ) const
 			{
 				ft::pair<const_iterator, const_iterator>	tmp = equal_range(key);
-				size_type									count = std::distance(tmp.first, tmp.second);
+				size_type									count = ft::distance(tmp.first, tmp.second);
 				
 				return count;
 			}

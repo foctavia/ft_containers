@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 12:23:40 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 11:36:07 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 21:02:30 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ namespace ft
 			vector( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0, const allocator_type &alloc = allocator_type() )
 				: _first_elem( 0 ), _size( 0 ), _capacity( 0 ), _alloc( alloc ) 
 			{	
-				_size = std::distance(first, last);
+				_size = ft::distance(first, last);
 				
 				if (_size > max_size())
 					throw std::length_error("vector");
@@ -192,27 +192,23 @@ namespace ft
 				if (!count)
 					return pos;
 					
-				size_type	distance = std::distance(begin(), pos);
-				
-				reserve(_getNewCapacity(_size + count));
+				size_type	distance = ft::distance(begin(), pos);
 
-				pointer		last = _first_elem + _size - 1;
-				pointer 	pos_p = _first_elem + distance;
+				if (_size + count > _capacity)
+					reserve(_getNewCapacity(_size + count));
 
 				if (_size)
 				{
-					for (pointer new_last = last + count; new_last != pos_p + count - 1; --new_last)
-					{
-						_alloc.construct(new_last, *last);
-						_alloc.destroy(last);
-						last--;
-					}
+					pointer	src_end = _first_elem + _size;
+					pointer dest_end = _first_elem + _size + count;
+					ft::copy_backward(_first_elem + distance, src_end, dest_end);
 				}
-				for (size_type i = 0; i < count; i++)
-				{	
+				
+				pointer 	pos_p = _first_elem + distance;
+				for (size_type i = 0; i < count; ++i)
 					_alloc.construct(pos_p + i, value);
-					_size++;
-				}
+
+				_size += count;
 	
 				return iterator(_first_elem + distance);
 			}
@@ -220,13 +216,18 @@ namespace ft
 			template< class InputIt >
 			void					insert( iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
 			{
-				size_type	distance = std::distance(first, last);
-
-				if (distance && distance > max_size())
-					throw std::length_error("vector::insert(range iterator)");
+				typedef typename ft::iterator_traits< InputIt >::iterator_category	category;
+				if (typeid(category) != typeid(std::input_iterator_tag))
+				{
+					size_type	distance = ft::distance(first, last);
 					
+					if (distance && distance >= max_size())
+						return ;
+				}
+
 				for(; first != last; ++first)
 					pos = insert(pos, 1, *first) + 1;
+
 			}
 			
 			void					clear( void )
@@ -241,7 +242,7 @@ namespace ft
 			
 			iterator				erase( iterator pos )
 			{
-				size_type	distance = std::distance(begin(), pos);
+				size_type	distance = ft::distance(begin(), pos);
 				
 				if (distance >= _size)
 					exit(1);

@@ -6,11 +6,12 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:13:23 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 12:02:05 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:59:29 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
+#include <sstream>
 
 void vectorTest( void )
 {
@@ -38,8 +39,17 @@ void vectorTest( void )
 
 	SUBTITLE("Vector1 (constructed with range iterator) : ");
 	printVector(vec1);
+
+	ft::vector<int>::iterator 		iter = vec1.begin();
+	ft::vector<int>::const_iterator citer = vec1.begin();
 	
 	SUBTITLE("Comparison test :");
+
+	if (iter == citer)
+		std::cout << "Iterator and const_iterator are comparable" << std::endl;
+	else
+		std::cout << "Iterator and const_iterator are not comparable" << std::endl;
+	
 	if (vec == vec1)
 		std::cout << "Vector and Vector1 is equal" << std:: endl << std::endl;
 	else
@@ -232,6 +242,18 @@ void vectorTest( void )
 	{
 		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
 	}
+
+	try
+	{
+		vec7.insert(vec7.begin(), vec7.max_size(), 42);
+		
+		SUBTITLE("Vector7 (after insert with max_size()): ");
+		printVector(vec7);
+	}
+	catch(const std::exception &e)
+	{
+		std::cerr << RED("ERROR : ") << e.what() << std::endl << std::endl;
+	}
 	
 	try
 	{	
@@ -255,7 +277,7 @@ void vectorTest( void )
 	}
 
 	try
-	{	
+	{
 		vec.reserve(vec.max_size());
 	}
 	catch(const std::exception &e)

@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:30:02 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/22 16:38:30 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 21:04:05 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,20 @@ void	mapTest( void )
 
 	SUBTITLE("Map (after insert) : ");
 	printMap(mp);
-	
-	ft::map<int, std::string>::iterator end = mp.end();
-	end++;
-	end++;
 
-	mp.erase(mp.begin(), end);
+	ft::map<int, std::string>::iterator			iter = mp.begin();
+	ft::map<int, std::string>::const_iterator	citer = mp.begin();
+
+	if (iter == citer)
+		std::cout << "Iterator and const iterator are comparable" << std::endl;
+	else
+		std::cout << "Iterator and const iterator are not comparable" << std::endl;
+	
+	// ft::map<int, std::string>::iterator end = mp.end();
+	// end++;
+	// end++;
+
+	// mp.erase(mp.begin(), end);
 
 	TITLE("--> Testing operator=, operator[], and at");
 	

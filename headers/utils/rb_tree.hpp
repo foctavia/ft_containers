@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:58:01 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/20 16:39:02 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:56:46 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,28 @@ namespace ft
 	{
 		public:
 
-			typedef Value									value_type;
-			typedef Compare									value_compare;	
-			typedef Allocator								allocator_type;
+			typedef Value													value_type;
+			typedef Compare													value_compare;	
+			typedef Allocator												allocator_type;
 			
-			typedef typename Allocator::size_type			size_type;
-			typedef typename Allocator::difference_type		difference_type;
+			typedef typename Allocator::size_type							size_type;
+			typedef typename Allocator::difference_type						difference_type;
 			
-			typedef typename Allocator::reference			reference;
-			typedef typename Allocator::const_reference		const_reference;
-			typedef typename Allocator::pointer				pointer;
-			typedef typename Allocator::const_pointer		const_pointer;
+			typedef typename Allocator::reference							reference;
+			typedef typename Allocator::const_reference						const_reference;
+			typedef typename Allocator::pointer								pointer;
+			typedef typename Allocator::const_pointer						const_pointer;
 			
-			typedef ft::rb_tree_node< value_type >			node_type;
-			typedef ft::rb_tree_node< value_type >			*node_pointer;
+			typedef ft::rb_tree_node< value_type >							node_type;
+			typedef ft::rb_tree_node< value_type >							*node_pointer;
 
-			typedef ft::rb_tree_iterator< Value >			iterator;
-			typedef ft::rb_tree_const_iterator< Value >		const_iterator;
+			typedef ft::rb_tree_iterator< value_type, node_type >			iterator;
+			typedef ft::rb_tree_iterator< const value_type, node_type >		const_iterator;
 
-			typedef ft::reverse_iterator< iterator >		reverse_iterator;
-			typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
+			typedef ft::reverse_iterator< iterator >						reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >					const_reverse_iterator;
 
-			typedef typename Allocator::template rebind< node_type >::other
-															node_allocator;
+			typedef typename Allocator::template rebind< node_type >::other	node_allocator;
 
 	// CONSTRUCTOR
 			
@@ -154,15 +153,19 @@ namespace ft
 			}
 	
 			template< class InputIt >
-			void						insert( InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = 0 )
+			void						insert( InputIt first, InputIt last )
 			{
-				size_type	distance = std::distance(first, last);
-				
-				if (distance && distance < max_size())
+				typedef typename ft::iterator_traits<InputIt>::iterator_category	category;
+				if (typeid(category) != typeid(std::input_iterator_tag))
 				{
-					for(; first != last; ++first)
-						insert(*first);
+					size_type	distance = ft::distance(first, last);
+					
+					if (distance && distance >= max_size())
+						return ;
 				}
+				
+				for(; first != last; ++first)
+					insert(*first);
 			}
 
 			size_type					erase( const value_type &value )

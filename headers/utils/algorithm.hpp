@@ -6,7 +6,7 @@
 /*   By: foctavia <foctavia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 10:20:16 by foctavia          #+#    #+#             */
-/*   Updated: 2023/02/01 11:41:10 by foctavia         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:14:09 by foctavia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ namespace ft
 			}
 			
 			return true;
+	}
+
+	template< class InputIt1, class InputIt2 >
+	InputIt2 copy_backward(InputIt1 first, InputIt1 last, InputIt2 d_last)
+	{
+		while (first != last)
+			*(--d_last) = *(--last);
+	
+		return d_last;
 	}
 	
 }
